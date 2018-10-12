@@ -444,5 +444,40 @@
     border-radius: 6px 0 6px 6px;
 }
 
+.row .col h1 {
+  font-size: 33px;
+}
+
+.col-course {
+  background-color: #fff;
+  margin: 10px;
+  border-radius: 3%;
+  border: 1px solid #ccc;
+}
+
+.col-course:hover, .card:hover {
+  box-shadow: 0 0 10px #00000050;
+}
+
+.rowcourse {
+  width: 80%;
+}
+
+.new-course .col-course h5 {
+  font-weight: bold;
+}
+
+.thumbnail {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  border-top-right-radius: 3%;
+  border-top-left-radius: 3%;
+}
+
+.thumbnail img {
+  position: absolute;
+}
+
 
 </style>

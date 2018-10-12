@@ -13,14 +13,13 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
- 
-Vue.use(VueAxios, axios)
+import VueCarousel from 'vue-carousel';
 
 library.add(faBars, faSearch, faTh, faTimes, faChevronDown)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-Vue.use(BootstrapVue);
+Vue.use(BootstrapVue, VueCarousel, VueAxios, axios);
 
 Vue.config.productionTip = false
 

@@ -1,17 +1,29 @@
 <template>
   <div class="home">
-    <HelloWorld/>
+    <Carousel/>
+    <Blue/>
+    <NewCourses/>
+    <PopularCourses/>
+    <TopCategories/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import Carousel from '@/components/Home/Carousel.vue'
+import Blue from '@/components/Home/Blue.vue'
+import NewCourses from '@/components/Home/NewCourses.vue'
+import PopularCourses from '@/components/Home/PopularCourses.vue'
+import TopCategories from '@/components/Home/TopCategories.vue'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    Carousel,
+    Blue,
+    NewCourses,
+    PopularCourses,
+    TopCategories
   }
 }
 </script>
