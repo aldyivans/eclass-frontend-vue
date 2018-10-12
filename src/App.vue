@@ -1,107 +1,104 @@
 <template>
   <div id="app">
     <!-- Mobile Sidebar -->
-    <div class="container-fluid p-0">
-      <div class="sidebar">
-        <div class="sidebar-menu bg-light" id="sidebarMenu">
-          <ul class="list-group">
-            <li class="list-group-item active text-right rounded-0">
-              <font-awesome-icon icon="times" size="lg" v-on:click="openSidebar" class="shadow-none" />
-            </li>
-            <router-link to="/login"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Log In</li></router-link>
-            <router-link to="/signup"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Sign Up</li></router-link>
-            <li class="list-group-item list-group-item-action d-flex justify-content-between font-weight-bold" v-on:click="openCategory">Categories<font-awesome-icon icon="chevron-down" size="lg" /></li>
-            <li class="mobile-category list-group-item" id="mobileCategory">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item"><a href="#">Development</a></li>
-                <li class="list-group-item"><a href="#">Design</a></li>
-                <li class="list-group-item"><a href="#">Music</a></li>
-                <li class="list-group-item"><a href="#">Business</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="sidebar-bg" id="sideBar">
-        </div>
+    <div class="sidebar">
+      <div class="sidebar-menu bg-light" id="sidebarMenu">
+        <ul class="list-group">
+          <li class="list-group-item active text-right rounded-0">
+            <font-awesome-icon icon="times" size="lg" v-on:click="openSidebar" class="shadow-none" />
+          </li>
+          <router-link to="/login"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Log In</li></router-link>
+          <router-link to="/signup"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Sign Up</li></router-link>
+          <li class="list-group-item list-group-item-action d-flex justify-content-between font-weight-bold" v-on:click="openCategory">Categories<font-awesome-icon icon="chevron-down" size="lg" /></li>
+          <li class="mobile-category list-group-item" id="mobileCategory">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"><a href="#">Development</a></li>
+              <li class="list-group-item"><a href="#">Design</a></li>
+              <li class="list-group-item"><a href="#">Music</a></li>
+              <li class="list-group-item"><a href="#">Business</a></li>
+            </ul>
+          </li>
+        </ul>
       </div>
+      <div class="sidebar-bg" id="sideBar">
+      </div>
+    </div>
 
-      <!-- end -->
+    <!-- end -->
 
-      <!-- Header -->
+    <!-- Header -->
 
-      <div class="header bg-light position-relative">
-        <div class="navbar navbar-expand-lg align-items-center p-2">
-          <button class="navbar-toggler shadow-none" type="button" v-on:click="openSidebar">
-            <font-awesome-icon icon="bars" />
-          </button>
-          <div class="col-4 col-sm-3 col-lg-1 logo text-center text-lg-left">
-            <router-link to="/"><h2>EClass</h2></router-link>
-          </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <font-awesome-icon icon="search" />
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="col-lg-2 category d-none d-lg-block">
+    <div class="header bg-light position-relative">
+      <div class="navbar navbar-expand-lg align-items-center p-2">
+        <button class="navbar-toggler shadow-none" type="button" v-on:click="openSidebar">
+          <font-awesome-icon icon="bars" />
+        </button>
+        <div class="col-4 col-sm-3 col-lg-1 logo text-center text-lg-left">
+          <router-link to="/"><h2>EClass</h2></router-link>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <font-awesome-icon icon="search" />
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <div class="col-lg-2 category d-none d-lg-block">
 
-              <div class="dropdown">
-                <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
-                  <div class="category-header">
-                    <font-awesome-icon icon="th" />
-                    <span>Categories</span>
-                  </div>
-                </button>
-                <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                  <li class="dropdown-submenu">
-                    <a class="dropdown-item" tabindex="-1" href="#">Development</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
-                      <li class="dropdown-submenu">
-                        <a class="dropdown-item" href="#">Programming</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">HTML</a></li>
-                          <li><a class="dropdown-item" href="#">CSS</a></li>
-                          <li><a class="dropdown-item" href="#">JavaScript</a></li>
-                        </ul>
-                      </li>
-                      <li><a class="dropdown-item" href="#">Mobile App</a></li>
-                    </ul>
-                  </li>
-                  <li class="dropdown-submenu">
-                    <a class="dropdown-item" tabindex="-1" href="#">Development</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
-                      <li class="dropdown-submenu">
-                        <a class="dropdown-item" href="#">Programming</a>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">HTML</a></li>
-                          <li><a class="dropdown-item" href="#">CSS</a></li>
-                          <li><a class="dropdown-item" href="#">JavaScript</a></li>
-                        </ul>
-                      </li>
-                      <li><a class="dropdown-item" href="#">Mobile App</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <div class="col-lg-6 my-4 my-lg-0">
-              <div class="input-group">
-                <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
-                <div class="input-group-append">
-                  <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
-                    <font-awesome-icon icon="search" />
-                  </button>
+            <div class="dropdown">
+              <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+                <div class="category-header">
+                  <font-awesome-icon icon="th" />
+                  <span>Categories</span>
                 </div>
+              </button>
+              <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">Development</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-item" href="#">Programming</a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">HTML</a></li>
+                        <li><a class="dropdown-item" href="#">CSS</a></li>
+                        <li><a class="dropdown-item" href="#">JavaScript</a></li>
+                      </ul>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Mobile App</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">Development</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-item" href="#">Programming</a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">HTML</a></li>
+                        <li><a class="dropdown-item" href="#">CSS</a></li>
+                        <li><a class="dropdown-item" href="#">JavaScript</a></li>
+                      </ul>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Mobile App</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-6 my-4 my-lg-0">
+            <div class="input-group">
+              <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
+                  <font-awesome-icon icon="search" />
+                </button>
               </div>
             </div>
-            <div class="col-lg-4 text-right user d-none d-lg-block">
-              <router-link to="/login" class="btn btn-warning rounded-0 font-weight-bold" style="margin-right: 7px">Login</router-link>
-              <router-link to="/signup" class="btn btn-warning rounded-0 font-weight-bold">Sign Up</router-link>
-            </div>
+          </div>
+          <div class="col-lg-4 text-right user d-none d-lg-block">
+            <router-link to="/login" class="btn btn-warning rounded-0 font-weight-bold" style="margin-right: 7px">Login</router-link>
+            <router-link to="/signup" class="btn btn-warning rounded-0 font-weight-bold">Sign Up</router-link>
           </div>
         </div>
       </div>
-      
     </div>
 
     <!-- end -->
@@ -397,6 +394,54 @@
 .footer-bottom span {
   font-size: 14px;
   font-weight: bold;
+}
+
+.dropdown-submenu {
+    position: relative;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover>a:after {
+    border-left-color: #fff;
+}
+
+.dropdown-submenu.pull-left {
+    float: none;
+}
+
+.dropdown-submenu.pull-left>.dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
 }
 
 
