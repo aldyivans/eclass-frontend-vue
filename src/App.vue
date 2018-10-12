@@ -176,6 +176,25 @@
 
 <style>
 
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+button:focus {
+  outline: none;
+}
+
 /*Mobile Sidebar*/
 .sidebar {
   width: 100%;

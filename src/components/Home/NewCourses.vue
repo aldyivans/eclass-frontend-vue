@@ -6,8 +6,9 @@
 	          <h1 class="font-weight-bold">New Course</h1>
 	        </div>
 	        <div class="col-12 p-0 justify-content-center">
-		        <carousel :per-page="4">
+		        <carousel :per-page-custom="[[375, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false">
 		        	<slide v-for="course in courses">
+
 				          <div class="card m-2">
 				            <img class="card-img-top" v-bind:src="course.thumb" alt="Card image cap">
 				            <div class="card-body">
@@ -15,7 +16,10 @@
 				              <p class="card-text">{{ course.desc }}</p>
 				              <div class="view-counter mt-4 text-right">
 				                <i class="fa fa-eye"></i>
-				                <span>{{ course.view }} views</span>
+				                <span>
+				                	<font-awesome-icon icon="eye" />
+				                	{{ course.view }} views
+				                </span>
 				              </div>
 				            </div>
 				          </div>
