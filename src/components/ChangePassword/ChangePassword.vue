@@ -77,39 +77,46 @@ export default {
 			var inpWarning2 = document.getElementById('inputWarning2');
 			var inpWarning3 = document.getElementById('inputWarning3');
 
-      if(this.password.current != this.password.currentPassword) {
+      if(this.password.current == "") {
         x.style.borderBottom = "3px solid red"
-        inpWarning1.innerHTML = "didn't match with your current password!"
+        inpWarning1.innerHTML = "field cannot be empty!"
+      } else {
+        x.style.borderBottom = "3px solid #28a745"
+        inpWarning1.innerHTML = ""
+        if(this.password.current != this.password.currentPassword) {
+          x.style.borderBottom = "3px solid red"
+          inpWarning1.innerHTML = "didn't match with your current password!"
+        }
       }
 
-			if(this.password.current == "") {
-				x.style.borderBottom = "3px solid red"
-				inpWarning1.innerHTML = "field cannot be empty!"
+      if(this.password.new == "") {
+        y.style.borderBottom = "3px solid red"
+        inpWarning2.innerHTML = "field cannot be empty!"
       } else {
-				x.style.borderBottom = "3px solid #28a745"
-				inpWarning1.innerHTML = ""
-			}
-
-			if(this.password.new == "") {
-				y.style.borderBottom = "3px solid red"
-				inpWarning2.innerHTML = "field cannot be empty!"
-			} else {
-				y.style.borderBottom = "3px solid #28a745"
+        y.style.borderBottom = "3px solid #28a745"
         inpWarning2.innerHTML = ""
-			}
+      }
 
-			if(this.password.confirmNew == "") {
-				z.style.borderBottom = "3px solid red"
-				inpWarning3.innerHTML = "field cannot be empty!"
-			} else {
-				z.style.borderBottom = "3px solid #28a745"
+      if(this.password.confirmNew == "") {
+        z.style.borderBottom = "3px solid red"
+        inpWarning3.innerHTML = "field cannot be empty!"
+      } else {
+        z.style.borderBottom = "3px solid #28a745"
         inpWarning3.innerHTML = ""
-			}
-		}
-	}
+        if(this.password.confirmNew != this.password.new) {
+          z.style.borderBottom = "3px solid red"
+          inpWarning3.innerHTML = "new password didn't match!"
+        }
+      }
+      
+      if(this.password.current == this.password.currentPassword && this.password.current != "" && this.password.new != "" && this.password.confirmNew != "" && this.password.confirmNew == this.password.new) {
+        alert('yes')
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
-	
+  
 </style>
