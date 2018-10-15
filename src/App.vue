@@ -84,10 +84,10 @@
             </div>
           </div>
           <div class="col-lg-6 my-4 my-lg-0">
-            <div class="input-group">
+            <div class="input-group border">
               <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
               <div class="input-group-append">
-                <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
+                <button class="btn rounded-0 shadow-none" type="button" id="button-addon2">
                   <font-awesome-icon icon="search" />
                 </button>
               </div>
