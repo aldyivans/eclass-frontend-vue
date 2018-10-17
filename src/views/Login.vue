@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <Blue/>
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <div id="google-signin-btn"></div>
   </div>
 </template>
 
@@ -13,6 +13,11 @@ export default {
   name: 'login',
   components: {
     Blue
+  },
+  mounted: function() {
+    gapi.signin2.render('google-signin-btn', { // this is the button "id"
+      onsuccess: this.onSignIn // note, no "()" here
+    })
   },
   methods: {
     onSignIn(googleUser) {
