@@ -75,7 +75,19 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4 text-right user d-none d-lg-block">
+          <div class="col-lg-4 d-none d-lg-block" v-if="isLoggedIn">
+              <div class="dropdown text-right">
+                <button class="avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img :src="profilePic">
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="editprofile.html">Profile</a>
+                  <a class="dropdown-item" href="#">My Courses</a>
+                  <a class="dropdown-item" href="index.html">Log Out</a>
+                </div>
+              </div>
+            </div>
+          <div class="col-lg-4 text-right user d-none d-lg-block" v-if="!isLoggedIn">
             <router-link to="/login" class="btn btn-warning rounded-0 font-weight-bold" style="margin-right: 7px">Login</router-link>
             <router-link to="/signup" class="btn btn-warning rounded-0 font-weight-bold">Sign Up</router-link>
           </div>
@@ -125,7 +137,8 @@
     name:"app",
     data () {
       return {
-        
+        profilePic: require('@/assets/tes.jpg'),
+        isLoggedIn: false
       }
     },
     methods: {
@@ -424,6 +437,35 @@
     -webkit-border-radius: 6px 0 6px 6px;
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
+}
+
+.avatar img, .avatarSidebar img {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+
+}
+.avatar{
+  width: 45px;
+  height: 45px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.avatarSidebar {
+  width: 60px;
+  height: 60px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
 }
 
 
