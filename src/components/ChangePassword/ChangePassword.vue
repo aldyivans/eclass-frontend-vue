@@ -56,19 +56,23 @@
 
 <script>
 
+import axios from 'axios'
+
 export default {
 	data() {
 		return {
 			password : {
-        currentPassword: 'DICK',
 				current: '',
 				new: '',
 				confirmNew: ''
-			}
+			},
+      url: 'http://192.168.2.225:3000/changepassword'
 		}
 	},
 	methods : {
 		save() {
+
+      console.log(this.password.current)
 
 			var x = document.getElementById('currentPassword');
 			var y = document.getElementById('newPassword');
@@ -83,10 +87,10 @@ export default {
       } else {
         x.style.borderBottom = "3px solid #28a745"
         inpWarning1.innerHTML = ""
-        if(this.password.current != this.password.currentPassword) {
-          x.style.borderBottom = "3px solid red"
-          inpWarning1.innerHTML = "didn't match with your current password!"
-        }
+        // if(this.password.current != this.password.currentPassword) {
+        //   x.style.borderBottom = "3px solid red"
+        //   inpWarning1.innerHTML = "didn't match with your current password!"
+        // }
       }
 
       if(this.password.new == "") {
@@ -95,6 +99,13 @@ export default {
       } else {
         y.style.borderBottom = "3px solid #28a745"
         inpWarning2.innerHTML = ""
+        if(this.password.new.length < 8) {
+          y.style.borderBottom = "3px solid red"
+          inpWarning2.innerHTML = 'Your password must be between 8 - 15 characters'
+        } else if(this.password.new.length > 15) {
+          y.style.borderBottom = "3px solid red"
+          inpWarning2.innerHTML = 'Your password must be between 8 - 15 characters'
+        }
       }
 
       if(this.password.confirmNew == "") {
@@ -108,9 +119,33 @@ export default {
           inpWarning3.innerHTML = "new password didn't match!"
         }
       }
-      
-      if(this.password.current == this.password.currentPassword && this.password.current != "" && this.password.new != "" && this.password.confirmNew != "" && this.password.confirmNew == this.password.new) {
-        alert('yes')
+
+      if(this.password.current != "" && this.password.new != "" && this.password.confirmNew != "" && this.password.confirmNew == this.password.new) {
+        
+        const params = {
+          headers : {
+            'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlZLNGJkS0xrd0tnZHZCZnI4eTlaIiwiaWF0IjoxNTM5OTM2NDQwLCJleHAiOjE1NDAwMjI4NDB9.sK_b8h4LN0LbwHWWQ3haYv7wy2oYOGpNM_2En3WdjzY',
+            'Content-Type':'application/json',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+          }
+        }
+
+        var dataUser = {
+          current_password: this.password.current,
+          new_password: this.password.confirmNew
+        }
+
+        axios.put(this.url, dataUser, params).then(response => {
+          if(response.status === 200){
+            console.log('Response', response)
+          }
+        }).catch(e=>{
+          console.log('error', e.response);
+        })
+
+
       }
     }
   }
