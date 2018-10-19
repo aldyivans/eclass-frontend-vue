@@ -93,7 +93,19 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4 text-right user d-none d-lg-block">
+          <div class="col-lg-4 d-none d-lg-block text-right " v-if="isLoggedIn">
+              <div class="dropdown d-inline-flex">
+                <button class="avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img :src="profilePic">
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="editprofile.html">Profile</a>
+                  <a class="dropdown-item" href="#">My Courses</a>
+                  <a class="dropdown-item" href="index.html">Log Out</a>
+                </div>
+              </div>
+            </div>
+          <div class="col-lg-4 text-right user d-none d-lg-block" v-if="!isLoggedIn">
             <router-link to="/login" class="btn btn-warning rounded-0 font-weight-bold" style="margin-right: 7px">Login</router-link>
             <router-link to="/signup" class="btn btn-warning rounded-0 font-weight-bold">Sign Up</router-link>
           </div>
@@ -143,7 +155,8 @@
     name:"app",
     data () {
       return {
-
+        profilePic: require('@/assets/tes.jpg'),
+        isLoggedIn: false
       }
     },
     methods: {

@@ -6,7 +6,7 @@
 	          <h1 class="font-weight-bold">New Course</h1>
 	        </div>
 	        <div class="col-12 p-0 justify-content-center">
-		        <carousel :per-page-custom="[[375, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false">
+		        <carousel :per-page-custom="[[375, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false" :navigationEnabled="true" navigationNextLabel="<h1>&#8250;</h1>" navigationPrevLabel="<h1>&#8249;</h1>">
 		        	<slide v-for="course in courses">
 
 				          <div class="card m-2">
@@ -44,6 +44,12 @@ export default {
 	data() {
 		return {
 			courses: [
+				{
+					thumb: require('@/assets/js.jpg'),
+					title: 'JavaScript',
+					desc: 'Some quick example text to build on the card title and make up the bulk of the cards content.',
+					view: 13
+				},
 				{
 					thumb: require('@/assets/js.jpg'),
 					title: 'JavaScript',
