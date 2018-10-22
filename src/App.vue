@@ -58,33 +58,15 @@
                       <a class="dropdown-item" href="#">Programming</a>
                       <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">HTML</a></li>
-                        <li><a class="dropdown-item" href="#">CSS</a></li>
-                        <li><a class="dropdown-item" href="#">JavaScript</a></li>
                       </ul>
                     </li>
-                    <li><a class="dropdown-item" href="#">Mobile App</a></li>
-                  </ul>
-                </li>
-                <li class="dropdown-submenu">
-                  <a class="dropdown-item" tabindex="-1" href="#">Development</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
-                    <li class="dropdown-submenu">
-                      <a class="dropdown-item" href="#">Programming</a>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">HTML</a></li>
-                        <li><a class="dropdown-item" href="#">CSS</a></li>
-                        <li><a class="dropdown-item" href="#">JavaScript</a></li>
-                      </ul>
-                    </li>
-                    <li><a class="dropdown-item" href="#">Mobile App</a></li>
                   </ul>
                 </li>
               </ul>
             </div>
           </div>
           <div class="col-lg-6 my-4 my-lg-0">
-            <div class="input-group">
+            <div class="input-group border">
               <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
               <div class="input-group-append">
                 <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
@@ -509,6 +491,35 @@ button:focus {
 
 .thumbnail img {
   position: absolute;
+}
+
+.avatar img, .avatarSidebar img {
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+
+}
+.avatar{
+  width: 45px;
+  height: 45px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.avatarSidebar {
+  width: 60px;
+  height: 60px;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
 }
 
 
