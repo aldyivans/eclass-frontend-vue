@@ -58,15 +58,33 @@
                       <a class="dropdown-item" href="#">Programming</a>
                       <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">HTML</a></li>
+                        <li><a class="dropdown-item" href="#">CSS</a></li>
+                        <li><a class="dropdown-item" href="#">JavaScript</a></li>
                       </ul>
                     </li>
+                    <li><a class="dropdown-item" href="#">Mobile App</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown-submenu">
+                  <a class="dropdown-item" tabindex="-1" href="#">Development</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
+                    <li class="dropdown-submenu">
+                      <a class="dropdown-item" href="#">Programming</a>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">HTML</a></li>
+                        <li><a class="dropdown-item" href="#">CSS</a></li>
+                        <li><a class="dropdown-item" href="#">JavaScript</a></li>
+                      </ul>
+                    </li>
+                    <li><a class="dropdown-item" href="#">Mobile App</a></li>
                   </ul>
                 </li>
               </ul>
             </div>
           </div>
           <div class="col-lg-6 my-4 my-lg-0">
-            <div class="input-group border">
+            <div class="input-group">
               <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
               <div class="input-group-append">
                 <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
@@ -75,8 +93,8 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-4 d-none d-lg-block" v-if="isLoggedIn">
-              <div class="dropdown text-right">
+          <div class="col-lg-4 d-none d-lg-block text-right " v-if="isLoggedIn">
+              <div class="dropdown d-inline-flex">
                 <button class="avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img :src="profilePic">
                 </button>
@@ -170,6 +188,25 @@
 </script>
 
 <style>
+
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+button:focus {
+  outline: none;
+}
 
 /*Mobile Sidebar*/
 .sidebar {
@@ -439,33 +476,39 @@
     border-radius: 6px 0 6px 6px;
 }
 
-.avatar img, .avatarSidebar img {
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(0, -50%);
+.row .col h1 {
+  font-size: 33px;
+}
 
-}
-.avatar{
-  width: 45px;
-  height: 45px;
+.col-course {
   background-color: #fff;
-  border-radius: 50%;
+  margin: 10px;
+  border-radius: 3%;
   border: 1px solid #ccc;
-  display: inline-block;
+}
+
+.col-course:hover, .card:hover {
+  box-shadow: 0 0 10px #00000050;
+}
+
+.rowcourse {
+  width: 80%;
+}
+
+.new-course .col-course h5 {
+  font-weight: bold;
+}
+
+.thumbnail {
+  height: 200px;
   position: relative;
   overflow: hidden;
+  border-top-right-radius: 3%;
+  border-top-left-radius: 3%;
 }
-.avatarSidebar {
-  width: 60px;
-  height: 60px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 1px solid #ccc;
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
+
+.thumbnail img {
+  position: absolute;
 }
 
 
