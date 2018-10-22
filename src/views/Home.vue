@@ -5,6 +5,7 @@
     <NewCourses/>
     <PopularCourses/>
     <TopCategories/>
+    <Blue/>
   </div>
 </template>
 
