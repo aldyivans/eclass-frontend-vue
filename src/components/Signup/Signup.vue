@@ -1,73 +1,71 @@
 <template>
-	<div class="signupComponent">
-		<div class="container-fluid" id="signuppage">
-			<div class="container py-5">
-				<div class="row justify-content-center">
-					<div class="col-12 col-lg-6 col-md-8 col-sm-10 p-0">
-						<h3 class="font-weight-bold text-center">Sign Up</h3>
-						<hr class="w-100">
-						<form class="form-group text-left">
-							<div class=" p-0 mb-2">
-								<label for="username" class="font-weight-bold m-0">Username</label>
-								<input v-model="input.username" type="text" class="form-control rounded-0 shadow-none border" name="username" placeholder="Enter Username" autocomplete="off" id="username">
-								<span id="user"></span>
+	<div class="container-fluid" id="signuppage">
+		<div class="container py-5">
+			<div class="row justify-content-center">
+				<div class="col-12 col-lg-6 col-md-8 col-sm-10 p-0">
+					<h3 class="font-weight-bold text-center">Sign Up</h3>
+					<hr class="w-100">
+					<form class="form-group text-left">
+						<div class=" p-0 mb-2">
+							<label for="username" class="font-weight-bold m-0">Username</label>
+							<input v-model="input.username" type="text" class="form-control rounded-0 shadow-none border" name="username" placeholder="Enter Username" autocomplete="off" id="username">
+							<span id="user"></span>
+						</div>
+						<div class="p-0 mb-2">
+							<label for="fullname" class="font-weight-bold m-0">Fullname</label>
+							<input v-model="input.fullname" type="text" class="form-control rounded-0 shadow-none border" name="fullname" placeholder="Enter Fullname" autocomplete="off" id="full">
+							<span id="fullname"></span>
+						</div>
+						<div class=" p-0 mb-2">
+							<label for="example-date-input" class="font-weight-bold m-0">Birthday</label>
+							<input v-model="input.birthday" class="form-control rounded-0 shadow-none border" type="date" data-provide="datepicker" id="example-date-input" name="birthday" autocomplete="off">
+							<span id="birthday"></span>
+						</div>
+						<div class=" p-0 mb-2">
+							<label for="gender" class="font-weight-bold m-0">Gender</label>
+							<select v-model="input.gender" class="custom-select form-control rounded-0 shadow-none border" name="gender" autocomplete="off" id="gen">
+							  <option>Male</option>
+							  <option>Female</option>
+							</select>
+							<span id="gender"></span>
+						</div>
+					  <div class=" p-0 mb-2">
+							<label for="exampleInputEmail1" class="font-weight-bold m-0">Email</label>
+							<input v-model="input.email" type="email" class="form-control rounded-0 shadow-none border" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email" autocomplete="off">
+						  <span id="email"></span>
+					  </div>
+					  <div class=" form-group p-0 mb-2">
+							<label for="exampleInputPassword1" class="font-weight-bold m-0">Password</label>
+							<div class="input-group">
+								<input v-model="input.password" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputPassword1" placeholder="Password" name="password" autocomplete="off"/>
+								<div class="input-group-append">
+									<span class="input-group-text border-0" id="eyes" v-on:click="showPassword"><font-awesome-icon icon="eye"/></span>
+							  </div>	
 							</div>
-							<div class="p-0 mb-2">
-								<label for="fullname" class="font-weight-bold m-0">Fullname</label>
-								<input v-model="input.fullname" type="text" class="form-control rounded-0 shadow-none border" name="fullname" placeholder="Enter Fullname" autocomplete="off" id="full">
-								<span id="fullname"></span>
+					  	<span id="password"></span>
+					  </div>
+					  <div class="form-group p-0 mb-3">
+							<label for="exampleInputConfirmPassword1" class="font-weight-bold m-0">Confirm Password</label>
+							<div class="input-group">
+								<input v-model="input.confirmpassword" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputConfirmPassword1" placeholder="Confirm Password" name="ConfirmPassword" autocomplete="off">
+								<div class="input-group-append">
+									<span class="input-group-text border-0" id="eyes" v-on:click="showConfirm"><font-awesome-icon icon="eye"/></span>
+							  </div>
 							</div>
-							<div class=" p-0 mb-2">
-								<label for="example-date-input" class="font-weight-bold m-0">Birthday</label>
-								<input v-model="input.birthday" class="form-control rounded-0 shadow-none border" type="date" data-provide="datepicker" id="example-date-input" name="birthday" autocomplete="off">
-								<span id="birthday"></span>
-							</div>
-							<div class=" p-0 mb-2">
-								<label for="gender" class="font-weight-bold m-0">Gender</label>
-								<select v-model="input.gender" class="custom-select form-control rounded-0 shadow-none border" name="gender" autocomplete="off" id="gen">
-								  <option>Male</option>
-								  <option>Female</option>
-								</select>
-								<span id="gender"></span>
-							</div>
-						  <div class=" p-0 mb-2">
-								<label for="exampleInputEmail1" class="font-weight-bold m-0">Email</label>
-								<input v-model="input.email" type="email" class="form-control rounded-0 shadow-none border" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email" autocomplete="off">
-							  <span id="email"></span>
-						  </div>
-						  <div class=" form-group p-0 mb-2">
-								<label for="exampleInputPassword1" class="font-weight-bold m-0">Password</label>
-								<div class="input-group">
-									<input v-model="input.password" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputPassword1" placeholder="Password" name="password" autocomplete="off"/>
-									<div class="input-group-append">
-										<span class="input-group-text border-0" id="eyes" v-on:click="showPassword"><font-awesome-icon icon="eye"/></span>
-								  </div>	
-								</div>
-						  	<span id="password"></span>
-						  </div>
-						  <div class="form-group p-0 mb-3">
-								<label for="exampleInputConfirmPassword1" class="font-weight-bold m-0">Confirm Password</label>
-								<div class="input-group">
-									<input v-model="input.confirmpassword" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputConfirmPassword1" placeholder="Confirm Password" name="ConfirmPassword" autocomplete="off">
-									<div class="input-group-append">
-										<span class="input-group-text border-0" id="eyes" v-on:click="showConfirm"><font-awesome-icon icon="eye"/></span>
-								  </div>
-								</div>
-							  <span id="confirmpassword"></span>
-						  </div>
-						  <button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold" id="buttonSignup" v-on:click="signup">Sign Up</button>
-						  <div class="py-2">
-								<h5 class="text-center p-2 m-0" id="magic">or</h5>
-						  </div>
-						  <button class="btn btn-block p-0 rounded-0 font-weight-bold" id="google-signin-btn"></button>
-						  <div  class="text-center p-2">
-								<h6 class="font-weight-bold">Already Joined?<router-link to="/login" class="mr-1 ml-1">Log In</router-link>Now</h6>
-						  </div>
-						</form>
-			  		</div>
-				</div>
-		  </div>
-		</div>
+						  <span id="confirmpassword"></span>
+					  </div>
+					  <button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold" id="buttonSignup" v-on:click="signup">Sign Up</button>
+					  <div class="py-2">
+							<h5 class="text-center p-2 m-0" id="magic">or</h5>
+					  </div>
+					  <button class="btn btn-block p-0 rounded-0 font-weight-bold" id="google-signin-btn"></button>
+					  <div  class="text-center p-2">
+							<h6 class="font-weight-bold">Already Joined?<router-link to="/login" class="mr-1 ml-1">Log In</router-link>Now</h6>
+					  </div>
+					</form>
+		  		</div>
+			</div>
+	  </div>
 	</div>
 </template>
 

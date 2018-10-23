@@ -13,9 +13,15 @@
 	            </div>
 	            <div class="p-3">
 	              <ul class="list-unstyled font-weight-bold">
-	                <li><a href="editprofile.html">Profile</a></li>
-	                <li><a href="changepassword.html">Change Password</a></li>
-	                <li><a href="deactive-account.html">Deactive Account</a></li>
+	                <li>
+	                  <router-link to="/profile">Profile</router-link>
+	                </li>
+	                <li>
+	                  <router-link to="/changepassword">Change Password</router-link>
+	                </li>
+	                <li>
+	                  <router-link to="/deactive">Deactive Account</router-link>
+	                </li>
 	              </ul>
 	            </div>
 	          </div>
@@ -39,11 +45,7 @@
 </template>
 
 <script>
-	import router from '../router.js'
-	import VueAxios from 'vue-axios'
 	import axios from 'axios'
-	import Vue from 'vue'
-	Vue.use(VueAxios, axios)
 
 	export default {
 		data(){

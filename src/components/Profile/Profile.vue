@@ -92,7 +92,7 @@ export default {
 	data() {
 		return {
 			user : {
-				profilePic: require('@/assets/foto_size.png'),
+				profilePic: '',
 				username: '',
 				fullname: '',
 				birthday: '',

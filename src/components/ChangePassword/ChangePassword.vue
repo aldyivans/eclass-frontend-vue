@@ -10,13 +10,19 @@
             <div class="border-bottom border-top p-3">
               <h4 class="font-weight-bold m-0">ATHIX MUBAROCK</h4>
             </div>
-            <div class="p-3">
-              <router-link to="/profile" class="font-weight-bold">Profile</router-link>
-              <br>
-              <router-link to="/changepassword" class="font-weight-bold">Change Password</router-link>
-              <br>
-              <router-link to="/deactive" class="font-weight-bold">Deactive Account</router-link>
-            </div>
+              <div class="p-3">
+                <ul class="list-unstyled font-weight-bold">
+                  <li>
+                    <router-link to="/profile">Profile</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/changepassword">Change Password</router-link>
+                  </li>
+                  <li>
+                    <router-link to="/deactive">Deactive Account</router-link>
+                  </li>
+                </ul>
+              </div>
            </div>
             <div class="col-lg-9 border-top justify-content-center p-0">
               <div class="container">
