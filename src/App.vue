@@ -2,7 +2,7 @@
   <div id="app">
     <!-- Mobile Sidebar -->
     <div class="sidebar">
-      <div class="sidebar-menu bg-light" id="sidebarMenu">
+      <div class="sidebar-menu bg-light" ref="sidebarMenu">
         <ul class="list-group">
           <li class="list-group-item active text-right rounded-0">
             <font-awesome-icon icon="times" size="lg" v-on:click="openSidebar" class="shadow-none" />
@@ -20,7 +20,7 @@
           </li>
         </ul>
       </div>
-      <div class="sidebar-bg" id="sideBar">
+      <div class="sidebar-bg" ref="sideBar">
       </div>
     </div>
 
@@ -81,9 +81,9 @@
                 <img :src="profilePic">
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="editprofile.html">Profile</a>
-                  <a class="dropdown-item" href="#">My Courses</a>
-                  <a class="dropdown-item" href="index.html">Log Out</a>
+                  <router-link class="dropdown-item" to="/profile">Profile</router-link>
+                  <router-link class="dropdown-item" to="/">My Courses</router-link>
+                  <button type="submit" class="dropdown-item" v-on:click="logout">Log Out</button>
                 </div>
               </div>
             </div>
@@ -137,14 +137,31 @@
     name:"app",
     data () {
       return {
-        profilePic: require('@/assets/tes.jpg'),
+        profileImg: require('@/assets/js.jpg'),
         isLoggedIn: false
       }
     },
+
+    mounted() {
+      var self = this;
+
+      this.$root.$on('isLoggedIn', function(){
+        console.log('isLoggedIn dari app')
+        self.isLoggedIn = true
+        self.$router.push('/')
+      })
+
+      // this is checker 2
+
+      if(localStorage.getItem('EClassToken')) {
+        self.isLoggedIn = true
+      }
+    },
+
     methods: {
       openSidebar() {
-        var x = document.getElementById('sideBar');
-        var y = document.getElementById('sidebarMenu');
+        var x = this.$refs.sideBar;
+        var y = this.$refs.sidebarMenu;
 
         if (y.style.width == '70%' && x.style.display == 'block') {
           x.style.display = 'none';
@@ -158,12 +175,19 @@
       openCategory() {
         var z = document.getElementById('mobileCategory');
 
-        if (z.style.display == 'none') {
-          z.style.display = 'block';
-        } else {
+        if (z.style.display == 'block') {
           z.style.display = 'none';
+        } else {
+          z.style.display = 'block';
         }
       },
+
+      logout() {
+        // remove user from local storage to log user out
+        localStorage.clear();
+        this.$root.$emit('isLoggedOut');
+        this.isLoggedIn = false;
+      }
     }
   }
   
@@ -172,6 +196,7 @@
 <style>
 
 * {
+  outline: none !important;
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;

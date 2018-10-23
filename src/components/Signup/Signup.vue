@@ -2,18 +2,18 @@
 	<div class="container-fluid" id="signuppage">
 		<div class="container py-5">
 			<div class="row justify-content-center">
-				<div class="col-12 col-lg-6 col-md-8 col-sm-10 p-0">
+				<div class="col-12 col-lg-4 col-md-6 col-sm-8 p-0">
 					<h3 class="font-weight-bold text-center">Sign Up</h3>
 					<hr class="w-100">
 					<form class="form-group text-left">
 						<div class=" p-0 mb-2">
 							<label for="username" class="font-weight-bold m-0">Username</label>
-							<input v-model="input.username" type="text" class="form-control rounded-0 shadow-none border" name="username" placeholder="Enter Username" autocomplete="off" id="username">
+							<input v-model="input.username" type="text" class="form-control rounded-0 shadow-none border" name="username" autocomplete="off" id="username">
 							<span id="user"></span>
 						</div>
 						<div class="p-0 mb-2">
 							<label for="fullname" class="font-weight-bold m-0">Fullname</label>
-							<input v-model="input.fullname" type="text" class="form-control rounded-0 shadow-none border" name="fullname" placeholder="Enter Fullname" autocomplete="off" id="full">
+							<input v-model="input.fullname" type="text" class="form-control rounded-0 shadow-none border" name="fullname" autocomplete="off" id="full">
 							<span id="fullname"></span>
 						</div>
 						<div class=" p-0 mb-2">
@@ -31,13 +31,13 @@
 						</div>
 					  <div class=" p-0 mb-2">
 							<label for="exampleInputEmail1" class="font-weight-bold m-0">Email</label>
-							<input v-model="input.email" type="email" class="form-control rounded-0 shadow-none border" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email" autocomplete="off">
+							<input v-model="input.email" type="email" class="form-control rounded-0 shadow-none border" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" autocomplete="off">
 						  <span id="email"></span>
 					  </div>
 					  <div class=" form-group p-0 mb-2">
 							<label for="exampleInputPassword1" class="font-weight-bold m-0">Password</label>
 							<div class="input-group">
-								<input v-model="input.password" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputPassword1" placeholder="Password" name="password" autocomplete="off"/>
+								<input v-model="input.password" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputPassword1" name="password" autocomplete="off"/>
 								<div class="input-group-append">
 									<span class="input-group-text border-0" id="eyes" v-on:click="showPassword"><font-awesome-icon icon="eye"/></span>
 							  </div>	
@@ -47,7 +47,7 @@
 					  <div class="form-group p-0 mb-3">
 							<label for="exampleInputConfirmPassword1" class="font-weight-bold m-0">Confirm Password</label>
 							<div class="input-group">
-								<input v-model="input.confirmpassword" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputConfirmPassword1" placeholder="Confirm Password" name="ConfirmPassword" autocomplete="off">
+								<input v-model="input.confirmpassword" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputConfirmPassword1" name="ConfirmPassword" autocomplete="off">
 								<div class="input-group-append">
 									<span class="input-group-text border-0" id="eyes" v-on:click="showConfirm"><font-awesome-icon icon="eye"/></span>
 							  </div>

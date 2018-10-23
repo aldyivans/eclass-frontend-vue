@@ -15,6 +15,11 @@ export default {
   components: {
     Blue,
     Deactivate
+  },
+  mounted() {
+  	if(!localStorage.getItem('EClassToken')) {
+      this.$router.push('/')
+    }
   }
 }
 </script>

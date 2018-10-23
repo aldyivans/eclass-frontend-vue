@@ -8,14 +8,14 @@
 		      <form>
 		        <div class="form-group">
 		          <label for="newPassword">New Password</label>
-		          <input type="password" class="form-control rounded-0 shadow-none" id="newPassword" v-model="password.new">
-		          <span class="text-danger" style="font-size: 12px" id="inputWarning1"></span>
+		          <input type="password" class="form-control rounded-0 shadow-none" ref="newPassword" v-model="password.new">
+		          <span class="text-danger" style="font-size: 12px" ref="inputWarning1"></span>
 		        </div>
 		        <div class="form-group">
 		          <label for="confirmNewPassword">Confrim New Password</label>
-		          <input type="password" class="form-control rounded-0 shadow-none" id="confirmNewPassword" v-model="password.confirmNew">
-		          <span class="text-danger" style="font-size: 12px" id="inputWarning3"></span>
-		          <span class="text-danger" style="font-size: 12px" id="inputWarning2"></span>
+		          <input type="password" class="form-control rounded-0 shadow-none" ref="confirmNewPassword" v-model="password.confirmNew">
+		          <span class="text-danger" style="font-size: 12px" ref="inputWarning3"></span>
+		          <span class="text-danger" style="font-size: 12px" ref="inputWarning2"></span>
 		        </div>
 		        <button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold shadow-none" v-on:click="save">Save New Password</button>
 		      </form>
@@ -44,11 +44,11 @@ export default {
 	methods : {
 		save() {
 
-			var newPassword = document.getElementById('newPassword');
-			var confirmNewPassword = document.getElementById('confirmNewPassword');
-			var inputWarning1 = document.getElementById('inputWarning1')
-			var inputWarning2 = document.getElementById('inputWarning2')
-			var inputWarning3 = document.getElementById('inputWarning3')
+			var newPassword = this.$refs.newPassword;
+			var confirmNewPassword = this.$refs.confirmNewPassword;
+			var inputWarning1 = this.$refs.inputWarning1;
+			var inputWarning2 = this.$refs.inputWarning2;
+			var inputWarning3 = this.$refs.inputWarning3;
 
 			if(this.password.new == '') {
 				newPassword.style.borderBottom = "3px solid red"

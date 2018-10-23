@@ -6,19 +6,19 @@
             <h3 class="font-weight-bold text-center">Log In</h3>
             <hr class="w-100">
             <div class="text-center">
-	            <span class="text-danger" id="invalid"></span>
+	            <span class="text-danger" ref="invalid"></span>
             </div>
             <form>
               <div class="form-group">
                 <label for="exampleInputEmail1" class="m-0">Email/Username</label>
-                <input type="text" class="form-control rounded-0 shadow-none" aria-describedby="emailHelp" name="username" id="loginUsername" v-model="login.username">
-                <span class="text-danger" style="font-size: 12px" id="inputWarning1"></span>
+                <input type="text" class="form-control rounded-0 shadow-none" aria-describedby="emailHelp" name="username" ref="loginUsername" v-model="login.username">
+                <span class="text-danger" style="font-size: 12px" ref="inputWarning1"></span>
               </div>
 
               <div class="form-group">
                 <label for="exampleInputPassword1" class="m-0">Password</label>
-                <input type="password" class="form-control rounded-0 shadow-none" name="password" id="loginPassword" v-model="login.password">
-                <span class="text-danger" style="font-size: 12px" id="inputWarning2"></span>
+                <input type="password" class="form-control rounded-0 shadow-none" name="password" ref="loginPassword" v-model="login.password">
+                <span class="text-danger" style="font-size: 12px" ref="inputWarning2"></span>
               </div>
 
 <!--               <div class="form-group form-check">
@@ -57,8 +57,8 @@
 			          </button>
 			        </div>
 			        <div class="modal-body">
-			          <span class="text-danger" style="font-size: 12px" id="invalid2"></span>
-			          <span class="text-success" style="font-size: 12px" id="success"></span>
+			          <span class="text-danger" style="font-size: 12px" ref="invalid2"></span>
+			          <span class="text-success" style="font-size: 12px" ref="success"></span>
 			          <input type="email" class="form-control mb-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="login.email">
 			          <button type="button" class="col-sm-2 btn btn-warning" v-on:click="send">Send</button>
 			          <small id="emailHelp" class="form-text text-muted">We're going to Send you an information link to verify your password</small>
@@ -99,21 +99,21 @@ export default {
 	    })
 
 		// pengaman fiesta
-	    if(localStorage.getItem('token')){
+	    if(localStorage.getItem('EClassToken')){
 	    	this.$router.push('/')
 	    }
 	},
 	methods : {
 		save() {
 
-			var loginUsername = document.getElementById('loginUsername')
-			var loginPassword = document.getElementById('loginPassword')
-			var inpWarning1 = document.getElementById('inputWarning1');
-			var inpWarning2 = document.getElementById('inputWarning2');
-			var inpWarning3 = document.getElementById('inputWarning3');
-			var invalid2 = document.getElementById('invalid2');
-			var invalid = document.getElementById('invalid');
-			var success = document.getElementById('success');
+			var loginUsername = this.$refs.loginUsername;
+			var loginPassword = this.$refs.loginPassword;
+			var inpWarning1 = this.$refs.inputWarning1;
+			var inpWarning2 = this.$refs.inputWarning2;
+			var inpWarning3 = this.$refs.inputWarning3;
+			var invalid2 = this.$refs.invalid2;
+			var invalid = this.$refs.invalid;
+			var success = this.$refs.success;
 			var self = this;
 
 			if(this.login.username == "") {
@@ -134,7 +134,7 @@ export default {
 
 			if(this.login.username != "" && this.login.password != "") {
 				const headers = {
-					'Authorization': localStorage.getItem('token'),
+					'Authorization': localStorage.getItem('EClassToken'),
 					'Content-Type':'application/json',
 					'Accept': 'application/json',
 					'Access-Control-Allow-Origin': '*',
@@ -150,9 +150,8 @@ export default {
 
 				axios.post(this.url, dataUser, headers).then(response => {
 					if(response.status === 200){
-						localStorage.setItem('token', response.data.tokens)
+						localStorage.setItem('EClassToken', response.data.tokens)
 						localStorage.setItem('ECLASS-id', response.data.ID)
-						// console.log('Response', response)
 						console.log(response)
 
 						self.$root.$emit('isLoggedIn');

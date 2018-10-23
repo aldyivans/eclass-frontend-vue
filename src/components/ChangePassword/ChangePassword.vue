@@ -8,7 +8,7 @@
           </div>
           <div class="col-lg-3 p-0 border-right">
             <div class="border-bottom border-top p-3">
-              <h4 class="font-weight-bold m-0">ATHIX MUBAROCK</h4>
+              <h5 class="font-weight-bold m-0">ATHIX MUBAROCK</h5>
             </div>
               <div class="p-3">
                 <ul class="list-unstyled font-weight-bold">
@@ -31,18 +31,18 @@
                     <form class=" form-group py-4">
                       <div class=" p-0 mb-2">
                         <label for="current-password" class="font-weight-bold m-0">Current Password</label>
-                        <input type="password" class="form-control rounded-0 shadow-none" v-model="password.current" id="currentPassword">
-                        <span class="text-danger" style="font-size: 12px" id="inputWarning1"></span>
+                        <input type="password" class="form-control rounded-0 shadow-none" v-model="password.current" ref="currentPassword">
+                        <span class="text-danger" style="font-size: 12px" ref="inputWarning1"></span>
                       </div>
                       <div class=" p-0 mb-2">
                         <label for="New Password" class="font-weight-bold m-0">New Password</label>
-                        <input type="password" class="form-control rounded-0 shadow-none" v-model="password.new" id="newPassword">
-                        <span class="text-danger" style="font-size: 12px" id="inputWarning2"></span>
+                        <input type="password" class="form-control rounded-0 shadow-none" v-model="password.new" ref="newPassword">
+                        <span class="text-danger" style="font-size: 12px" ref="inputWarning2"></span>
                       </div>
                       <div class=" p-0 mb-2">
                         <label for="confirm-new-password" class="font-weight-bold m-0">Confirm New Password</label>
-                        <input type="password" class="form-control rounded-0 shadow-none" v-model="password.confirmNew" id="confirmNewPassword">
-                        <span class="text-danger" style="font-size: 12px" id="inputWarning3"></span>
+                        <input type="password" class="form-control rounded-0 shadow-none" v-model="password.confirmNew" ref="confirmNewPassword">
+                        <span class="text-danger" style="font-size: 12px" ref="inputWarning3"></span>
                       </div>
                     </form>
                     <div class="row">
@@ -80,12 +80,12 @@ export default {
 
       console.log(this.password.current)
 
-			var x = document.getElementById('currentPassword');
-			var y = document.getElementById('newPassword');
-			var z = document.getElementById('confirmNewPassword');
-			var inpWarning1 = document.getElementById('inputWarning1');
-			var inpWarning2 = document.getElementById('inputWarning2');
-			var inpWarning3 = document.getElementById('inputWarning3');
+			var x = this.$refs.currentPassword;
+			var y = this.$refs.newPassword;
+			var z = this.$refs.confirmNewPassword;
+			var inpWarning1 = this.$refs.inputWarning1;
+			var inpWarning2 = this.$refs.inputWarning2;
+			var inpWarning3 = this.$refs.inputWarning3;
 
       if(this.password.current == "") {
         x.style.borderBottom = "3px solid red"

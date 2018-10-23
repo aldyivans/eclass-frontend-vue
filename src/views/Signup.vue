@@ -15,6 +15,15 @@ export default {
   components: {
     Blue,
     SignupComponent
-  }
+  },
+	mounted() {
+    console.log("haha")
+
+    var self = this;
+
+    if(localStorage.getItem('EClassToken')) {
+      self.$router.push('/')
+    }
+	}
 }
 </script>

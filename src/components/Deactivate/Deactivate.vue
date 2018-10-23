@@ -4,8 +4,8 @@
 	      <div class="container">
 	        <div class="row border my-5">
 	          <div class="profile col-12 text-center p-2">
-	            <h1 class="font-weight-bold">Deactive Account</h1>
-	            <p>Deactive your account</p>
+	            <h4 class="font-weight-bold m-0">Deactive Account</h4>
+	            <p class="m-0">Deactive your account</p>
 	          </div>
 	          <div class="col-12 col-lg-3 p-0 border-right">
 	            <div class="border-bottom border-top p-3">

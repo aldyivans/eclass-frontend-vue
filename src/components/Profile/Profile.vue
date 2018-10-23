@@ -42,31 +42,31 @@
 	                  <form class=" form-group py-4">
 	                    <div class="p-0 mb-2">
 	                      <label for="username" class="font-weight-bold m-0">Username</label>
-	                      <input type="text" class="form-control rounded-0 shadow-none" id="username" v-model="user.username">
-	                      <span class="text-danger" id="inputWarning1" style="font-size: 12px"></span>
+	                      <input type="text" class="form-control rounded-0 shadow-none" ref="username" v-model="user.username">
+	                      <span class="text-danger" ref="inputWarning1" style="font-size: 12px"></span>
 	                    </div>
 	                    <div class=" p-0 mb-2">
 	                      <label for="fullname" class="font-weight-bold m-0">Fullname</label>
-	                      <input type="text" class="form-control rounded-0 shadow-none border-top border-left border-right" id="fullname" v-model="user.fullname">
-	                      <span class="text-danger" id="inputWarning2" style="font-size: 12px"></span>
+	                      <input type="text" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="fullname" v-model="user.fullname">
+	                      <span class="text-danger" ref="inputWarning2" style="font-size: 12px"></span>
 	                    </div>
 	                    <div class=" p-0 mb-2">
 	                      <label for="birthday" class="font-weight-bold m-0">Birthday</label>
-	                      <input class="form-control rounded-0 shadow-none border-top border-left border-right" type="date" v-model="user.birthday" id="birthday">
-	                      <span class="text-danger" id="inputWarning3" style="font-size: 12px"></span>
+	                      <input class="form-control rounded-0 shadow-none border-top border-left border-right" type="date" v-model="user.birthday" ref="birthday">
+	                      <span class="text-danger" ref="inputWarning3" style="font-size: 12px"></span>
 	                    </div>
 	                    <div class=" p-0 mb-2">
 	                      <label for="gender" class="font-weight-bold m-0">Gender</label>
-	                      <select class="form-control rounded-0 shadow-none border-top border-left border-right" v-model="user.gender" id="gender">
+	                      <select class="form-control rounded-0 shadow-none border-top border-left border-right" v-model="user.gender" ref="gender">
 	                        <option>Male</option>
 	                        <option>Female</option>
 	                      </select>
-	                      <span class="text-danger" id="inputWarning4" style="font-size: 12px"></span>
+	                      <span class="text-danger" ref="inputWarning4" style="font-size: 12px"></span>
 	                    </div>
 	                    <div class=" p-0 mb-2">
 	                      <label for="email" class="font-weight-bold m-0">Email</label>
-	                      <input type="email" class="form-control rounded-0 shadow-none border-top border-left border-right" id="email" aria-describedby="emailHelp" v-model="user.email">
-	                      <span class="text-danger" id="inputWarning5" style="font-size: 12px"></span>
+	                      <input type="email" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="email" aria-describedby="emailHelp" v-model="user.email">
+	                      <span class="text-danger" ref="inputWarning5" style="font-size: 12px"></span>
 	                    </div>
 	                  </form>
 	                  <div class="row">
@@ -106,37 +106,36 @@ export default {
 		}
 	},
 	mounted() {
-		const headers = {
-			'Content-Tipe':'application/json',
-			'Access-Control-Allow-Origin': '*',
-			'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-		}
 
-		axios.get(this.url, headers).then(res => {
-			// console.log(res.data.userData[5].userData.gender)
-			console.log('data get:',res)
-			// id = res.data.userData[5].docID;
-			this.user.profilePic = res.data.userData[5].userData.avatar;
-			this.user.username = res.data.userData[5].userData.username;
-			this.user.fullname = res.data.userData[5].userData.fullname;
-			this.user.birthday = res.data.userData[5].userData.birthday;
-			this.user.gender = res.data.userData[5].userData.gender;
-			this.user.email = res.data.userData[5].userData.email;
-		})
+	    var EclassId = localStorage.getItem('ECLASS-id');
+	    
+	    const headers = {
+	      'Content-Type':'application/json',
+	      'Accept': 'application/json',
+	      'Access-Control-Allow-Origin': '*',
+	      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+	      // 'withCredentials': true,
+	    }
+
+	    axios.get(this.url + EclassId, headers).then(res => {
+	      if(res.status === 200) {
+	        console.log('data user', res)
+	      }
+	    })
 	},
 	methods : {
 		save() {
 
-			var username = document.getElementById('username');
-			var fullname = document.getElementById('fullname');
-			var birthday = document.getElementById('birthday');
-			var gender = document.getElementById('gender');
-			var email = document.getElementById('email');
-			var inpWarning1 = document.getElementById('inputWarning1')
-			var inpWarning2 = document.getElementById('inputWarning2')
-			var inpWarning3 = document.getElementById('inputWarning3')
-			var inpWarning4 = document.getElementById('inputWarning4')
-			var inpWarning5 = document.getElementById('inputWarning5')
+			var username = this.$refs.username;
+			var fullname = this.$refs.fullname;
+			var birthday = this.$refs.birthday;
+			var gender = this.$refs.gender;
+			var email = this.$refs.email;
+			var inpWarning1 = this.$refs.inputWarning1;
+			var inpWarning2 = this.$refs.inputWarning2;
+			var inpWarning3 = this.$refs.inputWarning3;
+			var inpWarning4 = this.$refs.inputWarning4;
+			var inpWarning5 = this.$refs.inputWarning5;
 
 			if(this.user.username == "") {
 				username.style.borderBottom = "3px solid red"

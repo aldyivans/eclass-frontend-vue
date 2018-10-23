@@ -15,6 +15,11 @@ export default {
   components: {
     Blue,
     ChangePassword
+  },
+  mounted() {
+  	if(!localStorage.getItem('EClassToken')) {
+      this.$router.push('/')
+    }
   }
 }
 </script>
