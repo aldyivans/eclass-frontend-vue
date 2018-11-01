@@ -1,20 +1,20 @@
 <template>
-  <div class="deactive">
-    <Blue/>
-    <Deactivate/>
+  <div class="course">
+    <!-- <Blue/> -->
+    <Course/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Blue from '@/components/Blue.vue'
-import Deactivate from '@/components/Deactivate/Deactivate.vue'
+import Course from '@/components/Course/Course.vue'
 
 export default {
-  name: 'deactive',
+  name: 'course',
   components: {
     Blue,
-    Deactivate
+    Course
   },
   mounted() {
     var self = this;

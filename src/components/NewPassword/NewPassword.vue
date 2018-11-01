@@ -74,7 +74,7 @@ export default {
 
 			const params = {
 			  headers : {
-			    'x-access-token':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlZLNGJkS0xrd0tnZHZCZnI4eTlaIiwiaWF0IjoxNTM5OTM2NDQwLCJleHAiOjE1NDAwMjI4NDB9.sK_b8h4LN0LbwHWWQ3haYv7wy2oYOGpNM_2En3WdjzY',
+			    'x-access-token': localStorage.getItem('EClassToken'),
 			    'Content-Type':'application/json',
 			    'Accept': 'application/json',
 			    'Access-Control-Allow-Origin': '*',

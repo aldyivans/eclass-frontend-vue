@@ -31,7 +31,8 @@ export default {
   },
   data() {
     return {
-      url: 'http://192.168.2.231:3000/v1/users/',
+      userUrl: 'http://192.168.2.231:3000/v1/users/',
+      courseUrl: 'http://192.168.2.231:3000/v1/course/',
       isLoggedIn: false
     }
   },
@@ -51,16 +52,16 @@ export default {
     }
 
     var EclassId = localStorage.getItem('ECLASS-id');
+    var courseId = "H3RAI8dHUMYSkvCmIPGa"
     
     const headers = {
       'Content-Type':'application/json',
       'Accept': 'application/json',
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-      // 'withCredentials': true,
+      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type'
     }
 
-    axios.get(this.url + EclassId, headers).then(res => {
+    axios.get(this.userUrl + EclassId, headers).then(res => {
       if(res.status === 200) {
         console.log('data user', res)
       }

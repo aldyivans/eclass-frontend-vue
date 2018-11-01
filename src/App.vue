@@ -78,7 +78,7 @@
           <div class="col-lg-4 d-none d-lg-block text-right " v-if="isLoggedIn">
               <div class="dropdown d-inline-flex">
                 <button class="avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img :src="profilePic">
+                <img v-bind:src="profileImg">
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <router-link class="dropdown-item" to="/profile">Profile</router-link>
@@ -132,13 +132,17 @@
 </template>
 
 <script>
+
+  import axios from 'axios'
   
   export default {
     name:"app",
     data () {
       return {
         profileImg: require('@/assets/js.jpg'),
-        isLoggedIn: false
+        isLoggedIn: false,
+        url: 'http://192.168.2.231:3000/v1/users/',
+
       }
     },
 
@@ -156,6 +160,24 @@
       if(localStorage.getItem('EClassToken')) {
         self.isLoggedIn = true
       }
+
+      var EclassId = localStorage.getItem('ECLASS-id');
+    
+      const headers = {
+        'Content-Type':'application/json',
+        'Accept': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+        // 'withCredentials': true,
+      }
+
+      axios.get(this.url + EclassId, headers).then(res => {
+        if(res.status === 200) {
+          console.log('data user', res.data.userData.avatar)
+          this.profileImg = res.data.userData.avatar;
+
+        }
+      })
     },
 
     methods: {

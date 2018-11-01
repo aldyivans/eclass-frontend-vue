@@ -13,10 +13,14 @@ import { faEye } from '@fortawesome/free-solid-svg-icons'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { faTh } from '@fortawesome/free-solid-svg-icons'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faLock } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faBars, faSearch, faTh, faTimes, faChevronDown, faEye)
+library.add(faBars, faSearch, faTh, faTimes, faChevronDown, faEye,faMinus, faPlayCircle,faLock, faPlus)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

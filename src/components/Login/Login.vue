@@ -9,6 +9,14 @@
 	            <span class="text-danger" ref="invalid"></span>
             </div>
             <form>
+            	<!-- Deactive Alert -->
+            	<div class="mb-4">
+							  <div class="alert alert-warning alert-dismissible fade show text-center m-0" role="alert" v-if="deactiv">
+								  <strong>Hallo!</strong><br> Welcome back! We sent you an email to reactivate your account
+								</div>
+            		
+            	</div>
+							<!--  -->
               <div class="form-group">
                 <label for="exampleInputEmail1" class="m-0">Email/Username</label>
                 <input type="text" class="form-control rounded-0 shadow-none" aria-describedby="emailHelp" name="username" ref="loginUsername" v-model="login.username">
@@ -32,7 +40,7 @@
                 <h5 class="text-center p-2 m-0" id="magic">or</h5>
               </div>
 
-              <button type="submit" class="btn btn-block border p-0 rounded-0" id="tes">
+              <button type="submit" class="btn btn-block border p-0 rounded-0" id="tes"  v-on:click="onSignIn" v-show="gRendered">
               </button>
 
               <div class="text-center">
@@ -47,25 +55,26 @@
               </div>
 			  <!-- Forgot Password Pop-up -->
 
-			  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-			    <div class="modal-dialog modal-dialog-centered" role="document">
-			      <div class="modal-content">
-			        <div class="modal-header align-items-center">
-			          <h5 class="modal-title" id="exampleModalCenterTitle">Forget Password?</h5>
-			          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				        <span aria-hidden="true">&times;</span>
-			          </button>
-			        </div>
-			        <div class="modal-body">
-			          <span class="text-danger" style="font-size: 12px" ref="invalid2"></span>
-			          <span class="text-success" style="font-size: 12px" ref="success"></span>
-			          <input type="email" class="form-control mb-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="login.email">
-			          <button type="button" class="col-sm-2 btn btn-warning" v-on:click="send">Send</button>
-			          <small id="emailHelp" class="form-text text-muted">We're going to Send you an information link to verify your password</small>
-			        </div>
-			      </div>
-			    </div>
-			  </div>
+						  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						    <div class="modal-dialog modal-dialog-centered" role="document">
+						      <div class="modal-content">
+						        <div class="modal-header align-items-center">
+						          <h5 class="modal-title" id="exampleModalCenterTitle">Forget Password?</h5>
+						          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							        <span aria-hidden="true">&times;</span>
+						          </button>
+						        </div>
+						        <div class="modal-body">
+						          <span class="text-danger" style="font-size: 12px" ref="invalid2"></span>
+						          <span class="text-success" style="font-size: 12px" ref="success"></span>
+						          <input type="email" class="form-control mb-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="login.email">
+						          <button type="button" class="col-sm-2 btn btn-warning" v-on:click="send">Send</button>
+						          <small id="emailHelp" class="form-text text-muted">We're going to Send you an information link to verify your password</small>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+			  
             </form>
           </div>
         </div>
@@ -83,9 +92,11 @@ export default {
 		return {
 			login : {
 				username: '',
-				password: '',
-				email: ''
+				password: ''
 			},
+			deactiv :false,
+			gRendered : false,
+			googleUser: null,
 			url: 'http://192.168.2.231:3000/v1/login',
 			loginGoogleUrl: 'http://192.168.2.231:3000/v1/logingoogle',
 			forgotPasswordUrl: 'http://192.168.2.225:3000/v1/forgotpassword'
@@ -93,7 +104,7 @@ export default {
 	},
 	mounted() {
 		gapi.signin2.render('tes', { // this is the button "id"
-	      'onsuccess': this.onSignIn,
+	      'onsuccess': this.gSuccess,
 	      'width': 'none',
 	      'longtitle': true
 	    })
@@ -105,7 +116,7 @@ export default {
 	},
 	methods : {
 		save() {
-
+			
 			var loginUsername = this.$refs.loginUsername;
 			var loginPassword = this.$refs.loginPassword;
 			var inpWarning1 = this.$refs.inputWarning1;
@@ -157,33 +168,74 @@ export default {
 						self.$root.$emit('isLoggedIn');
 					}
 				}).catch(e=>{
-					console.log('error', e.response);
-					invalid.innerHTML = "Invalid Username or Password!"
+					console.log('errir', e.response);
+					if(e.response.data.message == 'User not exists') {
+						invalid.innerHTML = "Invalid Username or Password!"
+					}
+					if(e.response.data.message == 'User deactive') {
+						this.deactiv = true;
+
+
+					}
 				})
 			}
 		},
-		onSignIn(googleUser) {
-		  var profile = googleUser.getBasicProfile();
+		gSuccess(googleUser) {
+				this.googleUser = googleUser;
+				this.gRendered = true;
+			},
+		onSignIn() {
+			var self = this
+			var googleUser = this.googleUser
+
+			const profile = googleUser.getBasicProfile();
+      const token = googleUser.getAuthResponse().id_token;
+      const id = profile.getId();
+      const name = profile.getName();
+      const imageUrl = profile.getImageUrl();
+      const email = profile.getEmail();
+
 		  console.log('TOKEN: ' + googleUser.getAuthResponse().id_token);
 		  console.log('ID: ' + profile.getId());
 		  console.log('Name: ' + profile.getName());
 		  console.log('Image URL: ' + profile.getImageUrl());
 		  console.log('Email: ' + profile.getEmail());
+		  console.log('Profile', profile)
 
-		 //  const headers = {
-			// 	'Content-Type':'application/json',
-			// 	'Accept': 'application/json',
-			// 	'Access-Control-Allow-Origin': '*',
-			// 	'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type'
-			// }
+		  const params = {
+		  		headers : {
+						'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*'
+		  			
+		  		}
+			}
+			const dataUser = {
+						username: "",
+						fullname: name,
+						email: email,
+						avatar: imageUrl,
+						role: "student",
+						token_expired:"",
+						google_id: id,
+						active: true,
+						token: token,
+						verified: true,
+				}
+				console.log('data uyserrr', dataUser)
 
-		 //  axios.post(this.loginGoogleUrl, headers).then(response =>{
-		 //  	if(response.status == 200) {
-		 //  		console.log('google',response)
-		 //  	}
-		 //  }).catch(e =>{
-		 //  	console.log('error', e.response)
-		 //  })
+		  axios.post(this.loginGoogleUrl, dataUser, params).then(response =>{
+		  	if(response.status == 200) {
+		  		console.log('respon signin google',response)
+		  		localStorage.setItem('EClassToken', response.data.tokens)
+					localStorage.setItem('ECLASS-id', response.data.ID)
+
+					self.$root.$emit('isLoggedIn');
+
+		  	}
+		  }).catch(e =>{
+		  	console.log('error google:', e)
+		  })
 
 
 		},

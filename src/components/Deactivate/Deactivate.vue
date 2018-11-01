@@ -27,10 +27,10 @@
 	          </div>
 	          <div class="col-lg-9 border-top justify-content-center p-0">
 	            <div class="container">
-	              <div class="row justify-content-center">
+	              <div class="row justify-content-center ">
 	                <div class="col-12 col-sm-10 col-md-8 col-lg-9 py-5 px-3">
-	                  <h5 class="py-4">Are you sure want to deactive your account?</h5>
-	                  <div class="text-right">
+	                  <h5 class="pb-5 mb-5">Are you sure want to deactive your account?</h5>
+	                  <div class="text-right py-5">
 	                    <button ttype="button" class="btn btn-success rounded-0 font-weight-bold mr-1" v-on:click="save">Save</button>
 	                    <button class="btn btn-warning rounded-0 font-weight-bold">Cancel</button>
 	                  </div>
@@ -50,7 +50,7 @@
 	export default {
 		data(){
 			return {
-				url: 'http://192.168.2.235:3000/deactivate'
+				url: 'http://192.168.2.235:3000/v1/deactivate'
 			}
 		},
 		methods: {
@@ -58,10 +58,10 @@
 
 				var params = {
 					headers : {
-						'Content-Type': 'application/json',
-						'Accept': 'application/json;charset=UTF-8',
-						'Access-Control-Allow-Origin': '*',
-						'X-Auth-Token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJRVGw0VENvZkR1c25DZ2oyTW12IiwiaWF0IjoxNTM5Nzg3OTk1LCJleHAiOjE1Mzk5NjA3OTV9.LanYaJ7dFcoK34C3-zTd3pAci8akwYkMQAbbeB0oS08"
+						'x-access-token': localStorage.getItem('EClassToken'),
+						'Content-Type':'Application/Json',
+						'Accept':'Application/Json',
+						'Access-Control-Allow-Origin': '*'
 					}
 				}
 				var dataUser = {
@@ -71,12 +71,15 @@
 					if(response.status === 200){
 						console.log("Response:", response)
 						alert('Account is Deactivate')
+						localStorage.clear();
+				        this.$root.$emit('isLoggedOut');
+				        this.isLoggedIn = false;
 						this.$router.push('/')						
 					}else {
 						console.log("Error", err)
 					}
 				}).catch(e=>{
-					console.log('catch', e.response)
+					console.log('error', e.response)
 				})
 			}
 		}

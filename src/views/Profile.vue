@@ -26,11 +26,14 @@ export default {
 
   	console.log('hahaha')
 
-    var EclassId = localStorage.getItem('ECLASS-id');
+    var self = this;
 
-    if(!localStorage.getItem('EClassToken')) {
+    this.$root.$on('isLoggedOut', function(){
+      console.log('isLoggedOut dari app')
       this.$router.push('/')
-    }
+    })
+
+    var EclassId = localStorage.getItem('ECLASS-id');
 
     const headers = {
       'Content-Type':'application/json',

@@ -6,6 +6,7 @@ import Signup from './views/Signup.vue'
 import Profile from './views/Profile.vue'
 import Changepassword from './views/Changepassword.vue'
 import Deactive from './views/Deactive.vue'
+import Course from './views/Course.vue'
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ const router = new Router({
       path: '/deactive',
       name: 'deactive',
       component: Deactive
+    },
+    {
+      path: '/course',
+      name: 'course',
+      component: Course
     }
   ]
 })

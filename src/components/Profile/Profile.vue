@@ -100,7 +100,7 @@ export default {
 				email: ''
 			},
 			
-			url: 'http://192.168.2.231:3000/v1/users',
+			url: 'http://192.168.2.231:3000/v1/users/',
 			userUrl: 'http://192.168.2.231:3000/v1/editprofile/',
 			avatarUrl: 'http://192.168.2.231:3000/v1/upload/'
 		}
@@ -110,22 +110,27 @@ export default {
 	    var EclassId = localStorage.getItem('ECLASS-id');
 	    
 	    const headers = {
+	      'x-access-token': localStorage.getItem('EClassToken'),
 	      'Content-Type':'application/json',
 	      'Accept': 'application/json',
 	      'Access-Control-Allow-Origin': '*',
 	      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-	      // 'withCredentials': true,
 	    }
 
 	    axios.get(this.url + EclassId, headers).then(res => {
 	      if(res.status === 200) {
-	        console.log('data user', res)
+	      	this.user.username = res.data.userData.username;
+	      	this.user.fullname = res.data.userData.fullname;
+	      	this.user.birthday = res.data.userData.birthday;
+	      	this.user.gender = res.data.userData.gender;
+	      	this.user.email = res.data.userData.email;
+	      	this.user.profilePic = res.data.userData.avatar;
+	        console.log('data user sesuai id:', res)
 	      }
 	    })
 	},
 	methods : {
 		save() {
-
 			var username = this.$refs.username;
 			var fullname = this.$refs.fullname;
 			var birthday = this.$refs.birthday;
@@ -179,15 +184,15 @@ export default {
 
 			if(this.user.username != "" && this.user.fullname != "" && this.user.birthday != "" && this.user.gender != "" && this.user.email != "") {
 				
+				var EclassId = localStorage.getItem('ECLASS-id');
 				
-				const headers = {
-
-					'x-access-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2YWxpZCI6InZhbGlkIiwiaWF0IjoxNTQwMjA4NzY0LCJleHAiOjE1NDAyOTUxNjR9.j8yMWs9TLJ0Ex68HFEbKl5g9hrWnizpcVcN7ntVlDrs',
-					'Content-Type':'Application/Json',
-					'Accept':'Application/Json',
-					'Access-Control-Allow-Methods':'PUT',
-					'Access-Control-Allow-Origin': '*',
-					'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+				const params = {
+					headers: {
+						'x-access-token': localStorage.getItem('EClassToken'),
+						'Content-Type':'Application/Json',
+						'Accept':'Application/Json',
+						'Access-Control-Allow-Origin': '*'
+					}
 				}
 
 				const userData = {
@@ -198,7 +203,7 @@ export default {
 					email: this.user.email
 				}
 
-				axios.put(this.userUrl, userData , headers).then(response=>{
+				axios.put(this.userUrl + EclassId, userData , params).then(response=>{
 					if(response.status === 200){
 						console.log('Response', response)
 					}
@@ -207,26 +212,6 @@ export default {
 					
 				})
 			}
-
-			// const imgHeaders = {
-			// 	'Content-Tipe':'multipart/form-data',
-			// 	'Access-Control-Allow-Origin': '*',
-			// 	'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-			// }
-
-			// axios.post(this.url, this.user.profilePic , imgHeaders).then(response=>{
-			// 	if(response.status === 200){
-			// 		console.log('Response', response)
-			// 	}else {
-			// 		throw new Error("Error");
-			// 		response.status = 200;
-			// 	}
-			// }).catch(e=>{
-			// 	console.log('error', e.response);
-			// 	if(e.status!=200){
-
-			// 	}
-			// })
 		},
 		onFilePicked(event) {
 			const image = event.target.files[0];
@@ -242,18 +227,12 @@ export default {
 
 			const params = {
 				headers: {
-
-					// 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2YWxpZCI6InZhbGlkIiwiaWF0IjoxNTQwMjA4NzY0LCJleHAiOjE1NDAyOTUxNjR9.j8yMWs9TLJ0Ex68HFEbKl5g9hrWnizpcVcN7ntVlDrs',
+					'Authorization': localStorage.getItem('EClassToken'),
 					'Content-Type':'multipart/form-data',
 					'Accept':'multipart/form-data',
 					'Access-Control-Allow-Origin': '*',
-					// 'Access-Control-Allow-Headers': 'Access-Control-Allow-Origin, Origin, X-Requeted-With, Content-Type, Accept, Authorization, RBR'
-					// 'Access-Control-Allow-Headers': 'Origin,X-Requested-With,Content-Type',
-					// 'WithCrudentials': true
 				}
-				
 			}
-
 			axios.put(this.avatarUrl + id, image, params ).then(response => {
 				if(response.status === 200){
 					console.log('Response', response)

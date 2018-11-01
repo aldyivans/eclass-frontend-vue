@@ -6,6 +6,16 @@
 					<h3 class="font-weight-bold text-center">Sign Up</h3>
 					<hr class="w-100">
 					<form class="form-group text-left">
+						<!-- Alert -->
+						<div class="mb-4">
+							  <div class="alert alert-warning alert-dismissible fade show text-center m-0" role="alert" v-if="sign">
+								  <strong>Hallo!</strong><br>Kamu Sudah Melakukan Signup 
+								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								    <span aria-hidden="true">&times;</span>
+								  </button>
+								</div>
+            	</div>
+            	<!--  -->
 						<div class=" p-0 mb-2">
 							<label for="username" class="font-weight-bold m-0">Username</label>
 							<input v-model="input.username" type="text" class="form-control rounded-0 shadow-none border" name="username" autocomplete="off" id="username">
@@ -58,7 +68,7 @@
 					  <div class="py-2">
 							<h5 class="text-center p-2 m-0" id="magic">or</h5>
 					  </div>
-					  <button class="btn btn-block p-0 rounded-0 font-weight-bold" id="google-signin-btn"></button>
+					  <button class="btn btn-block p-0 rounded-0 font-weight-bold" id="google-signin-btn" v-on:click="onSignIn" v-show="gerendered"></button>
 					  <div  class="text-center p-2">
 							<h6 class="font-weight-bold">Already Joined?<router-link to="/login" class="mr-1 ml-1">Log In</router-link>Now</h6>
 					  </div>
@@ -87,6 +97,9 @@
 					password: "",
 					confirmpassword: ""
 				},
+				gerendered : false,
+				googleUser: null,
+				sign: false,
         register: 'http://192.168.2.225:3000/register',
 
         registerGoogle: 'http://192.168.2.225:3000/registergoogle'
@@ -94,7 +107,7 @@
 		},
 		mounted() {
 			gapi.signin2.render('google-signin-btn',{
-				'onsuccess': this.onSignIn,
+				'onsuccess': this.gSuccess,
 				'width':'none',
 				'longtitle':true,
 				'height': 40
@@ -167,9 +180,9 @@
 					document.getElementById('fullname').className ="text-success font-weight-normal"
 					document.getElementById('full').className ="form-control rounded-1 shadow-none border-success"
 				}
-				if(this.input.fullname.length <= 3 || this.input.fullname.length > 15){
+				if(this.input.fullname.length <= 3 || this.input.fullname.length > 20){
 					document.getElementById('full').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('fullname').innerHTML = "fullname Must be between 5 and 12"
+					document.getElementById('fullname').innerHTML = "fullname Must be between 3 and 20"
 					document.getElementById('fullname').className ="text-danger font-weight-normal"
 					return false;
 				}else {
@@ -359,7 +372,13 @@
         	}
         });
 			},
-			onSignIn(googleUser) {
+
+			gSuccess(googleUser) {
+				this.googleUser = googleUser;
+				this.gerendered = true;
+			},
+			onSignIn() {
+				var googleUser = this.googleUser
 				const profile = googleUser.getBasicProfile();
         const token = googleUser.getAuthResponse().id_token;
         const id = profile.getId();
@@ -374,18 +393,19 @@
         console.log('Email: ' + email);
 
         const dataUser = {
-        		id: id,
-						username: "",
-						fullname: name,
-						email: email,
-						avatar: imageUrl,
-						role: "student",
-						token_expired:"",
-						google_id: token,
-						active: true,
-						verified: true,
+					username: "",
+					token: token,
+					fullname: name,
+					email: email,
+					avatar: imageUrl,
+					role: "student",
+					// token_expired:"",
+					google_id: id,
+					active: true,
+					verified: true,
 				}
 				console.log('tessss',dataUser)
+
 				const params = {
 					headers : {
             'Content-Type': 'application/json',
@@ -398,7 +418,7 @@
           if (response.status === 200) {
           	console.log('response:', response)
           	// Redirect Ke login Tinggal di Uncomment Code di bawah
-          	// this.$router.push('/login')
+          	this.$router.push('/login')
           }else {
             throw new Error("Error");
              response.status = 200;
@@ -407,7 +427,7 @@
         }).catch(e => {
           console.log('tes: ', e.response);
           if(e.response.data.message == 'id exist'){
-          	alert('Anda Sudah Melakukakan Signup')
+          	this.sign = true
           }
         });
 			}
