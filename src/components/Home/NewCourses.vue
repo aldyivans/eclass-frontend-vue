@@ -7,21 +7,27 @@
 	        </div>
 	        <div class="col-12 p-0 justify-content-center">
 		        <carousel :per-page-custom="[[375, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false" :navigationEnabled="true" navigationNextLabel="<h1>&#8250;</h1>" navigationPrevLabel="<h1>&#8249;</h1>">
-		        	<slide v-for="(course, index) in courseData">
-			          <div class="card m-2">
-			            <img class="card-img-top" alt="Card image cap" v-bind:alt="course">
-			            <div class="card-body">
-			              <h5 class="card-title">{{ course[index] }}</h5>
-			              <p class="card-text">{{ course[index] }}</p>
-			              <div class="view-counter mt-4 text-right">
-			                <i class="fa fa-eye"></i>
-			                <span>
-			                	<font-awesome-icon icon="eye" />
-			                	{{ course[index] }} views
-			                </span>
-			              </div>
-			            </div>
-			          </div>
+		        	<slide v-for="course in courseData">
+			          <router-link :to="{name:'course', params: {selected_course: course}}" class="text-dark">
+                  <div class="card m-2">
+                    <div style="height: 200px; position: relative; overflow: hidden ">
+                        <img class="card-img-top" v-bind:src="course.thumbnail" style="position: absolute; left: 0; top: 50%; transform: translate(0, -50%);">
+                    </div>
+                    <div class="card-body">
+                        <div style="overflow: hidden">
+                          <h5 class="card-title">{{ course.title | hideText }}</h5>
+                        </div>
+                      <p class="card-text">{{ course.subtitle }}</p>
+                      <div class="view-counter mt-4 text-right">
+                        <i class="fa fa-eye"></i>
+                        <span>
+                            <font-awesome-icon icon="eye" />
+                            {{ course.view_count }} views
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </router-link>
 		        	</slide>
 		        </carousel>
 			</div>
@@ -43,7 +49,7 @@ export default {
 	},
 	data() {
 		return {
-			courses: [],
+			courses: null,
 			courseData: [],
 			courseUrl: 'http://192.168.2.231:3000/v2/courses/'
 			
@@ -66,12 +72,24 @@ export default {
 	      if(res.status === 200) {
 	      	this.courses = res.data.courseData;
 	      	this.courses.map(data => {
-	      		this.courseData = data
-	      		console.log('ini data nya',this.courseData)
+	      		this.courseData.push(data.courseData)
 	      	})
 	        console.log('data course:', res.data.courseData)
 	      }
 	    })
+	},
+	computed: {
+    hideText() {
+
+    	this.courseData.map(datatext => {
+    		var char = datatext.title,
+    				limit = 20;
+
+    		var trimmedString = char.substring(0, limit)
+
+    		console.log("ted", trimmedString)
+    	})
+    }
 	}
 }
 </script>

@@ -162,6 +162,7 @@
 	import axios from 'axios'
 
 	export default {
+		name: 'course',
 		data(){
 			return {
 
