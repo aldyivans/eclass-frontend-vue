@@ -18,21 +18,21 @@
             	</div>
 							<!--  -->
               <div class="form-group">
-                <label for="exampleInputEmail1" class="m-0">Email/Username</label>
-                <input type="text" class="form-control rounded-0 shadow-none" aria-describedby="emailHelp" name="username" ref="loginUsername" v-model="login.username">
+                <label for="exampleInputEmail" class="m-0">Email/Username</label>
+                <input type="text" class="form-control rounded-0 shadow-none" aria-describedby="emailHelp" name="username" ref="loginUsername" v-model="login.username" id="exampleInputEmail">
                 <span class="text-danger" style="font-size: 12px" ref="inputWarning1"></span>
               </div>
 
               <div class="form-group">
                 <label for="exampleInputPassword1" class="m-0">Password</label>
-                <input type="password" class="form-control rounded-0 shadow-none" name="password" ref="loginPassword" v-model="login.password">
+                <div class="input-group border">
+									<input v-model="login.password" type="password" class="form-control rounded-0 shadow-none" id="exampleInputPassword1" name="password" autocomplete="off" ref="password"/>
+									<div class="input-group-append">
+										<span class="input-group-text border-0 bg-white" id="eyes" v-on:click="showPassword"><font-awesome-icon icon="eye"/></span>
+							  	</div>	
+								</div>
                 <span class="text-danger" style="font-size: 12px" ref="inputWarning2"></span>
               </div>
-
-<!--               <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="RememberMe">
-                <label class="form-check-label" for="RememberMe">Remember Me</label>
-              </div> -->
 
               <button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold shadow-none" id="buttonSignup" v-on:click="save">Login</button>
 
@@ -115,6 +115,16 @@ export default {
 	    }
 	},
 	methods : {
+
+		showPassword() {
+				var x = this.$refs.password;
+				if (x.type === "password") {
+					x.type = "text"
+				}else {
+					x.type = "password"
+				}
+			},
+
 		save() {
 			
 			var loginUsername = this.$refs.loginUsername;

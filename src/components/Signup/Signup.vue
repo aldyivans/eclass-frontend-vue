@@ -48,9 +48,6 @@
 							<label for="exampleInputPassword1" class="font-weight-bold m-0">Password</label>
 							<div class="input-group">
 								<input v-model="input.password" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputPassword1" name="password" autocomplete="off"/>
-								<div class="input-group-append">
-									<span class="input-group-text border-0" id="eyes" v-on:click="showPassword"><font-awesome-icon icon="eye"/></span>
-							  </div>	
 							</div>
 					  	<span id="password"></span>
 					  </div>
@@ -58,9 +55,6 @@
 							<label for="exampleInputConfirmPassword1" class="font-weight-bold m-0">Confirm Password</label>
 							<div class="input-group">
 								<input v-model="input.confirmpassword" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputConfirmPassword1" name="ConfirmPassword" autocomplete="off">
-								<div class="input-group-append">
-									<span class="input-group-text border-0" id="eyes" v-on:click="showConfirm"><font-awesome-icon icon="eye"/></span>
-							  </div>
 							</div>
 						  <span id="confirmpassword"></span>
 					  </div>
@@ -114,23 +108,14 @@
 				})
 		},
 		methods: {
-			showPassword() {
-				var x = document.getElementById('exampleInputPassword1');
-				if (x.type === "password") {
-					x.type = "text"
-				}else {
-					x.type = "password"
-				}
-			},
-			showConfirm() {
-				var x = document.getElementById('exampleInputConfirmPassword1');
-				if (x.type === "password") {
-					x.type = "text"
-				}else {
-					x.type = "password"
-				}
-					
-			},
+			// showPassword() {
+			// 	var x = document.getElementById('exampleInputPassword1');
+			// 	if (x.type === "password") {
+			// 		x.type = "text"
+			// 	}else {
+			// 		x.type = "password"
+			// 	}
+			// },
 			signup() {
 				var alphabets = /^[a-zA-Z-0-9]+$/;
 				var space = /^[a-zA-Z-0-9\s]+$/;
@@ -142,30 +127,20 @@
 					document.getElementById('user').innerHTML = "please fill the username field"
 					document.getElementById('username').className ="form-control rounded-1 shadow-none border-danger "
 					return false;
-				}else {
-					document.getElementById('user').innerHTML = "Looks good!"
-					document.getElementById('user').className ="text-success font-weight-normal"
-					document.getElementById('username').className ="form-control rounded-1 shadow-none border-success"	
 				}
-				if(this.input.username.length <= 3 || this.input.username.length > 15){
-					document.getElementById('user').innerHTML = "username must be between 4 and 15"
+
+				if(this.input.username.length <= 6 || this.input.username.length > 15){
+					document.getElementById('user').innerHTML = "username must be between 6 and 15"
 					document.getElementById('user').className ="text-danger font-weight-normal"
 					document.getElementById('username').className ="form-control rounded-1 shadow-none border-danger "
 					return false;
-				}else {
-					document.getElementById('user').innerHTML = "Looks good!"
-					document.getElementById('user').className ="text-success font-weight-normal"
-					document.getElementById('username').className ="form-control rounded-1 shadow-none border-success"	
 				}
+
 				if(!(alphabets.test(this.input.username))){
 					document.getElementById('user').innerHTML = "name only alphabets and number not space and symbol"
 					document.getElementById('user').className ="text-danger font-weight-normal"
 					document.getElementById('username').className ="form-control rounded-1 shadow-none border-danger "
 					return false;
-				}else {
-					document.getElementById('user').innerHTML = "Looks good!"
-					document.getElementById('user').className ="text-success font-weight-normal"
-					document.getElementById('username').className ="form-control rounded-1 shadow-none border-success"	
 				}
 
 				// Fullname
@@ -175,30 +150,13 @@
 					document.getElementById('fullname').className ="text-danger font-weight-normal"
 					document.getElementById('fullname').innerHTML = "please fill the fullname field"
 					return false;
-				}else {
-					document.getElementById('fullname').innerHTML = "Looks good!";
-					document.getElementById('fullname').className ="text-success font-weight-normal"
-					document.getElementById('full').className ="form-control rounded-1 shadow-none border-success"
 				}
-				if(this.input.fullname.length <= 3 || this.input.fullname.length > 20){
-					document.getElementById('full').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('fullname').innerHTML = "fullname Must be between 3 and 20"
-					document.getElementById('fullname').className ="text-danger font-weight-normal"
-					return false;
-				}else {
-					document.getElementById('fullname').innerHTML = "Looks good!";
-					document.getElementById('fullname').className ="text-success font-weight-normal"
-					document.getElementById('full').className ="form-control rounded-1 shadow-none border-success"
-				}
+
 				if(!(space.test(this.input.fullname))){
 					document.getElementById('fullname').innerHTML = "name only alphabets and number"
 					document.getElementById('fullname').className ="text-danger font-weight-normal"
 					document.getElementById('full').className ="form-control rounded-1 shadow-none border-danger "
 					return false;
-				}else {
-					document.getElementById('fullname').innerHTML = "Looks good!"
-					document.getElementById('fullname').className ="text-success font-weight-normal"
-					document.getElementById('full').className ="form-control rounded-1 shadow-none border-success"	
 				}
 
 				// Birthday
@@ -208,10 +166,6 @@
 					document.getElementById('example-date-input').className ="form-control rounded-1 shadow-none border-danger "
 					document.getElementById('birthday').className ="text-danger font-weight-normal"
 					return false;
-				}else {
-					document.getElementById('birthday').innerHTML = "Looks good!";
-					document.getElementById('birthday').className ="text-success font-weight-normal"
-					document.getElementById('example-date-input').className ="form-control rounded-1 shadow-none border-success"
 				}
 
 				// Gender
@@ -221,10 +175,6 @@
 					document.getElementById('gen').className ="form-control rounded-1 shadow-none border-danger "
 					document.getElementById('gender').className ="text-danger font-weight-normal"
 					return false;
-				}else {
-					document.getElementById('gender').innerHTML = "Looks good!";
-					document.getElementById('gender').className ="text-success font-weight-normal"
-					document.getElementById('gen').className ="form-control rounded-1 shadow-none border-success"
 				}
 
 				// Email
@@ -234,30 +184,13 @@
 					document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-danger "
 					document.getElementById('email').className ="text-danger font-weight-normal"
 					return false;
-				}else {
-					document.getElementById('email').innerHTML = "Looks good!";
-					document.getElementById('email').className ="text-success font-weight-normal"
-					document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-success"
 				}
+
 				if(this.input.email.indexOf('@')<= 0) {
 					document.getElementById('email').innerHTML = "@ invalid position "
 					document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-danger "
 					document.getElementById('email').className ="text-danger font-weight-normal"
 					return false;
-				}else {
-					document.getElementById('email').innerHTML = "Looks good!";
-					document.getElementById('email').className ="text-success font-weight-normal"
-					document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-success"
-				}
-				if((this.input.email.charAt(this.input.email.length-4)!='.') && (this.input.email.charAt(this.input.email.length-3)!='.')){
-					document.getElementById('email').innerHTML = ". invalid position"
-					document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('email').className ="text-danger font-weight-normal"
-					return false;
-				}else {
-					document.getElementById('email').innerHTML = "Looks good!";
-					document.getElementById('email').className ="text-success font-weight-normal"
-					document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-success"
 				}
 
 				// Password
@@ -267,40 +200,20 @@
 					document.getElementById('exampleInputPassword1').className ="form-control rounded-1 shadow-none border border-danger "
 					document.getElementById('password').className ="text-danger font-weight-normal"
 					return false;
-				}else {
-					document.getElementById('password').innerHTML = "Looks good!";
-					document.getElementById('password').className ="text-success font-weight-normal"
-					document.getElementById('exampleInputPassword1').className ="form-control rounded-1 shadow-none border border-success"
 				}
-				if(!(alphabets.test(this.input.password))) {
-					document.getElementById('password').innerHTML = "only alphabets and number"
-					document.getElementById('exampleInputPassword1').className ="form-control rounded-1 shadow-none border border-danger "
-					document.getElementById('password').className ="text-danger font-weight-normal"
-					return false;
-				}else {
-					document.getElementById('password').innerHTML = "Looks good!";
-					document.getElementById('password').className ="text-success font-weight-normal"
-					document.getElementById('exampleInputPassword1').className ="form-control rounded-1 shadow-none border border-success"
-				}
+
 				if(this.input.password.length < 8 ) {
 					document.getElementById('password').innerHTML = "password length minimal 8 character"
 					document.getElementById('exampleInputPassword1').className ="form-control rounded-1 shadow-none border border-danger "
 					document.getElementById('password').className ="text-danger font-weight-normal"
 					return false;
-				}else {
-					document.getElementById('password').innerHTML = "Looks good!";
-					document.getElementById('password').className ="text-success font-weight-normal"
-					document.getElementById('exampleInputPassword1').className ="form-control rounded-1 shadow-none border border-success"
 				}
+
 				if(this.input.password != this.input.confirmpassword){
 					document.getElementById('confirmpassword').innerHTML = "password not match "
 					document.getElementById('exampleInputConfirmPassword1').className ="form-control rounded-1 shadow-none border border-danger "
 					document.getElementById('confirmpassword').className ="text-danger font-weight-normal"
 					return false;
-				}else {
-					document.getElementById('confirmpassword').innerHTML = "Looks good!";
-					document.getElementById('confirmpassword').className ="text-success font-weight-normal"
-					document.getElementById('exampleInputConfirmPassword1').className ="form-control rounded-1 shadow-none border border-success"
 				}
 
 				// Confirm Password
@@ -310,10 +223,6 @@
 					document.getElementById('exampleInputConfirmPassword1').className ="form-control rounded-1 shadow-none border-danger "
 					document.getElementById('confirmpassword').className ="text-danger font-weight-normal"
 					return false;
-				}else {
-					document.getElementById('confirmpassword').innerHTML = "Looks good!";
-					document.getElementById('confirmpassword').className ="text-success font-weight-normal"
-					document.getElementById('exampleInputConfirmPassword1').className ="form-control rounded-1 shadow-none border border-success"
 				}
 
 				this.post()
