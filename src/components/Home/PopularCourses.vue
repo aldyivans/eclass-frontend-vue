@@ -69,7 +69,7 @@ export default {
 	    	if(res.status === 200){
 	    		console.log("data adari topan",res.data.result)
 	    		this.dataCourse = res.data.result
-		    console.log("coba", this.dataCourseAsli)
+		    console.log("coba", this.dataCourse)
 	    	}
 	    })
 	},
