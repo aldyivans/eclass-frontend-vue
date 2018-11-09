@@ -10,7 +10,7 @@
           <router-link to="/login"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Log In</li></router-link>
           <router-link to="/signup"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Sign Up</li></router-link>
           <li class="list-group-item list-group-item-action d-flex justify-content-between font-weight-bold" v-on:click="openCategory">Categories<font-awesome-icon icon="chevron-down" size="lg" /></li>
-          <li class="mobile-category list-group-item" id="mobileCategory">
+          <li class="mobile-category list-group-item" ref="mobileCategory" style="display: none">
             <ul class="list-group list-group-flush">
               <li class="list-group-item"><a href="#">Development</a></li>
               <li class="list-group-item"><a href="#">Design</a></li>
@@ -49,20 +49,43 @@
                   <span>Categories</span>
                 </div>
               </button>
-              <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                <li class="dropdown-submenu">
-                  <a class="dropdown-item" tabindex="-1" href="#">Development</a>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
-                    <li class="dropdown-submenu">
-                      <a class="dropdown-item" href="#">Programming</a>
-                      <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">HTML</a></li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
+              <div>
+                <ul class="dropdown-menu multi-level rounded-0 border-0 m-0 pb-2 p-0" role="menu" aria-labelledby="dropdownMenu">
+                  <li class="dropdown-submenu pt-2 p-0">
+                    <a class="dropdown-item" tabindex="-1" href="#">Development</a>
+                    <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
+                      <li class="pt-2 p-0"><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
+                      <li class="dropdown-submenu pt-2 p-0">
+                        <a class="dropdown-item" href="#">Programming</a>
+                        <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 pb-2 p-0">
+                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">HTML</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="dropdown-submenu pt-2 px-0">
+                    <a class="dropdown-item" tabindex="-1" href="#">Design</a>
+                    <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
+                      <li class="pt-2 p-0"><a class="dropdown-item" tabindex="-1" href="#">All Design</a></li>
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Photoshop</a>
+                        <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
+                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Digital Painting</a></li>
+                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Matte Painting</a></li>
+                        </ul>
+                      </li>
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" href="#">Illustrator</a>
+                        <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
+                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Illustration</a></li>
+                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Web Design</a></li>
+                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Logo</a></li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="col-lg-6 my-4 my-lg-0">
@@ -185,7 +208,7 @@
         var x = this.$refs.sideBar;
         var y = this.$refs.sidebarMenu;
 
-        if (y.style.width == '70%' && x.style.display == 'block') {
+        if (y.style.width === '70%' && x.style.display == 'block') {
           x.style.display = 'none';
           y.style.width = '0px';
         } else {
@@ -195,12 +218,12 @@
       },
 
       openCategory() {
-        var z = document.getElementById('mobileCategory');
+        var z = this.$refs.mobileCategory;
 
-        if (z.style.display == 'block') {
-          z.style.display = 'none';
-        } else {
+        if (z.style.display === 'none') {
           z.style.display = 'block';
+        } else {
+          z.style.display = 'none';
         }
       },
 
@@ -285,14 +308,6 @@ button:focus {
   background-color: transparent;
 }
 
-.dropdown-submenu ul.dropdown-menu {
-  border-radius: 0;
-}
-
-.dropdown-menu {
-  border-radius: 0;
-}
-
 .btn .focus, .btn:focus {
   box-shadow: none;
 }
@@ -345,10 +360,6 @@ button:focus {
   cursor: pointer;
 }
 
-.category ul {
-  margin-bottom: 0;
-}
-
 .category ul li span {
   color: #000;
 }
@@ -373,14 +384,75 @@ button:focus {
   background-color: #FFBD3A;
 }
 
-/*navbar avatar*/
+.dropdown-item:hover, .dropdown-item:focus {
+  color: #0091ff;
+  background-color: none;
+}
+
+.dropdown-submenu>.dropdown-menu {
+    top: 0;
+    left: 100%;
+}
+
+.dropdown-submenu:hover>.dropdown-menu {
+    display: block;
+}
+
+.dropdown-submenu>a:after {
+    display: block;
+    content: "";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #ccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.row .col h1 {
+  font-size: 33px;
+}
+
+.col-course {
+  background-color: #fff;
+  margin: 10px;
+  border-radius: 3%;
+  border: 1px solid #ccc;
+}
+
+.col-course:hover, .card:hover {
+  box-shadow: 0 0 10px #00000050;
+}
+
+.rowcourse {
+  width: 80%;
+}
+
+.new-course .col-course h5 {
+  font-weight: bold;
+}
+
+.thumbnail {
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  border-top-right-radius: 3%;
+  border-top-left-radius: 3%;
+}
+
+.thumbnail img {
+  position: absolute;
+}
+
 .avatar img, .avatarSidebar img {
   width: 100%;
   position: absolute;
-  justify-content: center;
-  display: flex;
-  top: 0;
+  top: 50%;
   left: 0;
+  transform: translate(0, -50%);
 
 }
 .avatar{
@@ -455,118 +527,6 @@ button:focus {
 .footer-bottom span {
   font-size: 14px;
   font-weight: bold;
-}
-
-.dropdown-submenu {
-    position: relative;
-}
-
-.dropdown-submenu>.dropdown-menu {
-    top: 0;
-    left: 100%;
-    margin-top: -6px;
-    margin-left: -1px;
-    -webkit-border-radius: 0 6px 6px 6px;
-    -moz-border-radius: 0 6px 6px;
-    border-radius: 0 6px 6px 6px;
-}
-
-.dropdown-submenu:hover>.dropdown-menu {
-    display: block;
-}
-
-.dropdown-submenu>a:after {
-    display: block;
-    content: " ";
-    float: right;
-    width: 0;
-    height: 0;
-    border-color: transparent;
-    border-style: solid;
-    border-width: 5px 0 5px 5px;
-    border-left-color: #ccc;
-    margin-top: 5px;
-    margin-right: -10px;
-}
-
-.dropdown-submenu:hover>a:after {
-    border-left-color: #fff;
-}
-
-.dropdown-submenu.pull-left {
-    float: none;
-}
-
-.dropdown-submenu.pull-left>.dropdown-menu {
-    left: -100%;
-    margin-left: 10px;
-    -webkit-border-radius: 6px 0 6px 6px;
-    -moz-border-radius: 6px 0 6px 6px;
-    border-radius: 6px 0 6px 6px;
-}
-
-.row .col h1 {
-  font-size: 33px;
-}
-
-.col-course {
-  background-color: #fff;
-  margin: 10px;
-  border-radius: 3%;
-  border: 1px solid #ccc;
-}
-
-.col-course:hover, .card:hover {
-  box-shadow: 0 0 10px #00000050;
-}
-
-.rowcourse {
-  width: 80%;
-}
-
-.new-course .col-course h5 {
-  font-weight: bold;
-}
-
-.thumbnail {
-  height: 200px;
-  position: relative;
-  overflow: hidden;
-  border-top-right-radius: 3%;
-  border-top-left-radius: 3%;
-}
-
-.thumbnail img {
-  position: absolute;
-}
-
-.avatar img, .avatarSidebar img {
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(0, -50%);
-
-}
-.avatar{
-  width: 45px;
-  height: 45px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 1px solid #ccc;
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
-}
-.avatarSidebar {
-  width: 60px;
-  height: 60px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 1px solid #ccc;
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
 }
 
 
