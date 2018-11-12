@@ -58,7 +58,6 @@
 	                		<span class="col-2">{{ video.duration}}</span>
                 		</div>
                 		<!-- modal -->
-                	
                 	  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" v-if="preview">
 								      <div class=" row modal-dialog modal-dialog-centered modal-lg " role="document">
 								        <div class="modal-content border-0 col-12">
