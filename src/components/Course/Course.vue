@@ -5,13 +5,14 @@
         <div class="row m-0">
           <div class="col-12 p-0">
             <div class="d-block d-sm-flex align-items-center my-4">
-              <div class="d-inline-block col-12 col-sm-5 col-md-4 col-lg-3 p-0">
-                <img class="w-100" v-bind:src="images" alt="Generic placeholder image">
+              <div class="d-inline-block col-12 col-sm-5 col-md-4 col-lg-3 p-0" v-if="datacourse">
+                <img class="w-100" v-bind:src="datacourse.thumbnail" >
               </div>
-             	<div class="d-inline-block ml-0 mt-4 ml-sm-4 mt-sm-0">
-                <h4 class="text-uppercase font-weight-bold">{{ title }}</h4>
-                <p class="m-0 ">{{ subtitle }}</p>
-                <p class="m-0">Intructor : <span v-for="instructor in instructor">{{ instructor.name }}</span></p>
+             	<div class="d-inline-block ml-0 mt-4 ml-sm-4 mt-sm-0" v-if="datacourse">
+                <h4 class="text-uppercase font-weight-bold">{{datacourse.title}}</h4>
+                <p class="m-0 ">{{datacourse.subtitle}}</p>
+                <p class="m-0" >Instructor :<br>
+                	<span v-for="ins in datacourse.instructor">{{ins.name}}</span></p>
                 <div class="mt-2">
                   <button class="btn btn-warning rounded-0 font-weight-bold" type="button">Join Course</button>
                 </div>
@@ -21,36 +22,58 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <div class="container" v-if="datacourse">
       <div class="row flex-column">
         <div class="col-12 col-md-8 my-5">
           <h5 class="font-weight-bold">Descriptions:</h5>
-          <p>{{ description }}</p>
+          <p>{{datacourse.description}}</p>
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8" v-for="data in datasection">
           <div class="shadow bg-white">
             <button class="btn rounded-0 bg-white w-100 text-left border-0 p-3 font-weight-bold d-flex align-items-center" type="button" data-toggle="collapse" data-target="#collapseExample" aria-controls="collapseExample" aria-expanded="false"><font-awesome-icon icon="minus" class="mr-2"></font-awesome-icon>
-            <h6 class="font-weight-bold m-0">Introductions</h6>
+            <h6 class="font-weight-bold m-0">{{data.title}}</h6>
             </button>
             <div class="collapse w-100 rounded-0 bg-white border-top" id="collapseExample">
-              <ul class="p-0 m-0">
-                <button class="p-0 w-100 border-0 bg-white" data-toggle="modal" data-target="#exampleModalCenter" v-for="section in sections">
-                	<li class="row text-primary border-bottom justify-content-around align-items-center text-left p-3">
-                		<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
-                		<span class="col-7">{{ section.title }}</span>
-                		<span class="col-2 text-center">Preview</span>
-                		<span class="col-2" v-for="time in section.video">{{ time.duration }}</span>
-                	</li>
-                </button>
+              <ul class="p-0 m-0" >
+                <div class="w-100 bg-white border-bottom" v-for="video in data.data_video">
+                	<li>
+                		<div v-if="video.locked" class="row text-muted  justify-content-around align-items-center text-left p-3">
 
-                <button class="p-0 w-100 border-0 bg-white">
-                	<li class="row text-primary border-bottom justify-content-around align-items-center text-left p-3 text-muted">
-                		<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
-                		<span class="col-7">What is Node js?</span>
-                		<font-awesome-icon icon="lock" class="col-2 text-center"></font-awesome-icon>
-                		<span class="col-2">2:10</span>
+	                		<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
+
+	                		<span class="col-7">{{video.title}}</span>
+
+	                		<font-awesome-icon icon="lock" class="col-2 text-center"></font-awesome-icon>
+
+	                		<span class="col-2">{{ video.duration}}</span>
+                		</div>
+                		<div class="row text-primary justify-content-around align-items-center text-left p-3" v-else>
+	                		<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
+
+                			<span class="col-7" data-toggle="modal" data-target="#exampleModalCenter">{{video.title}}</span>
+
+	                		<span class="col-2 text-center">Preview</span>
+	                		
+
+	                		<span class="col-2">{{ video.duration}}</span>
+                		</div>
+                		<!-- modal -->
+                	  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" v-if="preview">
+								      <div class=" row modal-dialog modal-dialog-centered modal-lg " role="document">
+								        <div class="modal-content border-0 col-12">
+								          <div class="modal-header border-0">
+								            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								            <font-awesome-icon icon="times" id="close"></font-awesome-icon>
+								            </button>
+								          </div>
+								          <div class="modal-body">
+								            <iframe width="100%" height="400" v-bind:src="video.url" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+								          </div>
+								        </div>
+								      </div>
+								    </div>
                 	</li>
-                </button>
+                </div>
               </ul>
             </div>
           </div>
@@ -133,28 +156,6 @@
 	      </div>
       </div>
     </div>
-
-    <!-- Modal video -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg " role="document">
-        <div class="modal-content border-0">
-          <div class="modal-header border-0">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <font-awesome-icon icon="times" id="close"></font-awesome-icon>
-            </button>
-          </div>
-          <div class="modal-body">
-            <video controls="true"
-			       muted
-			       src=""
-			       width="300"
-			       height="200"
-			       type="video/mp4">
-			</video>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -165,39 +166,54 @@
 		name: 'course',
 		data(){
 			return {
-
-				title: '',
-				subtitle: '',
-				Instructor: [],
-				Description: '',
-				sections: [],
-
-
-				images : require('../../assets/js.jpg'),
-				images2 : require('../../assets/tes.jpg')
+				images2 : require('../../assets/tes.jpg'),
+				datacourse: null,
+				data: null,
+				datavideo: [],
+				preview: false,
+				loopcourse: null,
+				locking: null,
+				datasection: [],
 			}
 		},
 		mounted() {
+			var self = this;
+
+			this.datacourse = this.$route.params.selected_course;
+			this.data = this.datacourse.section;
+
+			this.data.map( data => {
+				self.datavideo.push(data.data_video)
+			})
+
+			this.loopcourse = this.course(this.datacourse)
+			this.locking = this.locked(this.datavideo)
+		},
+		methods: {
+			course(dataSection) {
+				dataSection.section.map(data=>{
+				this.datasection.push(data)
+					})
+			},
+			locked(dataLocked) {
+				var self = this;
+
+				dataLocked.map(locking=>{
+					locking.map(lock=>{
+						if(lock.locked === false){
+							console.log(lock.locked)
+
+							self.preview = true;
+						}
+					})
+				})
+			}
 		}
 	}
 </script>
 
 <style scoped>
-	
-.banner {
-	background-color: #393939;
-	height: auto;
-	color: #fff;
-}
-.dropdown-toggle::after {
-	display: none;
-}
-#list {
-	color: #000;
-}
-#choosed {
-	background-color: #f1f1f1;
-}
+
 #question, #send{
 	background-color: #d6dcdc;
 }
