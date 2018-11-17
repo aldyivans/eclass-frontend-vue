@@ -1,95 +1,105 @@
 <template>
-    <div class="container-fluid">
-      <div class="container py-5">
-        <div class="row justify-content-center">
-          <div class="col-12 col-lg-4 col-md-6 col-sm-8 p-0">
-            <h3 class="font-weight-bold text-center">Log In</h3>
-            <hr class="w-100">
-            <div class="text-center">
-	            <span class="text-danger" ref="invalid"></span>
-            </div>
-            <form>
-            	<!-- Deactive Alert -->
-            	<div class="mb-4">
-							  <div class="alert alert-warning alert-dismissible fade show text-center m-0" role="alert" v-if="deactiv">
-								  <strong>Hallo!</strong><br> Welcome back! We sent you an email to reactivate your account
+		<div class="container-fluid">
+			<div class="container py-5">
+				<div class="row justify-content-center">
+					<div class="col-12 col-lg-4 col-md-6 col-sm-8 p-0">
+						<h3 class="font-weight-bold text-center">Log In</h3>
+						<hr class="w-100">
+						<div class="text-center">
+							<span class="text-success" v-if="$router.history.current['path'] == '/login/verified'">Selamat! <br>
+							Akun anda sudah terverifikasi. Silahkan Login.</span>
+							<span class="text-danger" ref="invalid"></span>
+						</div>
+						<form onkeypress="return event.keyCode != 13;">
+							<!-- Deactive Alert -->
+							<div class="mb-4">
+								<div class="alert alert-warning alert-dismissible fade show text-center m-0" role="alert" v-if="deactiv">
+									<strong>Hallo!</strong><br> Welcome back! We sent you an email to reactivate your account
 								</div>
-            		
-            	</div>
+								
+							</div>
 							<!--  -->
-              <div class="form-group">
-                <label for="exampleInputEmail" class="m-0">Email/Username</label>
-                <input type="text" class="form-control rounded-0 shadow-none" aria-describedby="emailHelp" name="username" ref="loginUsername" v-model="login.username" id="exampleInputEmail">
-                <span class="text-danger" style="font-size: 12px" ref="inputWarning1"></span>
-              </div>
+							<div class="form-group">
+								<label for="exampleInputEmail" class="m-0 font-weight-bold">Email/Username</label>
+								<input type="text" class="form-control rounded-0 shadow-none " aria-describedby="emailHelp" name="username" ref="loginUsername" v-model="login.username" id="exampleInputEmail" autocomplete="off">
+								<span class="text-danger" ref="inputWarning1"></span>
+							</div>
 
-              <div class="form-group">
-                <label for="exampleInputPassword1" class="m-0">Password</label>
-                <div class="input-group border">
-									<input v-model="login.password" type="password" class="form-control rounded-0 shadow-none" id="exampleInputPassword1" name="password" autocomplete="off" ref="password"/>
+							<div class="form-group">
+								<label for="exampleInputPassword1" class="m-0 font-weight-bold">Password</label>
+								<div class="input-group border">
+									<input v-model="login.password" type="password" class="form-control rounded-0 shadow-none border-0" id="exampleInputPassword1" name="password" autocomplete="off" ref="loginPassword" v-on:keyup.enter="save"/>
 									<div class="input-group-append">
-										<span class="input-group-text border-0 bg-white" id="eyes" v-on:click="showPassword"><font-awesome-icon icon="eye"/></span>
-							  	</div>	
+										<span class="input-group-text bg-white border-0" id="eyes" v-on:click="showPassword"><font-awesome-icon icon="eye"/></span>
+									</div>	
 								</div>
-                <span class="text-danger" style="font-size: 12px" ref="inputWarning2"></span>
-              </div>
+								<span class="text-danger" ref="inputWarning2"></span>
+							</div>
 
-              <button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold shadow-none" id="buttonSignup" v-on:click="save">Login</button>
+							<template v-show="!processing">
+								<button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold shadow-none" id="buttonSignup" v-on:click="save">Login</button>
 
-              <div class="py-2">
-                <h5 class="text-center p-2 m-0" id="magic">or</h5>
-              </div>
+								<div class="py-2">
+									<h5 class="text-center p-2 m-0" id="magic">or</h5>
+								</div>
 
-              <button type="submit" class="btn btn-block border p-0 rounded-0" id="tes"  v-on:click="onSignIn" v-show="gRendered">
-              </button>
+								<button type="submit" class="btn btn-block border p-0 rounded-0" id="googleBtn"  v-on:click="googleSignIn" v-show="gRendered">
+								</button>
+							</template>
 
-              <div class="text-center">
-	              <button type="button" style="color: #007bff;" class="btn bg-white border-0 mt-2 shadow-none" data-toggle="modal" data-target="#exampleModalCenter">
-	                Forgot Password?
-	              </button>
-              </div>
+							<template v-if="processing">
+								<button type="button" class="btn btn-warning btn-md btn-block rounded-0 font-weight-bold shadow-none" disabled>Processing...</button>
+							</template>
+
+							<div class="text-center">
+								<button type="button" style="color: #007bff;" class="btn bg-white border-0 mt-2 shadow-none" data-toggle="modal" data-target="#exampleModalCenter">
+									Forgot Password?
+								</button>
+							</div>
 
 
-              <div  class="text-center">
-                <h6 class="font-weight-bold">Not Yet Joined?<router-link to="/signup"> Sign Up</router-link> First</h6>
-              </div>
-			  <!-- Forgot Password Pop-up -->
+							<div  class="text-center">
+								<h6 class="font-weight-bold">Not Yet Joined?<router-link to="/signup"> Sign Up</router-link> First</h6>
+							</div>
+				<!-- Forgot Password Pop-up -->
 
-						  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-						    <div class="modal-dialog modal-dialog-centered" role="document">
-						      <div class="modal-content">
-						        <div class="modal-header align-items-center">
-						          <h5 class="modal-title" id="exampleModalCenterTitle">Forget Password?</h5>
-						          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							        <span aria-hidden="true">&times;</span>
-						          </button>
-						        </div>
-						        <div class="modal-body">
-						          <span class="text-danger" style="font-size: 12px" ref="invalid2"></span>
-						          <span class="text-success" style="font-size: 12px" ref="success"></span>
-						          <input type="email" class="form-control mb-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="login.email">
-						          <button type="button" class="col-sm-2 btn btn-warning" v-on:click="send">Send</button>
-						          <small id="emailHelp" class="form-text text-muted">We're going to Send you an information link to verify your password</small>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-			  
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
+							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered" role="document">
+									<div class="modal-content">
+										<div class="modal-header align-items-center">
+											<h5 class="modal-title" id="exampleModalCenterTitle">Forget Password?</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<span class="text-danger" style="font-size: 12px" ref="invalid2"></span>
+											<span class="text-success" style="font-size: 12px" ref="success"></span>
+											<input type="email" class="form-control mb-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="login.email">
+											<button type="button" class="col-sm-2 btn btn-warning" v-on:click="send">Send</button>
+											<small id="emailHelp" class="form-text text-muted">We're going to Send you an information link to verify your password</small>
+										</div>
+									</div>
+								</div>
+							</div>
+				
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 </template>
 
 <script>
 
 import axios from 'axios'
+import App from '@/App.vue'
 
 export default {
 	name: 'login',
 	data() {
 		return {
+			processing: false,
 			login : {
 				username: '',
 				password: ''
@@ -97,27 +107,31 @@ export default {
 			deactiv :false,
 			gRendered : false,
 			googleUser: null,
-			url: 'http://192.168.2.231:3000/v1/login',
-			loginGoogleUrl: 'http://192.168.2.231:3000/v1/logingoogle',
-			forgotPasswordUrl: 'http://192.168.2.225:3000/v1/forgotpassword'
+			urlLogin: App.data().ListUrl.urlLogin,
+			loginGoogleUrl: App.data().ListUrl.urlLoginGoogle,
+			forgotPasswordUrl: App.data().ListUrl.urlForgotPassword
 		}
 	},
 	mounted() {
-		gapi.signin2.render('tes', { // this is the button "id"
-	      'onsuccess': this.gSuccess,
-	      'width': 'none',
-	      'longtitle': true
-	    })
+		// eslint-disable-next-line
+		if(gapi){
+			// eslint-disable-next-line
+			gapi.signin2.render('googleBtn', { // this is the button "id"
+					'onsuccess': this.renderGoogleBtn,
+					'width': 'none',
+					'longtitle': true
+			})
+		}
 
 		// pengaman fiesta
-	    if(localStorage.getItem('EClassToken')){
-	    	this.$router.push('/')
-	    }
+		if(localStorage.getItem('EClassToken')){
+			this.$router.push('/')
+		}
 	},
 	methods : {
 
 		showPassword() {
-				var x = this.$refs.password;
+				var x = this.$refs.loginPassword;
 				if (x.type === "password") {
 					x.type = "text"
 				}else {
@@ -126,31 +140,29 @@ export default {
 			},
 
 		save() {
-			
+			this.processing = true;
+
 			var loginUsername = this.$refs.loginUsername;
 			var loginPassword = this.$refs.loginPassword;
 			var inpWarning1 = this.$refs.inputWarning1;
 			var inpWarning2 = this.$refs.inputWarning2;
-			var inpWarning3 = this.$refs.inputWarning3;
-			var invalid2 = this.$refs.invalid2;
 			var invalid = this.$refs.invalid;
-			var success = this.$refs.success;
 			var self = this;
 
 			if(this.login.username == "") {
-				loginUsername.style.borderBottom = "3px solid red"
+				// loginUsername.style.border = "1px solid red"
 				inpWarning1.innerHTML = "field cannot be empty!"
 			} else {
-				loginUsername.style.borderBottom = "1px solid #ccc"
-		        inpWarning1.innerHTML = ""
+				loginUsername.style.border = "1px solid #ccc"
+						inpWarning1.innerHTML = ""
 			}
 
 			if(this.login.password == "") {
-				loginPassword.style.borderBottom = "3px solid red"
+				// loginPassword.style.border = "1px solid red"
 				inpWarning2.innerHTML = "field cannot be empty!"
 			} else {
-				loginPassword.style.borderBottom = "1px solid #ccc"
-		        inpWarning2.innerHTML = ""
+				loginPassword.style.border = "1px solid #ccc"
+						inpWarning2.innerHTML = ""
 			}
 
 			if(this.login.username != "" && this.login.password != "") {
@@ -164,92 +176,96 @@ export default {
 				}
 
 				var dataUser = {
-					username: this.login.username.toLowerCase(),
-					email: this.login.username.toLowerCase(),
+					username: this.login.username,
+					email: this.login.username,
 					password: this.login.password
 				}
 
-				axios.post(this.url, dataUser, headers).then(response => {
+				axios.post(this.urlLogin, dataUser, headers).then(response => {
 					if(response.status === 200){
-						localStorage.setItem('EClassToken', response.data.tokens)
+						localStorage.setItem('EClassToken', response.data.token)
 						localStorage.setItem('ECLASS-id', response.data.ID)
-						console.log(response)
+						// console.log("login",response .data)
 
 						self.$root.$emit('isLoggedIn');
+						this.processing = false;
 					}
 				}).catch(e=>{
-					console.log('errir', e.response);
-					if(e.response.data.message == 'User not exists') {
-						invalid.innerHTML = "Invalid Username or Password!"
-					}
+					console.log('error', e.response);
+					invalid.innerHTML = e.response.data.message;
 					if(e.response.data.message == 'User deactive') {
 						this.deactiv = true;
-
-
 					}
+					this.processing = false;
 				})
 			}
+
+			console.log("seng tak kirim", this.login.username, this.login.password)
 		},
-		gSuccess(googleUser) {
+		renderGoogleBtn(googleUser) {
 				this.googleUser = googleUser;
 				this.gRendered = true;
 			},
-		onSignIn() {
+		googleSignIn() {
+			this.processing = true;
+
 			var self = this
 			var googleUser = this.googleUser
 
 			const profile = googleUser.getBasicProfile();
-      const token = googleUser.getAuthResponse().id_token;
-      const id = profile.getId();
-      const name = profile.getName();
-      const imageUrl = profile.getImageUrl();
-      const email = profile.getEmail();
+			const token = googleUser.getAuthResponse().id_token;
+			const id = profile.getId();
+			const name = profile.getName();
+			const imageUrl = profile.getImageUrl();
+			const email = profile.getEmail();
 
-		  console.log('TOKEN: ' + googleUser.getAuthResponse().id_token);
-		  console.log('ID: ' + profile.getId());
-		  console.log('Name: ' + profile.getName());
-		  console.log('Image URL: ' + profile.getImageUrl());
-		  console.log('Email: ' + profile.getEmail());
-		  console.log('Profile', profile)
+			console.log('TOKEN: ' + googleUser.getAuthResponse().id_token);
+			console.log('ID: ' + profile.getId());
+			console.log('Name: ' + profile.getName());
+			console.log('Image URL: ' + profile.getImageUrl());
+			console.log('Email: ' + profile.getEmail());
+			console.log('Profile', profile)
 
-		  const params = {
-		  		headers : {
-						'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-		  			
-		  		}
-			}
-			const dataUser = {
-						username: "",
-						fullname: name,
-						email: email,
-						avatar: imageUrl,
-						role: "student",
-						token_expired:"",
-						google_id: id,
-						active: true,
-						token: token,
-						verified: true,
+			const params = {
+				headers : {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Access-Control-Allow-Origin': '*'
 				}
-				console.log('data uyserrr', dataUser)
+			}
 
-		  axios.post(this.loginGoogleUrl, dataUser, params).then(response =>{
-		  	if(response.status == 200) {
-		  		console.log('respon signin google',response)
-		  		localStorage.setItem('EClassToken', response.data.tokens)
+			const dataUser = {
+				username: "",
+				fullname: name,
+				email: email,
+				avatar: imageUrl,
+				role: "student",
+				token_expired: "",
+				google_id: id,
+				active: true,
+				token: token,
+				verified: true,
+			}
+
+			// POST GOOGLE LOGIN DATA TO BACKEND
+			axios.post(this.loginGoogleUrl, dataUser, params).then(response =>{
+				if(response.status == 200) {
+					console.log('google signin success: ',response);
+					localStorage.setItem('EClassToken', response.data.token)
 					localStorage.setItem('ECLASS-id', response.data.ID)
 
 					self.$root.$emit('isLoggedIn');
-
-		  	}
-		  }).catch(e =>{
-		  	console.log('error google:', e)
-		  })
-
-
+					this.processing = false;
+				}
+			}).catch(e =>{
+				alert("Login gagal. Jika anda pernah melakukan deaktivasi akun, silahkan cek email untuk aktivasi kembali.");
+				console.log('google signin error:', e)
+				this.processing = false;
+			})
 		},
 		send() {
+			var success = this.$refs.success;
+			var invalid2 = this.$refs.invalid2;
 
 			const theemail = {
 				email: this.login.email
@@ -285,49 +301,49 @@ export default {
 <style scoped>
 
 	.signup {
-	  border-bottom: .05rem solid #e5e5e5;
+		border-bottom: .05rem solid #e5e5e5;
 	}
 
 	#google {
-	  background-color: #fff; 
+		background-color: #fff; 
 	}
 	#googleImg {
-	  width: 25px;
-	  margin-right: 15px;
+		width: 25px;
+		margin-right: 15px;
 
 	}
 	#buttonSignup {
-	  background-color: #5384bc;
+		background-color: #5384bc;
 	}
 
 	/* Custom page footer */
 	.footer {
-	  padding-top: 1.5rem;
-	  color: #777;
-	  border-top: .05rem solid #e5e5e5;
+		padding-top: 1.5rem;
+		color: #777;
+		border-top: .05rem solid #e5e5e5;
 	}
 
 	#magic {
-	  position: relative;
+		position: relative;
 	}
 
 	#magic:before,
 	#magic:after {
-	  content: '';
-	  height: 1px;
-	  background-color: #aaa;
-	  width: 45%;
-	  position: absolute;
-	  top: 50%;
-	  transform: translateY(-50%);
+		content: '';
+		height: 1px;
+		background-color: #aaa;
+		width: 45%;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
 	}
 
 	#magic:before {
-	  left: 0;
+		left: 0;
 	}
 
 	#magic:after {
-	  right: 0;
+		right: 0;
 	}
 
 </style>
