@@ -5,7 +5,7 @@
 		    <div class="col-12">
 		      <h1 class="font-weight-bold">Top Categories</h1>
 		    </div>
-		    <div v-for="category in categories" class="col-12 col-sm-4 col-lg-2 p-0 justify-content-center">
+		    <div v-for="category in dataCategory" class="col-12 col-sm-4 col-lg-2 p-0 justify-content-center">
 		      <div class="col-course p-2">
 		          <p class="m-0">{{ category.name }}</p>
 		      </div>
@@ -16,53 +16,22 @@
 </template>
 
 <script>
+import App from '../../App.vue'
+import axios from 'axios'
 
 export default {
 	name: 'top-categories',
 	data() {
 		return {
-			categories: [
-				{
-					name: 'Development'
-				},
-				{
-					name: 'Design'
-				},
-				{
-					name: 'Music'
-				},
-				{
-					name: 'Video'
-				},
-				{
-					name: 'Animation'
-				},
-				{
-					name: 'Business'
-				},
-				{
-					name: 'Development'
-				},
-				{
-					name: 'Design'
-				},
-				{
-					name: 'Music'
-				},
-				{
-					name: 'Video'
-				},
-				{
-					name: 'Animation'
-				},
-				{
-					name: 'Business'
-				}
-			]
+			url: App.data().ListUrl.urlCategory,
+			dataCategory: null
 		}
+	},
+	mounted() {
+		axios.get(this.url).then(res=>{
+			this.dataCategory = res.data.result
+			console.log("[HEROKU CATEGORIES]", this.dataCategory)
+		})
 	}
 }
 </script>
-
-<style>
-</style>

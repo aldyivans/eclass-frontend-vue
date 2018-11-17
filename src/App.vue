@@ -90,22 +90,25 @@
           </div>
           <div class="col-lg-6 my-4 my-lg-0">
             <div class="input-group border">
-              <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searchThis">
               <div class="input-group-append">
-                <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
+                <router-link :to="{name:'search', params: {selected_search: searchResult, selected_keyword: searchThis}}">
+                <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2" v-on:click="search" >
                   <font-awesome-icon icon="search" />
                 </button>
+              </router-link>
               </div>
             </div>
           </div>
           <div class="col-lg-4 d-none d-lg-block text-right " v-if="isLoggedIn">
               <div class="dropdown d-inline-flex">
                 <button class="avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img v-bind:src="profileImg">
+                <img :src="profileImg" v-if="profileImg">
+                <img :src="defaultAvatar" v-else>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <router-link class="dropdown-item" to="/profile">Profile</router-link>
-                  <router-link class="dropdown-item" to="/">My Courses</router-link>
+                  <router-link class="dropdown-item" to="/mycourses">My Courses</router-link>
                   <button type="submit" class="dropdown-item" v-on:click="logout">Log Out</button>
                 </div>
               </div>
@@ -157,15 +160,48 @@
 <script>
 
   import axios from 'axios'
+  var ava = require('@/assets/ava.png');
   
   export default {
     name:"app",
     data () {
       return {
-        profileImg: require('@/assets/js.jpg'),
+        defaultAvatar: ava,
+        profileImg: null,
         isLoggedIn: false,
-        url: 'http://192.168.2.231:3000/v1/users/',
+        searchThis: '',
+        isSearching : false,
+        dataCourse : null,
+        searchResult: null,
+        dataUser: [],
 
+        ListUrl: {
+          urlCourses: 'https://eclass-does.herokuapp.com/v1/courses',
+          UrlCoursesByid: 'https://eclass-does.herokuapp.com/v1/course/',
+          urlUser: 'https://eclass-does.herokuapp.com/v1/user/',
+          urlCategory: 'https://eclass-does.herokuapp.com/v1/categories',
+          urlRegister: 'https://eclass-does.herokuapp.com/v1/register',
+          urlRegisterGoogle: 'https://eclass-does.herokuapp.com/v1/registergoogle',
+          urlLogin: 'https://eclass-does.herokuapp.com/v1/login',
+          urlLoginGoogle: 'https://eclass-does.herokuapp.com/v1/logingoogle',
+          urlForgotPassword:'https://eclass-does.herokuapp.com/v1/forgotpassword',
+          urlEditProfile: 'https://eclass-does.herokuapp.com/v1/editprofile/',
+          urlAvatar: 'https://eclass-does.herokuapp.com/v1/uploadavatar/',
+          urlDeactive: 'https://eclass-does.herokuapp.com/v1/deactivate',
+          urlChangePassword: 'https://eclass-does.herokuapp.com/v1/changepassword',
+          urlResetPassword: 'https://eclass-does.herokuapp.com/v1/resetpassword/',
+          urlConfirmation: 'https://eclass-does.herokuapp.com/v1/confirmation/',
+          urlToken: 'https://eclass-does.herokuapp.com/v1/checktoken/',
+
+
+          // urlEditProfile: 'http://192.168.2.231:3000/v1/editprofile/',
+          // urlChangePassword: 'http://192.168.2.231:3000/v1/changepassword'
+          // urlLoginGoogle: 'http://192.168.2.231:3000/v1/logingoogle',
+          // urlAvatar: 'http://192.168.2.231:3000/v1/uploadavatar/',
+          // urlDeactive: 'http://192.168.2.231:3000/v1/deactivate'
+          // urlRegisterGoogle: 'http://192.168.2.231:3000/v1/registergoogle',
+          // urlToken: 'http://192.168.2.231:3000/v1/checktoken/',
+        }
       }
     },
 
@@ -174,36 +210,64 @@
 
       this.$root.$on('isLoggedIn', function(){
         console.log('isLoggedIn dari app')
-        self.isLoggedIn = true
-        self.$router.push('/')
+        self.isLoggedIn = true;
+        self.getUserData();
+        self.$router.push('/');
       })
 
-      // this is checker 2
+      this.$root.$on('isLoggedOut', function(){
+        self.logout();
+      })
 
       if(localStorage.getItem('EClassToken')) {
         self.isLoggedIn = true
       }
-
-      var EclassId = localStorage.getItem('ECLASS-id');
     
-      const headers = {
-        'Content-Type':'application/json',
-        'Accept': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-        // 'withCredentials': true,
+      if(this.isLoggedIn){
+        this.getUserData();
       }
 
-      axios.get(this.url + EclassId, headers).then(res => {
-        if(res.status === 200) {
-          console.log('data user', res.data.userData.avatar)
-          this.profileImg = res.data.userData.avatar;
-
-        }
+      axios.get(this.ListUrl.urlCourses).then(res =>{
+        this.dataCourse = res.data.result
       })
     },
-
     methods: {
+
+      getUserData(){
+        var EclassId = localStorage.getItem('ECLASS-id');
+        const headers = {
+          'Content-Type':'application/json',
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+          // 'withCredentials': true,
+        }
+        axios.get(this.ListUrl.urlUser + EclassId, headers).then(res => {
+          if(res.status === 200) {
+            this.dataUser.push(res.data.userData)
+            this.profileImg = res.data.userData.avatar;
+          }
+        });
+      },
+
+      search() {
+        this.isSearching = true
+        var keyword = this.searchThis.toLowerCase();
+
+        var result = []
+
+        console.log("search",this.dataCourse)
+
+        this.dataCourse.map(e=>{
+          console.log("eeeee", e.title)
+          if(keyword == e.title.toLowerCase() || e.title.toLowerCase().indexOf(keyword)!== -1){
+            result.push(e)
+          }
+        })
+        
+        this.searchResult = result
+      },
+
       openSidebar() {
         var x = this.$refs.sideBar;
         var y = this.$refs.sidebarMenu;
@@ -230,8 +294,9 @@
       logout() {
         // remove user from local storage to log user out
         localStorage.clear();
-        this.$root.$emit('isLoggedOut');
         this.isLoggedIn = false;
+        this.$router.push('/');
+        window.location.reload();
       }
     }
   }

@@ -5,64 +5,103 @@
 				<div class="col-12 col-lg-4 col-md-6 col-sm-8 p-0">
 					<h3 class="font-weight-bold text-center">Sign Up</h3>
 					<hr class="w-100">
-					<form class="form-group text-left">
-						<!-- Alert -->
-						<div class="mb-4">
-							  <div class="alert alert-warning alert-dismissible fade show text-center m-0" role="alert" v-if="sign">
-								  <strong>Hallo!</strong><br>Kamu Sudah Melakukan Signup 
-								  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								    <span aria-hidden="true">&times;</span>
-								  </button>
-								</div>
-            	</div>
-            	<!--  -->
-						<div class=" p-0 mb-2">
-							<label for="username" class="font-weight-bold m-0">Username</label>
-							<input v-model="input.username" type="text" class="form-control rounded-0 shadow-none border" name="username" autocomplete="off" id="username">
-							<span id="user"></span>
+					<form class="form-group text-left" ref="register_form">
+			
+            	<!-- FORM FIELDS -->
+						<div class="form-field">
+							<label for="username">Username</label>
+							<input 
+								autocomplete="off" 
+								id="username"
+								ref="input_username"
+								type="text"
+								v-model="username" 
+							>
+							<span ref="alert_username"></span>
 						</div>
-						<div class="p-0 mb-2">
-							<label for="fullname" class="font-weight-bold m-0">Fullname</label>
-							<input v-model="input.fullname" type="text" class="form-control rounded-0 shadow-none border" name="fullname" autocomplete="off" id="full">
-							<span id="fullname"></span>
+
+						<div class="form-field">
+							<label for="fullname">Fullname</label>
+							<input 
+								autocomplete="off" 
+								id="fullname"
+								ref="input_fullname"
+								type="text"
+								v-model="fullname" 
+							>
+							<span ref="alert_fullname"></span>
 						</div>
-						<div class=" p-0 mb-2">
-							<label for="example-date-input" class="font-weight-bold m-0">Birthday</label>
-							<input v-model="input.birthday" class="form-control rounded-0 shadow-none border" type="date" data-provide="datepicker" id="example-date-input" name="birthday" autocomplete="off">
-							<span id="birthday"></span>
+
+						<div class="form-field">
+							<label for="birthday">Birthday</label>
+							<input 
+								autocomplete="off" 
+								id="birthday"
+								ref="input_birthday"
+								type="date"
+								data-provide="datepicker"
+								v-model="birthday" 
+							>
+							<span ref="alert_birthday"></span>
 						</div>
-						<div class=" p-0 mb-2">
-							<label for="gender" class="font-weight-bold m-0">Gender</label>
-							<select v-model="input.gender" class="custom-select form-control rounded-0 shadow-none border" name="gender" autocomplete="off" id="gen">
+
+						<div class="form-field">
+							<label for="gender">Gender</label>
+							<select 
+								v-model="gender"
+								ref="input_gender"
+								class="custom-select form-control rounded-0 shadow-none border" autocomplete="off" 
+								id="gender">
 							  <option>Male</option>
 							  <option>Female</option>
 							</select>
-							<span id="gender"></span>
+							<span ref="alert_gender"></span>
 						</div>
-					  <div class=" p-0 mb-2">
-							<label for="exampleInputEmail1" class="font-weight-bold m-0">Email</label>
-							<input v-model="input.email" type="email" class="form-control rounded-0 shadow-none border" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" autocomplete="off">
-						  <span id="email"></span>
-					  </div>
-					  <div class=" form-group p-0 mb-2">
-							<label for="exampleInputPassword1" class="font-weight-bold m-0">Password</label>
-							<div class="input-group">
-								<input v-model="input.password" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputPassword1" name="password" autocomplete="off"/>
-							</div>
-					  	<span id="password"></span>
-					  </div>
-					  <div class="form-group p-0 mb-3">
-							<label for="exampleInputConfirmPassword1" class="font-weight-bold m-0">Confirm Password</label>
-							<div class="input-group">
-								<input v-model="input.confirmpassword" type="password" class="form-control rounded-0 shadow-none border" id="exampleInputConfirmPassword1" name="ConfirmPassword" autocomplete="off">
-							</div>
-						  <span id="confirmpassword"></span>
-					  </div>
-					  <button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold" id="buttonSignup" v-on:click="signup">Sign Up</button>
+
+					  <div class="form-field">
+							<label for="email">Email</label>
+							<input 
+								autocomplete="off"
+								id="email"
+								ref="input_email"
+								type="text"
+								v-model="email" 
+							>
+							<span ref="alert_email"></span>
+						</div>
+
+						<div class="form-field">
+							<label for="password">Password</label>
+							<input 
+								autocomplete="off"
+								id="password"
+								ref="input_password"
+								type="password"
+								v-model="password" 
+							>
+							<span ref="alert_password"></span>
+						</div>
+
+						<div class="form-field">
+							<label for="confirmpassword">Confirm Password</label>
+							<input 
+								autocomplete="off"
+								id="confirmpassword"
+								ref="input_confirmpassword"
+								type="password"
+								v-model="confirmpassword" 
+							>
+							<span ref="alert_confirmpassword"></span>
+						</div>
+
+					  <button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold" id="buttonSignup" v-on:click="signup" v-if="!processing">Sign Up</button>
+
+					  <button type="button" class="btn btn-warning btn-md btn-block rounded-0 font-weight-bold" disabled v-else>Processing...</button>
+
 					  <div class="py-2">
 							<h5 class="text-center p-2 m-0" id="magic">or</h5>
 					  </div>
-					  <button class="btn btn-block p-0 rounded-0 font-weight-bold" id="google-signin-btn" v-on:click="onSignIn" v-show="gerendered"></button>
+					  <button class="btn btn-block p-0 rounded-0 font-weight-bold" id="google-signin-btn" v-on:click="googleSignIn" v-show="gerendered"></button>
 					  <div  class="text-center p-2">
 							<h6 class="font-weight-bold">Already Joined?<router-link to="/login" class="mr-1 ml-1">Log In</router-link>Now</h6>
 					  </div>
@@ -78,157 +117,95 @@
 	import VueAxios from 'vue-axios'
 	import axios from 'axios'
 	import Vue from 'vue'
+	import App from '@/App.vue'
+
 	Vue.use(VueAxios, axios)
+
 	export default {
 		data() {
 			return {
-				input: {
-					username: "",
-					fullname: "",
-					birthday: "",
-					gender: "",
-					email: "",
-					password: "",
-					confirmpassword: ""
-				},
+				processing: false,
+				username: '',
+				fullname: '',
+				birthday: '',
+				gender: '',
+				email: '',
+				password: '',
+				confirmpassword: '',
 				gerendered : false,
 				googleUser: null,
-				sign: false,
-        register: 'http://192.168.2.225:3000/register',
-
-        registerGoogle: 'http://192.168.2.225:3000/registergoogle'
+        register: App.data().ListUrl.urlRegister,
+        registerGoogle: App.data().ListUrl.urlRegisterGoogle,
+        loginGoogleUrl: App.data().ListUrl.urlLoginGoogle,
 			}
 		},
 		mounted() {
+			// Styling
+			document.querySelectorAll('label').forEach(l=> l.classList.add('font-weight-bold', 'm-0'));
+			document.querySelectorAll('.form-field').forEach(f=> {
+				f.classList.add('p-0', 'mb-2');
+				f.querySelector('span').classList.add('text-danger', 'font-weight-normal');
+			});
+			this.$refs.register_form.querySelectorAll('input').forEach(l => l.classList.add('form-control', 'rounded-0', 'shadow-none', 'border'));
+
+			// Google Button
 			gapi.signin2.render('google-signin-btn',{
-				'onsuccess': this.gSuccess,
+				'onsuccess': this.renderGoogleBtn,
 				'width':'none',
 				'longtitle':true,
 				'height': 40
 				})
 		},
 		methods: {
-			// showPassword() {
-			// 	var x = document.getElementById('exampleInputPassword1');
-			// 	if (x.type === "password") {
-			// 		x.type = "text"
-			// 	}else {
-			// 		x.type = "password"
-			// 	}
-			// },
+			isValid(key){
+				if(key === '' || key.length < 5){
+					return false
+				}else{
+					return true
+				}
+			},
 			signup() {
 				var alphabets = /^[a-zA-Z-0-9]+$/;
 				var space = /^[a-zA-Z-0-9\s]+$/;
 
-				// Username
-				// ---------------------------------------- 
-				if(this.input.username == "") {
-					document.getElementById('user').className ="text-danger font-weight-normal"
-					document.getElementById('user').innerHTML = "please fill the username field"
-					document.getElementById('username').className ="form-control rounded-1 shadow-none border-danger "
-					return false;
-				}
+				this.processing = true;
 
-				if(this.input.username.length <= 6 || this.input.username.length > 15){
-					document.getElementById('user').innerHTML = "username must be between 6 and 15"
-					document.getElementById('user').className ="text-danger font-weight-normal"
-					document.getElementById('username').className ="form-control rounded-1 shadow-none border-danger "
-					return false;
-				}
+				if(
+					// Username
+					// ---------------------------------------- 
+					this.validate('username', this.username, this.$refs.input_username, this.$refs.alert_username) &&
 
-				if(!(alphabets.test(this.input.username))){
-					document.getElementById('user').innerHTML = "name only alphabets and number not space and symbol"
-					document.getElementById('user').className ="text-danger font-weight-normal"
-					document.getElementById('username').className ="form-control rounded-1 shadow-none border-danger "
-					return false;
-				}
+					// Fullname
+					// ----------------------------------------
+					this.validate('fullname', this.fullname, this.$refs.input_fullname, this.$refs.alert_fullname) &&
 
-				// Fullname
-				// ----------------------------------------
-				if(this.input.fullname == "") {
-					document.getElementById('full').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('fullname').className ="text-danger font-weight-normal"
-					document.getElementById('fullname').innerHTML = "please fill the fullname field"
-					return false;
-				}
+					// Birthday
+					// ----------------------------------------
+					this.validate('birthday', this.birthday, this.$refs.input_birthday, this.$refs.alert_birthday) &&
 
-				if(!(space.test(this.input.fullname))){
-					document.getElementById('fullname').innerHTML = "name only alphabets and number"
-					document.getElementById('fullname').className ="text-danger font-weight-normal"
-					document.getElementById('full').className ="form-control rounded-1 shadow-none border-danger "
-					return false;
-				}
+					// Gender
+					// ------------------------------------
+					this.validate('gender', this.gender, this.$refs.input_gender, this.$refs.alert_gender) &&
 
-				// Birthday
-				// ----------------------------------------
-				if(this.input.birthday == "") {
-					document.getElementById('birthday').innerHTML = "please fill the birthday field"
-					document.getElementById('example-date-input').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('birthday').className ="text-danger font-weight-normal"
-					return false;
-				}
+					// Email
+					// -------------------------------------
+					this.validate('email', this.email, this.$refs.input_email, this.$refs.alert_email) &&
 
-				// Gender
-				// ------------------------------------
-				if(this.input.gender == "") {
-					document.getElementById('gender').innerHTML = "please fill the gender field"
-					document.getElementById('gen').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('gender').className ="text-danger font-weight-normal"
-					return false;
-				}
+					// Password
+					// ----------------------------------
+					this.validate('password', this.password, this.$refs.input_password, this.$refs.alert_password) &&
 
-				// Email
-				// -------------------------------------
-				if(this.input.email == "") {
-					document.getElementById('email').innerHTML = "please fill the email field"
-					document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('email').className ="text-danger font-weight-normal"
-					return false;
+					// Confirm Password
+					// --------------------------------------
+					this.validate('confirmpassword', this.confirmpassword, this.$refs.input_confirmpassword, this.$refs.alert_confirmpassword)
+				){
+					this.post();
+				}else{
+					console.log('form not valid')
+					this.processing = false;
 				}
-
-				if(this.input.email.indexOf('@')<= 0) {
-					document.getElementById('email').innerHTML = "@ invalid position "
-					document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('email').className ="text-danger font-weight-normal"
-					return false;
-				}
-
-				// Password
-				// ----------------------------------
-				if(this.input.password == "") {
-					document.getElementById('password').innerHTML = "please fill the password field"
-					document.getElementById('exampleInputPassword1').className ="form-control rounded-1 shadow-none border border-danger "
-					document.getElementById('password').className ="text-danger font-weight-normal"
-					return false;
-				}
-
-				if(this.input.password.length < 8 ) {
-					document.getElementById('password').innerHTML = "password length minimal 8 character"
-					document.getElementById('exampleInputPassword1').className ="form-control rounded-1 shadow-none border border-danger "
-					document.getElementById('password').className ="text-danger font-weight-normal"
-					return false;
-				}
-
-				if(this.input.password != this.input.confirmpassword){
-					document.getElementById('confirmpassword').innerHTML = "password not match "
-					document.getElementById('exampleInputConfirmPassword1').className ="form-control rounded-1 shadow-none border border-danger "
-					document.getElementById('confirmpassword').className ="text-danger font-weight-normal"
-					return false;
-				}
-
-				// Confirm Password
-				// --------------------------------------
-				if(this.input.confirmpassword == "") {
-					document.getElementById('confirmpassword').innerHTML = "please fill the confirm password field"
-					document.getElementById('exampleInputConfirmPassword1').className ="form-control rounded-1 shadow-none border-danger "
-					document.getElementById('confirmpassword').className ="text-danger font-weight-normal"
-					return false;
-				}
-
-				this.post()
 			},
 			post() {
-				var self = this
 				var userText;
 				var emailText;
 
@@ -238,58 +215,64 @@
             'Access-Control-Allow-Origin': '*'
         		}
 				var dataUser = {
-						username: this.input.username.toLowerCase(),
-						fullname: this.input.fullname,
-						birthday: this.input.birthday,
-						gender: this.input.gender,
-						password: this.input.password,
-						email: this.input.email.toLowerCase(),
-						avatar: "",
-						role: "",
-						token: "",
-						token_expired:"",
-						google_id: "",
+						username: this.username.toLowerCase(),
+						fullname: this.fullname,
+						birthday: this.birthday,
+						gender: this.gender,
+						password: this.password,
+						email: this.email.toLowerCase(),
+						avatar: null,
+						role: null,
+						token: null,
+						token_expired:null,
+						google_id: null,
 						active: true,
 						verified: false,
 				}
-				axios.post(this.register, dataUser, headers).then((response, err) => {
+				axios.post(this.register, dataUser, headers)
+				.then((response, err) => {
           if (response.status === 200) {
           	console.log('response:', response)
+          	alert('Selamat! Pendaftaran berhasil!. Silahkan Check Email Untuk Verifikasi Account');
           	// Redirect Ke login Tinggal di Uncomment Code di bawah
           	this.$router.push('/login')
-          	
           }else {
             throw new Error("Error");
              response.status = 200;
-          } 
-          
+          }
+          this.processing = false;
         }).catch(e => {
-          console.log('tes: ', e.response);
+        	alert('Mohon maaf, pendaftaran belum berhasil. Silahkan coba kembali.');
+          console.log('[ERROR]: ', e.response);
         	if(e.response.data.message == 'Username exist'){
         		userText = e.response.data.message
-        		document.getElementById('user').innerHTML = userText;
-        		document.getElementById('user').className ="text-danger font-weight-normal"
-						document.getElementById('username').className ="form-control rounded-1 shadow-none border-danger "
+
+        		this.$refs.alert_username.innerHTML = userText;
+						this.$refs.input_username.className = "form-control rounded-1 shadow-none border-danger"
+						this.processing = false;
 						return false;
         	} 
         	if( e.response.data.message == 'Email exist') {
         		emailText = e.response.data.message
-        		document.getElementById('email').innerHTML = emailText
-						document.getElementById('exampleInputEmail1').className ="form-control rounded-1 shadow-none border-danger "
-						document.getElementById('email').className ="text-danger font-weight-normal"
+        		this.$refs.alert_email.innerHTML = emailText;
+						this.$refs.input_email.className = "form-control rounded-1 shadow-none border-danger"
+	        	this.processing = false;
 						return false;
         	}
         });
 			},
 
-			gSuccess(googleUser) {
+			renderGoogleBtn(googleUser) {
 				this.googleUser = googleUser;
 				this.gerendered = true;
 			},
-			onSignIn() {
-				var googleUser = this.googleUser
-				const profile = googleUser.getBasicProfile();
-        const token = googleUser.getAuthResponse().id_token;
+			googleSignIn() {
+        console.clear();
+        console.log('[GOOGLE SIGN IN SUCCESS]');
+
+        let self = this;
+				const profile = this.googleUser.getBasicProfile();
+        const token = this.googleUser.getAuthResponse().id_token;
         const id = profile.getId();
         const name = profile.getName();
         const imageUrl = profile.getImageUrl();
@@ -313,32 +296,162 @@
 					active: true,
 					verified: true,
 				}
-				console.log('tessss',dataUser)
+
+				console.log('GOOGLE USER DATA:',dataUser)
 
 				const params = {
 					headers : {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
             'Access-Control-Allow-Origin': '*'
-						
 					}
 				}
+
+				// POST GOOGLE USER DATA TO BACKEND
       	axios.post(this.registerGoogle, dataUser, params).then((response, err) => {
           if (response.status === 200) {
-          	console.log('response:', response)
-          	// Redirect Ke login Tinggal di Uncomment Code di bawah
-          	this.$router.push('/login')
+          	console.log('google register success:', response)
+          	alert('Selamat! Anda berhasil terdaftar!');
+          	
+          	// Langsung login
+          	googleLogin();
+          	
+          	// this.$router.push('/');
           }else {
             throw new Error("Error");
              response.status = 200;
           } 
-          
         }).catch(e => {
-          console.log('tes: ', e.response);
-          if(e.response.data.message == 'id exist'){
-          	this.sign = true
-          }
+        	alert('Mohon maaf, pendaftaran belum berhasil.');
+          console.log('google register error: ', e.response);
         });
+
+        function googleLogin(){
+					// POST GOOGLE LOGIN DATA TO BACKEND
+					axios.post(self.loginGoogleUrl, dataUser, params).then(response => {
+						if(response.status == 200) {
+							console.log('google signin success: ',response);
+							localStorage.setItem('EClassToken', response.data.token)
+							localStorage.setItem('ECLASS-id', response.data.ID)
+
+							self.$root.$emit('isLoggedIn');
+						}
+					}).catch(e =>{
+						console.log('google signin error:', e)
+					})
+				}
+			},
+			validate(key, val, input, alert){
+				var alphabets = /^[a-zA-Z-0-9]+$/;
+				var space = /^[a-zA-Z-0-9\s]+$/;
+				var result = true;
+
+				if(val === ''){
+					let redkey = key;
+					if(key == 'confirmpassword'){
+						redkey = 'confirm password';
+					}
+					red("please fill the " + redkey + " field");
+				}else{
+
+					// Birthday & Gender cuma di cek kosongnya aja
+
+					// Username
+					if(key == 'username'){
+						if(
+							val.length < 6 || 
+							val.length > 15 ||
+							!(alphabets.test(val))
+							){
+
+							if(val.length < 6 || val.length > 15){
+								red("username must be between 6 and 15");
+							}
+							else if(!(alphabets.test(val))){
+								red("only alphabet and number, no space and symbol");
+							}
+						}else{
+							clear();
+						}
+					}
+
+					// Fullname
+					else if(key == 'fullname'){
+						if(!(space.test(val))){
+							red("only alphabet and number");
+						}else{
+							clear();
+						}
+					}
+
+					// Email
+					else if(key == 'email'){
+						if(val.indexOf('@')<= 0){
+							red("@ invalid position");
+						}else{
+							clear();
+						}
+					}
+
+					// Password
+					else if(key == 'password'){
+						if(val.length < 8){
+							red("password length minimal 8 character");
+						}else{
+							clear();
+						}
+					}
+
+					// Confirm Password
+					else if(key == 'confirmpassword'){
+						if(val != this.password){
+							red("password not match");
+						}else{
+							clear();
+						}
+					}
+
+					else{
+						clear();
+					}
+				}
+
+				function clear(){
+					alert.innerHTML = "";
+					input.className = "form-control rounded-0 shadow-none border border-success";
+				}
+				function red(msg){
+					input.className = "form-control rounded-1 shadow-none border-danger";
+					alert.innerHTML = msg;
+					result = false;
+				}
+
+				return result;
+
+				// validate method end
+			}
+		},
+		watch: {
+			username(val){
+				this.validate('username', val, this.$refs.input_username, this.$refs.alert_username);
+			},
+			fullname(val){
+				this.validate('fullname', val, this.$refs.input_fullname, this.$refs.alert_fullname);
+			},
+			birthday(val){
+				this.validate('birthday', val, this.$refs.input_birthday, this.$refs.alert_birthday);
+			},
+			gender(val){
+				this.validate('gender', val, this.$refs.input_gender, this.$refs.alert_gender);
+			},
+			email(val){
+				this.validate('email', val, this.$refs.input_email, this.$refs.alert_email);
+			},
+			password(val){
+				this.validate('password', val, this.$refs.input_password, this.$refs.alert_password);
+			},
+			confirmpassword(val){
+				this.validate('confirmpassword', val, this.$refs.input_confirmpassword, this.$refs.alert_confirmpassword);
 			}
 		}
 	}

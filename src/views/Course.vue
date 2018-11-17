@@ -19,10 +19,6 @@ export default {
   mounted() {
     var self = this;
     
-    if(!localStorage.getItem('EClassToken')) {
-      this.$router.push('/')
-    }
-
     this.$root.$on('isLoggedOut', function(){
       console.log('isLoggedOut dari app')
       this.$router.push('/')

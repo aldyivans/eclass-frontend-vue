@@ -1,96 +1,100 @@
 <template>
 	<div class="container-fluid">
-	      <div class="container">
-	        <div class="row border justify-content-center my-5">
-	          <div class="profile col-12 text-center py-2">
-	            <h4 class="font-weight-bold m-0">Profile</h4>
-	            <p class="m-0">Add/Edit Informations About Your Profile</p>
-	          </div>
-	          <div class="border-right col-12 col-lg-3 p-0">
-	            <div class="border-bottom border-top p-3">
-	              <h5 class="font-weight-bold m-0">ATHIX MUBAROCK</h5>
-	            </div>
-	            <div class="p-3">
-	              <ul class="list-unstyled font-weight-bold">
-	                <li>
-	                  <router-link to="/profile">Profile</router-link>
-	                </li>
-	                <li>
-	                  <router-link to="/changepassword">Change Password</router-link>
-	                </li>
-	                <li>
-	                  <router-link to="/deactive">Deactive Account</router-link>
-	                </li>
-	              </ul>
-	            </div>
-	          </div>
-	          <div class="border-top col-lg-9 justify-content-center p-0">
-	            <div class="container">
-	              <div class="row justify-content-center">
-	                <div class="col-12 col-sm-10 col-md-8 col-lg-9 py-5 px-3">
-	                  <div class=" row justify-content-center">
-	                    <div class="col-8 col-sm-6 col-md-6 col-lg-4 col-md-4  text-center">
-	                      <div id="uploadImg">
-	                        <img v-bind:src="user.profilePic">
-	                      </div>
-	                      <div class="custom-file">
-	                        <input type="file" class="custom-file-input" id="customFile"  @change="onFilePicked">
-	                        <label class="custom-file-label shadow-none" for="customFile">Choose file</label>
-	                      </div>
-	                    </div>
-	                  </div>
-	                  <form class=" form-group py-4">
-	                    <div class="p-0 mb-2">
-	                      <label for="username" class="font-weight-bold m-0">Username</label>
-	                      <input type="text" class="form-control rounded-0 shadow-none" ref="username" v-model="user.username">
-	                      <span class="text-danger" ref="inputWarning1" style="font-size: 12px"></span>
-	                    </div>
-	                    <div class=" p-0 mb-2">
-	                      <label for="fullname" class="font-weight-bold m-0">Fullname</label>
-	                      <input type="text" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="fullname" v-model="user.fullname">
-	                      <span class="text-danger" ref="inputWarning2" style="font-size: 12px"></span>
-	                    </div>
-	                    <div class=" p-0 mb-2">
-	                      <label for="birthday" class="font-weight-bold m-0">Birthday</label>
-	                      <input class="form-control rounded-0 shadow-none border-top border-left border-right" type="date" v-model="user.birthday" ref="birthday">
-	                      <span class="text-danger" ref="inputWarning3" style="font-size: 12px"></span>
-	                    </div>
-	                    <div class=" p-0 mb-2">
-	                      <label for="gender" class="font-weight-bold m-0">Gender</label>
-	                      <select class="form-control rounded-0 shadow-none border-top border-left border-right" v-model="user.gender" ref="gender">
-	                        <option>Male</option>
-	                        <option>Female</option>
-	                      </select>
-	                      <span class="text-danger" ref="inputWarning4" style="font-size: 12px"></span>
-	                    </div>
-	                    <div class=" p-0 mb-2">
-	                      <label for="email" class="font-weight-bold m-0">Email</label>
-	                      <input type="email" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="email" aria-describedby="emailHelp" v-model="user.email">
-	                      <span class="text-danger" ref="inputWarning5" style="font-size: 12px"></span>
-	                    </div>
-	                  </form>
-	                  <div class="row">
-	                    <div class="col text-right">
-	                      <button type="submit" style="margin-right: 7px" class="btn btn-success rounded-0 font-weight-bold shadow-none" v-on:click="save">Save</button>
-	                      <button type="submit" class="btn btn-warning rounded-0 font-weight-bold shadow-none">Cancel</button>
-	                    </div>
-	                  </div>
-	                </div>
-	              </div>
-	            </div>
-	          </div>
-	        </div>
-	      </div>
+		  <div class="container">
+			<div class="row border justify-content-center my-5">
+			  <div class="profile col-12 text-center py-2">
+				<h4 class="font-weight-bold m-0">Profile</h4>
+				<p class="m-0">Add/Edit Informations About Your Profile</p>
+			  </div>
+			  <div class="border-right col-12 col-lg-3 p-0">
+				<div class="border-bottom border-top p-3">
+				  <h5 class="font-weight-bold m-0">{{user.fullname}}</h5>
+				</div>
+				<div class="p-3">
+				  <ul class="list-unstyled font-weight-bold">
+					<li>
+					  <router-link to="/profile">Profile</router-link>
+					</li>
+					<li>
+					  <router-link to="/changepassword">Change Password</router-link>
+					</li>
+					<li>
+					  <router-link to="/deactive">Deactive Account</router-link>
+					</li>
+				  </ul>
+				</div>
+			  </div>
+			  <div class="border-top col-lg-9 justify-content-center p-0">
+				<div class="container">
+				  <div class="row justify-content-center">
+					<div class="col-12 col-sm-10 col-md-8 col-lg-9 py-5 px-3">
+					  <div class=" row justify-content-center">
+						<div class="col-8 col-sm-6 col-md-6 col-lg-4 col-md-4  text-center">
+						  <div id="uploadImg">
+							<img v-bind:src="user.profilePic">
+						  </div>
+						  <div class="custom-file">
+							<input type="file" class="custom-file-input" id="customFile"  @change="onFilePicked">
+							<label class="custom-file-label shadow-none" for="customFile">Choose file</label>
+							<label class="custom-file-label shadow-none font-weight-bold" for="customFile" v-if="procesing">Procesing . . .</label>
+						  </div>
+						</div>
+					  </div>
+					  <form class=" form-group py-4">
+						<div class="p-0 mb-2">
+						  <label for="username" class="font-weight-bold m-0">Username</label>
+						  <input type="text" class="form-control rounded-0 shadow-none" ref="username" v-model="user.username">
+						  <span class="text-danger" ref="inputWarning1" style="font-size: 12px"></span>
+						</div>
+						<div class=" p-0 mb-2">
+						  <label for="fullname" class="font-weight-bold m-0">Fullname</label>
+						  <input type="text" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="fullname" v-model="user.fullname">
+						  <span class="text-danger" ref="inputWarning2" style="font-size: 12px"></span>
+						</div>
+						<div class=" p-0 mb-2">
+						  <label for="birthday" class="font-weight-bold m-0">Birthday</label>
+						  <input class="form-control rounded-0 shadow-none border-top border-left border-right" type="date" v-model="user.birthday" ref="birthday">
+						  <span class="text-danger" ref="inputWarning3" style="font-size: 12px"></span>
+						</div>
+						<div class=" p-0 mb-2">
+						  <label for="gender" class="font-weight-bold m-0">Gender</label>
+						  <select class="form-control rounded-0 shadow-none border-top border-left border-right" v-model="user.gender" ref="gender">
+							<option>Male</option>
+							<option>Female</option>
+						  </select>
+						  <span class="text-danger" ref="inputWarning4" style="font-size: 12px"></span>
+						</div>
+						<div class=" p-0 mb-2">
+						  <label for="email" class="font-weight-bold m-0">Email</label>
+						  <input type="email" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="email" aria-describedby="emailHelp" v-model="user.email">
+						  <span class="text-danger" ref="inputWarning5" style="font-size: 12px"></span>
+						</div>
+					  </form>
+					  <div class="row">
+						<div class="col text-right">
+						  <button type="submit" style="margin-right: 7px" class="btn btn-success rounded-0 font-weight-bold shadow-none" v-on:click="save">Save</button>
+						  <button type="submit" class="btn btn-warning rounded-0 font-weight-bold shadow-none" @click="$router.push('/')">Cancel</button>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  </div>
 	</div>
 </template>
 
 <script>
 
 import axios from 'axios'
+import App from '@/App'
 
 export default {
 	data() {
 		return {
+			procesing: false,
+			userData: {},
 			user : {
 				profilePic: '',
 				username: '',
@@ -99,38 +103,37 @@ export default {
 				gender: '',
 				email: ''
 			},
-			
-			url: 'http://192.168.2.231:3000/v1/users/',
-			userUrl: 'http://192.168.2.231:3000/v1/editprofile/',
-			avatarUrl: 'http://192.168.2.231:3000/v1/upload/'
+			urlUser: App.data().ListUrl.urlUser,
+			urleditProfile: App.data().ListUrl.urlEditProfile,
+			urlAvatar: App.data().ListUrl.urlAvatar
 		}
 	},
 	mounted() {
+			let self = this;
+		var EclassId = localStorage.getItem('ECLASS-id');
+		
+		const headers = {
+		  'x-access-token': localStorage.getItem('EClassToken'),
+		  'Content-Type':'application/json',
+		  'Accept': 'application/json',
+		  'Access-Control-Allow-Origin': '*',
+		  'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+		}
 
-	    var EclassId = localStorage.getItem('ECLASS-id');
-	    
-	    const headers = {
-	      'x-access-token': localStorage.getItem('EClassToken'),
-	      'Content-Type':'application/json',
-	      'Accept': 'application/json',
-	      'Access-Control-Allow-Origin': '*',
-	      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-	    }
-
-	    axios.get(this.url + EclassId, headers).then(res => {
-	      if(res.status === 200) {
-	      	this.user.username = res.data.userData.username;
-	      	this.user.fullname = res.data.userData.fullname;
-	      	this.user.birthday = res.data.userData.birthday;
-	      	this.user.gender = res.data.userData.gender;
-	      	this.user.email = res.data.userData.email;
-	      	this.user.profilePic = res.data.userData.avatar;
-	        console.log('data user sesuai id:', res)
-	      }
-	    })
+		axios.get(this.urlUser + EclassId).then(res=>{
+		  console.log(res.data.userData)
+		  // self.userData = res.data.userData;
+		self.user.username = res.data.userData.username;
+		self.user.fullname = res.data.userData.fullname;
+		self.user.birthday = res.data.userData.birthday;
+		self.user.gender = res.data.userData.gender;
+		self.user.email = res.data.userData.email;
+		self.user.profilePic = res.data.userData.avatar;
+		})
 	},
 	methods : {
 		save() {
+
 			var username = this.$refs.username;
 			var fullname = this.$refs.fullname;
 			var birthday = this.$refs.birthday;
@@ -143,42 +146,42 @@ export default {
 			var inpWarning5 = this.$refs.inputWarning5;
 
 			if(this.user.username == "") {
-				username.style.borderBottom = "3px solid red"
+				username.style.borderBottom = "1px solid red"
 				inpWarning1.innerHTML = "field cannot be empty!"
 			} else {
-				username.style.borderBottom = "3px solid #28a745"
+				username.style.borderBottom = "1px solid #28a745"
 				inpWarning1.innerHTML = ""
 			}
 
 			if(this.user.fullname == "") {
-				fullname.style.borderBottom = "3px solid red"
+				fullname.style.borderBottom = "1px solid red"
 				inpWarning2.innerHTML = "field cannot be empty!"
 			} else {
-				fullname.style.borderBottom = "3px solid #28a745"
+				fullname.style.borderBottom = "1px solid #28a745"
 				inpWarning2.innerHTML = ""
 			}
 
 			if(this.user.birthday == "") {
-				birthday.style.borderBottom = "3px solid red"
+				birthday.style.borderBottom = "1px solid red"
 				inpWarning3.innerHTML = "field cannot be empty!"
 			} else {
-				birthday.style.borderBottom = "3px solid #28a745"
+				birthday.style.borderBottom = "1px solid #28a745"
 				inpWarning3.innerHTML = ""
 			}
 
 			if(this.user.gender == "") {
-				gender.style.borderBottom = "3px solid red"
+				gender.style.borderBottom = "1px solid red"
 				inpWarning4.innerHTML = "field cannot be empty!"
 			} else {
-				gender.style.borderBottom = "3px solid #28a745"
+				gender.style.borderBottom = "1px solid #28a745"
 				inpWarning4.innerHTML = ""
 			}
 
 			if(this.user.email == "") {
-				email.style.borderBottom = "3px solid red"
+				email.style.borderBottom = "1px solid red"
 				inpWarning5.innerHTML = "field cannot be empty!"
 			} else {
-				email.style.borderBottom = "3px solid #28a745"
+				email.style.borderBottom = "1px solid #28a745"
 				inpWarning5.innerHTML = ""
 			}
 
@@ -200,12 +203,15 @@ export default {
 					fullname: this.user.fullname,
 					birthday: this.user.birthday,
 					gender: this.user.gender,
-					email: this.user.email
+					email: this.user.email,
+					avatar: this.user.profilePic
 				}
 
-				axios.put(this.userUrl + EclassId, userData , params).then(response=>{
+				axios.put(this.urleditProfile + EclassId, userData , params).then(response=>{
 					if(response.status === 200){
 						console.log('Response', response)
+						location.reload();
+
 					}
 				}).catch(e=>{
 					console.log('error', e.response);
@@ -214,32 +220,33 @@ export default {
 			}
 		},
 		onFilePicked(event) {
+			let self = this;
+
+			var oldAvatar = JSON.parse(JSON.stringify(this.user.profilePic));
+
+			this.procesing = true;
 			const image = event.target.files[0];
-			const fileReader = new FileReader()
-			fileReader.readAsDataURL(image);
-			fileReader.onload = (e) => {
-				this.user.profilePic = e.target.result
+			console.log('ini gambar', image)
+
+			let data = new FormData();
+			data.append('file', image);
+			data.append('url', oldAvatar);
+
+			console.log('yang dikirim: ', data);
+
+			let request = new XMLHttpRequest();
+			request.open('POST', this.urlAvatar);
+			request.send(data);
+			request.onreadystatechange = function () {
+			  if(request.readyState === 4 && request.status === 200) {
+			  	var res = JSON.parse(request.responseText);
+			    console.log('IMAGE UPLOADED. url:', res.url);
+			    self.user.profilePic = res.url;
+			  }else{
+			  	console.log('ERROR')
+			  }
+		      self.procesing = false;
 			};
-
-			console.log('ini gambar',image)
-
-			var id = "7Ryf1HYsezQDwiOoXVsb"
-
-			const params = {
-				headers: {
-					'Authorization': localStorage.getItem('EClassToken'),
-					'Content-Type':'multipart/form-data',
-					'Accept':'multipart/form-data',
-					'Access-Control-Allow-Origin': '*',
-				}
-			}
-			axios.put(this.avatarUrl + id, image, params ).then(response => {
-				if(response.status === 200){
-					console.log('Response', response)
-				}
-			}).catch(e=>{
-				console.log('error', e.response);
-			})
 		}
 	}
 }

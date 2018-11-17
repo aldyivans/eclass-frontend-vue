@@ -17,8 +17,6 @@ export default {
     SignupComponent
   },
 	mounted() {
-    console.log("haha")
-
     var self = this;
 
     if(localStorage.getItem('EClassToken')) {

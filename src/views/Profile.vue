@@ -10,6 +10,7 @@
 import axios from 'axios'
 import Blue from '@/components/Blue.vue'
 import Profile from '@/components/Profile/Profile.vue'
+import App from '@/App.vue'
 
 export default {
   name: 'profile',
@@ -19,7 +20,7 @@ export default {
   },
   data() {
     return {
-      url: 'http://192.168.2.231:3000/v1/users/'
+      url: App.data().url
     }
   },
   mounted() {
@@ -31,21 +32,6 @@ export default {
     this.$root.$on('isLoggedOut', function(){
       console.log('isLoggedOut dari app')
       this.$router.push('/')
-    })
-
-    var EclassId = localStorage.getItem('ECLASS-id');
-
-    const headers = {
-      'Content-Type':'application/json',
-      'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-    }
-
-    axios.get(this.url + EclassId, headers).then(res => {
-      if(res.status === 200) {
-        console.log('data user', res)
-      }
     })
   }
 }

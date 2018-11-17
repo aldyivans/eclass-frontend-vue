@@ -3,17 +3,18 @@
 		<div class="container">
 		  <div class="row my-5">
 		    <div class="col-12">
-		      <h1 class="font-weight-bold">Popular Course</h1>
+		      <h1 class="font-weight-bold">Popular Courses</h1>
 		    </div>
 			    <div class="col-12 p-0 justify-content-center">
 			      	<carousel :per-page-custom="[[375, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false" :navigationEnabled="true" navigationNextLabel="<h1>&#8250;</h1>" navigationPrevLabel="<h1>&#8249;</h1>">
 			        	<slide v-for="x in dataCourse">
-			        		<router-link :to="{name:'course', params: {selected_course: x}}" class="text-dark">
+
+			        		<router-link :to="{name:'course', params:{id: x.aid}}">
 					          <div class="card m-2">
-					          	<div style="height: 200px; position: relative; overflow: hidden ">
-						            <img class="card-img-top" v-bind:src="x.thumbnail" style="height:100%; position: absolute; left: 0; top: 50%; transform: translate(0, -50%); ">
+					          	<div class="poto">
+						            <img class="card-img-top" v-bind:src="x.thumbnail" >
 					          	</div>
-					            <div class="card-body">
+					            <div class="card-body text-dark">
 					            	<div>
 						              <h5 class="card-title">{{ x.title }}</h5>
 					            	</div>
@@ -27,7 +28,8 @@
 					              </div>
 					            </div>
 					          </div>
-			        		</router-link>
+					        </router-link>
+
 			        	</slide>
 			        </carousel>
 			    </div>
@@ -41,6 +43,7 @@
 import { Carousel, Slide } from 'vue-carousel';
 import axios from 'axios'
 import router from '../../router.js'
+import App from '../../App.vue'
 
 export default {
 	name: 'popular-course',
@@ -50,32 +53,36 @@ export default {
 	},
 	data() {
 		return {
-			urlcourse: 'http://192.168.2.225:3000/courses',
+			url: App.data().ListUrl.urlCourses,
 			dataCourse: null,
-			
 		}	 
 	},
 	mounted(){
-		var self = this
-		const headers = {
-	      'x-access-token': localStorage.getItem('EClassToken'),
-	      'Content-Type':'application/json',
-	      'Accept': 'application/json',
-	      'Access-Control-Allow-Origin': '*',
-	      'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-	    }
-
-	    axios.get(this.urlcourse, headers).then(res=>{
+	    axios.get(this.url).then(res=>{
 	    	if(res.status === 200){
-	    		console.log("data adari topan",res.data.result)
+	    		console.log("[HEROKU POPULAR COURSES]:",res.data.result)
 	    		this.dataCourse = res.data.result
-		    console.log("coba", this.dataCourse)
 	    	}
 	    })
-	},
+	}
 }
 </script>
 <style scoped>
+	.poto{
+		height: 200px;
+		position: relative;
+		overflow: hidden;	
+	}
+	.poto img{
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 100%;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
 	a:hover {
 		text-decoration: none;
 	}

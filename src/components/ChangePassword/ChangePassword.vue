@@ -8,7 +8,7 @@
           </div>
           <div class="col-lg-3 p-0 border-right">
             <div class="border-bottom border-top p-3">
-              <h5 class="font-weight-bold m-0">ATHIX MUBAROCK</h5>
+              <h5 class="font-weight-bold m-0" v-for="data in dataUser">{{data.fullname}}</h5>
             </div>
               <div class="p-3">
                 <ul class="list-unstyled font-weight-bold">
@@ -48,7 +48,7 @@
                     <div class="row">
                       <div class="col text-right">
                         <button type="submit" class="btn btn-success rounded-0 font-weight-bold shadow-none" style="margin-right: 7px" v-on:click="save">Save</button>
-                        <button type="submit" class="btn btn-warning rounded-0 font-weight-bold shadow-none">Cancel</button>
+                        <button type="submit" class="btn btn-warning rounded-0 font-weight-bold shadow-none" @click="$router.push('/')">Cancel</button>
                       </div>
                     </div>
                   </div>
@@ -63,6 +63,8 @@
 <script>
 
 import axios from 'axios'
+import App from '@/App.vue'
+
 
 export default {
 	data() {
@@ -72,9 +74,20 @@ export default {
 				new: '',
 				confirmNew: ''
 			},
-      url: 'http://192.168.2.225:3000/changepassword'
+      dataUser :[],
+      urlUSer : App.data().ListUrl.urlUser,
+      urlChangePassword: App.data().ListUrl.urlChangePassword
 		}
 	},
+  mounted(){
+      var EclassId = localStorage.getItem('ECLASS-id');
+      axios.get(this.urlUSer + EclassId).then(res => {
+          if(res.status === 200) {
+            this.dataUser.push(res.data.userData)
+            console.log("data user:", this.dataUser)
+          }
+        });
+    },
 	methods : {
 		save() {
 
@@ -88,10 +101,10 @@ export default {
 			var inpWarning3 = this.$refs.inputWarning3;
 
       if(this.password.current == "") {
-        x.style.borderBottom = "3px solid red"
+        x.style.border = "1px solid red"
         inpWarning1.innerHTML = "field cannot be empty!"
       } else {
-        x.style.borderBottom = "3px solid #28a745"
+        x.style.border = "1px solid #28a745"
         inpWarning1.innerHTML = ""
         // if(this.password.current != this.password.currentPassword) {
         //   x.style.borderBottom = "3px solid red"
@@ -100,28 +113,28 @@ export default {
       }
 
       if(this.password.new == "") {
-        y.style.borderBottom = "3px solid red"
+        y.style.border = "1px solid red"
         inpWarning2.innerHTML = "field cannot be empty!"
       } else {
-        y.style.borderBottom = "3px solid #28a745"
+        y.style.border = "1px solid #28a745"
         inpWarning2.innerHTML = ""
         if(this.password.new.length < 8) {
-          y.style.borderBottom = "3px solid red"
+          y.style.border = "1px solid red"
           inpWarning2.innerHTML = 'Your password must be between 8 - 15 characters'
         } else if(this.password.new.length > 15) {
-          y.style.borderBottom = "3px solid red"
+          y.style.border = "1px solid red"
           inpWarning2.innerHTML = 'Your password must be between 8 - 15 characters'
         }
       }
 
       if(this.password.confirmNew == "") {
-        z.style.borderBottom = "3px solid red"
+        z.style.border = "1px solid red"
         inpWarning3.innerHTML = "field cannot be empty!"
       } else {
-        z.style.borderBottom = "3px solid #28a745"
+        z.style.border = "1px solid #28a745"
         inpWarning3.innerHTML = ""
         if(this.password.confirmNew != this.password.new) {
-          z.style.borderBottom = "3px solid red"
+          z.style.border = "1px solid red"
           inpWarning3.innerHTML = "new password didn't match!"
         }
       }
@@ -143,9 +156,11 @@ export default {
           new_password: this.password.confirmNew
         }
 
-        axios.put(this.url, dataUser, params).then(response => {
+        axios.put(this.urlChangePassword, dataUser, params).then(response => {
           if(response.status === 200){
             console.log('Response', response)
+            alert('Change Password Success');
+            window.location.reload();
           }
         }).catch(e=>{
           console.log('error', e.response);
