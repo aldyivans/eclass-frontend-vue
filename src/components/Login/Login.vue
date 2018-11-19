@@ -31,7 +31,7 @@
 									<input v-model="login.password" type="password" class="form-control rounded-0 shadow-none border-0" id="exampleInputPassword1" name="password" autocomplete="off" ref="loginPassword" v-on:keyup.enter="save"/>
 									<div class="input-group-append">
 										<span class="input-group-text bg-white border-0" id="eyes" v-on:click="showPassword"><font-awesome-icon icon="eye"/></span>
-									</div>	
+									</div>  
 								</div>
 								<span class="text-danger" ref="inputWarning2"></span>
 							</div>
@@ -76,7 +76,10 @@
 											<span class="text-danger" style="font-size: 12px" ref="invalid2"></span>
 											<span class="text-success" style="font-size: 12px" ref="success"></span>
 											<input type="email" class="form-control mb-2" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="login.email">
-											<button type="button" class="col-sm-2 btn btn-warning" v-on:click="send">Send</button>
+
+											<button type="button" class="col-sm-2 btn btn-warning" v-on:click="send" v-if="!processingForgot">Send</button>
+
+											<button type="button" class=" btn btn-warning font-weight-bold" disabled v-if="processingForgot">Processing...</button>
 											<small id="emailHelp" class="form-text text-muted">We're going to Send you an information link to verify your password</small>
 										</div>
 									</div>
@@ -100,6 +103,7 @@ export default {
 	data() {
 		return {
 			processing: false,
+			processingForgot: false,
 			login : {
 				username: '',
 				password: ''
@@ -152,6 +156,7 @@ export default {
 			if(this.login.username == "") {
 				// loginUsername.style.border = "1px solid red"
 				inpWarning1.innerHTML = "field cannot be empty!"
+				this.processing = false;
 			} else {
 				loginUsername.style.border = "1px solid #ccc"
 						inpWarning1.innerHTML = ""
@@ -160,6 +165,7 @@ export default {
 			if(this.login.password == "") {
 				// loginPassword.style.border = "1px solid red"
 				inpWarning2.innerHTML = "field cannot be empty!"
+				this.processing = false;
 			} else {
 				loginPassword.style.border = "1px solid #ccc"
 						inpWarning2.innerHTML = ""
@@ -264,6 +270,8 @@ export default {
 			})
 		},
 		send() {
+			var self = this
+			this.processingForgot = true
 			var success = this.$refs.success;
 			var invalid2 = this.$refs.invalid2;
 
@@ -285,6 +293,7 @@ export default {
 					success.innerHTML = "Confirm link was sent to your Email"
 					console.log('response', response)
 					invalid2.innerHTML = ""
+					self.processingForgot = false
 				} else {
 					success.innerHTML = ""
 				}
@@ -292,6 +301,7 @@ export default {
 				invalid2.innerHTML = "The Email is not registered!"
 				success.innerHTML = ""
 				console.log('erorrrr', e.response)
+				self.processingForgot = false
 			})
 		}
 	}
