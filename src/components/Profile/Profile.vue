@@ -36,7 +36,7 @@
 						  <div class="custom-file">
 							<input type="file" class="custom-file-input" id="customFile"  @change="onFilePicked">
 							<label class="custom-file-label shadow-none" for="customFile">Choose file</label>
-							<label class="custom-file-label shadow-none font-weight-bold" for="customFile" v-if="procesing">Procesing . . .</label>
+							<label class="custom-file-label shadow-none font-weight-bold" for="customFile" v-if="procesing" disabled >Processing...</label>
 						  </div>
 						</div>
 					  </div>
@@ -46,6 +46,8 @@
 						  <input type="text" class="form-control rounded-0 shadow-none" ref="username" v-model="user.username">
 						  <span class="text-danger" ref="inputWarning1" style="font-size: 12px"></span>
 						</div>
+
+
 						<div class=" p-0 mb-2">
 						  <label for="fullname" class="font-weight-bold m-0">Fullname</label>
 						  <input type="text" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="fullname" v-model="user.fullname">
@@ -152,6 +154,13 @@ export default {
 				username.style.borderBottom = "1px solid #28a745"
 				inpWarning1.innerHTML = ""
 			}
+			if(this.user.username.length > 15) {
+				username.style.borderBottom = "1px solid red"
+				inpWarning1.innerHTML = "username must be between 6 and 15"
+			} else {
+				username.style.borderBottom = "1px solid #28a745"
+				inpWarning1.innerHTML = ""
+			}
 
 			if(this.user.fullname == "") {
 				fullname.style.borderBottom = "1px solid red"
@@ -185,7 +194,7 @@ export default {
 				inpWarning5.innerHTML = ""
 			}
 
-			if(this.user.username != "" && this.user.fullname != "" && this.user.birthday != "" && this.user.gender != "" && this.user.email != "") {
+			if(this.user.username != "" && this.user.username.length < 15 && this.user.fullname != "" && this.user.birthday != "" && this.user.gender != "" && this.user.email != "") {
 				
 				var EclassId = localStorage.getItem('ECLASS-id');
 				

@@ -8,7 +8,7 @@
 				<form>
 					<div v-if="show">
 						<div class="alert alert-warning text-center" role="alert">
-						  <strong>Hallo!</strong> Your Reset Password Success.Please Click <router-link to="/login">Login</router-link> 
+							<strong>Hallo!</strong> Your Reset Password Success.Please Click <router-link to="/login">Login</router-link> 
 						</div>
 					</div>
 					<div class="form-group">
@@ -58,13 +58,13 @@ export default {
 	},
 	mounted(){
 		const params = {
-		  headers : {
-		  'x-access-token': this.$route.params.token,
-		  'Content-Type':'application/json',
-		  'Accept': 'application/json',
-		  'Access-Control-Allow-Origin': '*',
-		  'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-		  }
+			headers : {
+			'x-access-token': this.$route.params.token,
+			'Content-Type':'application/json',
+			'Accept': 'application/json',
+			'Access-Control-Allow-Origin': '*',
+			'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+			}
 		}
 
 		// check token
@@ -113,28 +113,28 @@ export default {
 			if(this.password.new != "" && this.password.confirmNew != "" && this.password.confirmNew == this.password.new) {
 
 			const params = {
-			  headers : {
-			  'x-access-token': this.$route.params.token,
-			  'Content-Type':'application/json',
-			  'Accept': 'application/json',
-			  'Access-Control-Allow-Origin': '*',
-			  'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-			  }
+				headers : {
+				'x-access-token': this.$route.params.token,
+				'Content-Type':'application/json',
+				'Accept': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
+				}
 			}
 
 			var dataUser = {
-			  password: this.password.confirmNew
+				password: this.password.confirmNew
 			}
 
 			console.log('RESET PASSWORD,' , dataUser, this.url+this.token)
 			if(this.token && this.token !== null){
 				axios.put(this.urlResetPassword + this.token, dataUser, params).then(response => {
-				  if(response.status === 200){
-				    console.log('Response', response)
-				    self.show = true;
-				  }
+					if(response.status === 200){
+					console.log('Response', response)
+					self.show = true;
+					}
 				}).catch(e=>{
-				  console.log('error', e.response);
+					console.log('error', e.response);
 				})
 			}else{
 				console.log('this token tidak ada', this.token)

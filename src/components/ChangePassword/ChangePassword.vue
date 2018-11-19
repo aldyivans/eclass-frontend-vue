@@ -8,7 +8,7 @@
           </div>
           <div class="col-lg-3 p-0 border-right">
             <div class="border-bottom border-top p-3">
-              <h5 class="font-weight-bold m-0" v-for="data in dataUser">{{data.fullname}}</h5>
+              <h5 class="font-weight-bold m-0" v-if="dataUser">{{dataUser.fullname}}</h5>
             </div>
               <div class="p-3">
                 <ul class="list-unstyled font-weight-bold">
@@ -74,7 +74,7 @@ export default {
 				new: '',
 				confirmNew: ''
 			},
-      dataUser :[],
+      dataUser :null,
       urlUSer : App.data().ListUrl.urlUser,
       urlChangePassword: App.data().ListUrl.urlChangePassword
 		}
@@ -83,7 +83,7 @@ export default {
       var EclassId = localStorage.getItem('ECLASS-id');
       axios.get(this.urlUSer + EclassId).then(res => {
           if(res.status === 200) {
-            this.dataUser.push(res.data.userData)
+            this.dataUser = res.data.userData
             console.log("data user:", this.dataUser)
           }
         });

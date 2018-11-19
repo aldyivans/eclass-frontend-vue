@@ -91,12 +91,17 @@
           <div class="col-lg-6 my-4 my-lg-0">
             <div class="input-group border">
               <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searchThis">
-              <div class="input-group-append">
-                <router-link :to="{name:'search', params: {selected_search: searchResult, selected_keyword: searchThis}}">
-                <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2" v-on:click="search" >
+              <div class="input-group-append" v-if="route != 'search'">
+                <router-link :to="{name:'search', params:{ selected_keyword: searchThis}}">
+                <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
                   <font-awesome-icon icon="search" />
                 </button>
               </router-link>
+              </div>
+              <div class="input-group-append" v-else>
+                <button class="btn rounded-0 shadow-none bg-yellow" type="button" v-on:click="search">
+                  <font-awesome-icon icon="search" />
+                </button>
               </div>
             </div>
           </div>
@@ -166,40 +171,66 @@
     name:"app",
     data () {
       return {
+        route: '',
         defaultAvatar: ava,
         profileImg: null,
         isLoggedIn: false,
         searchThis: '',
-        isSearching : false,
+        // isSearching : false,
         dataCourse : null,
         searchResult: null,
         dataUser: [],
 
         ListUrl: {
-          urlCourses: 'https://eclass-does.herokuapp.com/v1/courses',
-          UrlCoursesByid: 'https://eclass-does.herokuapp.com/v1/course/',
-          urlUser: 'https://eclass-does.herokuapp.com/v1/user/',
-          urlCategory: 'https://eclass-does.herokuapp.com/v1/categories',
-          urlRegister: 'https://eclass-does.herokuapp.com/v1/register',
-          urlRegisterGoogle: 'https://eclass-does.herokuapp.com/v1/registergoogle',
-          urlLogin: 'https://eclass-does.herokuapp.com/v1/login',
-          urlLoginGoogle: 'https://eclass-does.herokuapp.com/v1/logingoogle',
-          urlForgotPassword:'https://eclass-does.herokuapp.com/v1/forgotpassword',
-          urlEditProfile: 'https://eclass-does.herokuapp.com/v1/editprofile/',
-          urlAvatar: 'https://eclass-does.herokuapp.com/v1/uploadavatar/',
-          urlDeactive: 'https://eclass-does.herokuapp.com/v1/deactivate',
-          urlChangePassword: 'https://eclass-does.herokuapp.com/v1/changepassword',
-          urlResetPassword: 'https://eclass-does.herokuapp.com/v1/resetpassword/',
-          urlConfirmation: 'https://eclass-does.herokuapp.com/v1/confirmation/',
-          urlToken: 'https://eclass-does.herokuapp.com/v1/checktoken/',
+          // urlCourses: 'https://eclass-does.herokuapp.com/v1/courses',
+          // UrlCoursesByid: 'https://eclass-does.herokuapp.com/v1/course/',
+          // urlUser: 'https://eclass-does.herokuapp.com/v1/user/',
+          // urlCategory: 'https://eclass-does.herokuapp.com/v1/categories',
+          // urlRegister: 'https://eclass-does.herokuapp.com/v1/register',
+          // urlRegisterGoogle: 'https://eclass-does.herokuapp.com/v1/registergoogle',
+          // urlLogin: 'https://eclass-does.herokuapp.com/v1/login',
+          // urlLoginGoogle: 'https://eclass-does.herokuapp.com/v1/logingoogle',
+          // urlForgotPassword:'https://eclass-does.herokuapp.com/v1/forgotpassword',
+          // urlEditProfile: 'https://eclass-does.herokuapp.com/v1/editprofile/',
+          // urlAvatar: 'https://eclass-does.herokuapp.com/v1/uploadavatar/',
+          // urlDeactive: 'https://eclass-does.herokuapp.com/v1/deactivate',
+          // urlChangePassword: 'https://eclass-does.herokuapp.com/v1/changepassword',
+          // urlResetPassword: 'https://eclass-does.herokuapp.com/v1/resetpassword/',
+          // urlConfirmation: 'https://eclass-does.herokuapp.com/v1/confirmation/',
+          // urlToken: 'https://eclass-does.herokuapp.com/v1/checktoken/',
 
+          urlCourses: 'https://eclass-doesuniversity.herokuapp.com/v1/courses',
+          UrlCoursesByid: 'https://eclass-doesuniversity.herokuapp.com/v1/course/',
+          urlUser: 'https://eclass-doesuniversity.herokuapp.com/v1/user/',
+          urlCategory: 'https://eclass-doesuniversity.herokuapp.com/v1/categories',
+          urlRegister: 'https://eclass-doesuniversity.herokuapp.com/v1/register',
+          urlRegisterGoogle: 'https://eclass-doesuniversity.herokuapp.com/v1/registergoogle',
+          urlLogin: 'https://eclass-doesuniversity.herokuapp.com/v1/login',
+          urlLoginGoogle: 'https://eclass-doesuniversity.herokuapp.com/v1/logingoogle',
+          urlForgotPassword:'https://eclass-doesuniversity.herokuapp.com/v1/forgotpassword',
+          urlEditProfile: 'https://eclass-doesuniversity.herokuapp.com/v1/editprofile/',
+          urlAvatar: 'https://eclass-doesuniversity.herokuapp.com/v1/uploadavatar/',
+          urlDeactive: 'https://eclass-doesuniversity.herokuapp.com/v1/deactivate',
+          urlChangePassword: 'https://eclass-doesuniversity.herokuapp.com/v1/changepassword',
+          urlResetPassword: 'https://eclass-doesuniversity.herokuapp.com/v1/resetpassword/',
+          urlConfirmation: 'https://eclass-doesuniversity.herokuapp.com/v1/confirmation/',
+          urlToken: 'https://eclass-doesuniversity.herokuapp.com/v1/checktoken/',
 
-          // urlEditProfile: 'http://192.168.2.231:3000/v1/editprofile/',
-          // urlChangePassword: 'http://192.168.2.231:3000/v1/changepassword'
-          // urlLoginGoogle: 'http://192.168.2.231:3000/v1/logingoogle',
-          // urlAvatar: 'http://192.168.2.231:3000/v1/uploadavatar/',
-          // urlDeactive: 'http://192.168.2.231:3000/v1/deactivate'
+          // urlCourses: 'http://192.168.2.231:3000/v1/courses',
+          // UrlCoursesByid: 'http://192.168.2.231:3000/v1/course/',
+          // urlUser: 'http://192.168.2.231:3000/v1/user/',
+          // urlCategory: 'http://192.168.2.231:3000/v1/categories',
+          // urlRegister: 'http://192.168.2.231:3000/v1/register',
           // urlRegisterGoogle: 'http://192.168.2.231:3000/v1/registergoogle',
+          // urlLogin: 'http://192.168.2.231:3000/v1/login',
+          // urlLoginGoogle: 'http://192.168.2.231:3000/v1/logingoogle',
+          // urlForgotPassword:'http://192.168.2.231:3000/v1/forgotpassword',
+          // urlEditProfile: 'http://192.168.2.231:3000/v1/editprofile/',
+          // urlAvatar: 'http://192.168.2.231:3000/v1/uploadavatar/',
+          // urlDeactive: 'http://192.168.2.231:3000/v1/deactivate',
+          // urlChangePassword: 'http://192.168.2.231:3000/v1/changepassword',
+          // urlResetPassword: 'http://192.168.2.231:3000/v1/resetpassword/',
+          // urlConfirmation: 'http://192.168.2.231:3000/v1/confirmation/',
           // urlToken: 'http://192.168.2.231:3000/v1/checktoken/',
         }
       }
@@ -207,6 +238,8 @@
 
     mounted() {
       var self = this;
+
+      this.route = this.$route.name;
 
       this.$root.$on('isLoggedIn', function(){
         console.log('isLoggedIn dari app')
@@ -232,6 +265,10 @@
       })
     },
     methods: {
+      search(){
+        console.log(this.searchThis)
+        this.$root.$emit('search', this.searchThis)
+      },
 
       getUserData(){
         var EclassId = localStorage.getItem('ECLASS-id');
@@ -246,28 +283,11 @@
           if(res.status === 200) {
             this.dataUser.push(res.data.userData)
             this.profileImg = res.data.userData.avatar;
+            console.log("USER", this.dataUser)
+            console.log("IMAGE", this.profileImg)
           }
         });
       },
-
-      search() {
-        this.isSearching = true
-        var keyword = this.searchThis.toLowerCase();
-
-        var result = []
-
-        console.log("search",this.dataCourse)
-
-        this.dataCourse.map(e=>{
-          console.log("eeeee", e.title)
-          if(keyword == e.title.toLowerCase() || e.title.toLowerCase().indexOf(keyword)!== -1){
-            result.push(e)
-          }
-        })
-        
-        this.searchResult = result
-      },
-
       openSidebar() {
         var x = this.$refs.sideBar;
         var y = this.$refs.sidebarMenu;
@@ -298,7 +318,7 @@
         this.$router.push('/');
         window.location.reload();
       }
-    }
+    } 
   }
   
 </script>
