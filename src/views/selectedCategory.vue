@@ -15,6 +15,7 @@
 	import Listselected from '@/components/selectedCategory/Listselected.vue'
 	
 	export default{
+		name: 'selected',
 		components: {
 			Selected,
 			NewCourses,

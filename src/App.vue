@@ -11,11 +11,8 @@
           <router-link to="/signup"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Sign Up</li></router-link>
           <li class="list-group-item list-group-item-action d-flex justify-content-between font-weight-bold" v-on:click="openCategory">Categories<font-awesome-icon icon="chevron-down" size="lg" /></li>
           <li class="mobile-category list-group-item" ref="mobileCategory" style="display: none">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item"><a href="#">Development</a></li>
-              <li class="list-group-item"><a href="#">Design</a></li>
-              <li class="list-group-item"><a href="#">Music</a></li>
-              <li class="list-group-item"><a href="#">Business</a></li>
+            <ul class="list-group list-group-flush" v-for="category in categories">
+              <li class="list-group-item"><a href="#">{{category.name}}</a></li>
             </ul>
           </li>
         </ul>
@@ -51,55 +48,42 @@
               </button>
               <div>
                 <ul class="dropdown-menu multi-level rounded-0 border-0 m-0 pb-2 p-0" role="menu" aria-labelledby="dropdownMenu">
-                  <li class="dropdown-submenu pt-2 p-0">
-                    <a class="dropdown-item" tabindex="-1" href="#">Development</a>
+
+                  <li class="dropdown-submenu pt-2 p-0" v-for="category in categories" :key="category.aid">
+                    <router-link class="dropdown-item" tabindex="-1" :to="{name: 'selected', params:{id: category.aid, name:category.name}}">{{category.name}}</router-link>
                     <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
-                      <li class="pt-2 p-0"><a class="dropdown-item" tabindex="-1" href="#">All Development</a></li>
-                      <li class="dropdown-submenu pt-2 p-0">
-                        <a class="dropdown-item" href="#">Programming</a>
+
+                      <li class="dropdown-submenu pt-2 p-0" v-for="sub in category.subs" :key="sub.number">
+                        <router-link class="dropdown-item" tabindex="-1" :to="{name: 'selected', params:{id: category.aid, name:category.name}}">{{sub.name}}</router-link> 
                         <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 pb-2 p-0">
-                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">HTML</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="dropdown-submenu pt-2 px-0">
-                    <a class="dropdown-item" tabindex="-1" href="#">Design</a>
-                    <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
-                      <li class="pt-2 p-0"><a class="dropdown-item" tabindex="-1" href="#">All Design</a></li>
-                      <li class="dropdown-submenu">
-                        <a class="dropdown-item" href="#">Photoshop</a>
-                        <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
-                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Digital Painting</a></li>
-                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Matte Painting</a></li>
-                        </ul>
-                      </li>
-                      <li class="dropdown-submenu">
-                        <a class="dropdown-item" href="#">Illustrator</a>
-                        <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
-                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Illustration</a></li>
-                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Web Design</a></li>
-                          <li class="pt-2 p-0"><a class="dropdown-item" href="#">Logo</a></li>
-                        </ul>
+
+                          <li class="pt-2 p-0" v-for="topic in sub.topics" :key="topic"><a class="dropdown-item" href="#">{{topic}}</a></li>
+                        </ul>                  
                       </li>
                     </ul>
                   </li>
                 </ul>
+
               </div>
             </div>
           </div>
           <div class="col-lg-6 my-4 my-lg-0">
             <div class="input-group border">
               <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searchThis">
-              <div class="input-group-append" v-if="route != 'search'">
+
+              <!-- SEARCH -->
+              <div class="input-group-append" v-if="$route.path != '/search'">
                 <router-link :to="{name:'search', params:{ selected_keyword: searchThis}}">
-                <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
-                  <font-awesome-icon icon="search" />
-                </button>
-              </router-link>
+                  <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
+                    <!-- {{$route.path}} -->
+                    <font-awesome-icon icon="search" />
+                  </button>
+                </router-link>
               </div>
+
               <div class="input-group-append" v-else>
                 <button class="btn rounded-0 shadow-none bg-yellow" type="button" v-on:click="search">
+                  <!-- anda di rute search -->
                   <font-awesome-icon icon="search" />
                 </button>
               </div>
@@ -138,7 +122,8 @@
           <div class="row p-5">
             <div class="col-lg-4 my-3">
               <h1>About e-Class</h1>
-              <p>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass. </p>
+              <p>{{about}}</p>
+              <!-- <p>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass. </p> -->
             </div>
             <div class="col-lg-4 my-3">
               <h1>Follow Us</h1>
@@ -166,12 +151,98 @@
 
   import axios from 'axios'
   var ava = require('@/assets/ava.png');
+
+
+  var ListUrl = {
+
+    /* HEROKU (Master Backend KW) */
+    // ==============================
+    urlComment: 'https://eclass-does.herokuapp.com/v1/comment',
+    urlAbout: 'https://eclass-does.herokuapp.com/v1/about',
+    urlCourses: 'https://eclass-does.herokuapp.com/v1/courses',
+    UrlCoursesByid: 'https://eclass-does.herokuapp.com/v1/course/',
+    UrlJoinCourse: 'https://eclass-does.herokuapp.com/v1/joincourse/',
+    UrlUnjoinCourse: 'https://eclass-does.herokuapp.com/v1/unjoincourse/',
+    urlUser: 'https://eclass-does.herokuapp.com/v1/user/',
+    urlCategory: 'https://eclass-does.herokuapp.com/v1/categories',
+    urlRegister: 'https://eclass-does.herokuapp.com/v1/register',
+    urlRegisterGoogle: 'https://eclass-does.herokuapp.com/v1/registergoogle',
+    urlLogin: 'https://eclass-does.herokuapp.com/v1/login',
+    urlLoginGoogle: 'https://eclass-does.herokuapp.com/v1/logingoogle',
+    urlForgotPassword:'https://eclass-does.herokuapp.com/v1/forgotpassword',
+    urlEditProfile: 'https://eclass-does.herokuapp.com/v1/editprofile/',
+    urlAvatar: 'https://eclass-does.herokuapp.com/v1/uploadavatar/',
+    urlDeactive: 'https://eclass-does.herokuapp.com/v1/deactivate',
+    urlChangePassword: 'https://eclass-does.herokuapp.com/v1/changepassword',
+    urlResetPassword: 'https://eclass-does.herokuapp.com/v1/resetpassword/',
+    urlConfirmation: 'https://eclass-does.herokuapp.com/v1/confirmation/',
+    urlToken: 'https://eclass-does.herokuapp.com/v1/checktoken/',
+
+    /* HEROKU (Master Backend Ori) */
+    // ==============================
+    // urlCourses: 'https://eclass-doesuniversity.herokuapp.com/v1/courses',
+    // UrlCoursesByid: 'https://eclass-doesuniversity.herokuapp.com/v1/course/',
+    // urlUser: 'https://eclass-doesuniversity.herokuapp.com/v1/user/',
+    // urlCategory: 'https://eclass-doesuniversity.herokuapp.com/v1/categories',
+    // urlRegister: 'https://eclass-doesuniversity.herokuapp.com/v1/register',
+    // urlRegisterGoogle: 'https://eclass-doesuniversity.herokuapp.com/v1/registergoogle',
+    // urlLogin: 'https://eclass-doesuniversity.herokuapp.com/v1/login',
+    // urlLoginGoogle: 'https://eclass-doesuniversity.herokuapp.com/v1/logingoogle',
+    // urlForgotPassword:'https://eclass-doesuniversity.herokuapp.com/v1/forgotpassword',
+    // urlEditProfile: 'https://eclass-doesuniversity.herokuapp.com/v1/editprofile/',
+    // urlAvatar: 'https://eclass-doesuniversity.herokuapp.com/v1/uploadavatar/',
+    // urlDeactive: 'https://eclass-doesuniversity.herokuapp.com/v1/deactivate',
+    // urlChangePassword: 'https://eclass-doesuniversity.herokuapp.com/v1/changepassword',
+    // urlResetPassword: 'https://eclass-doesuniversity.herokuapp.com/v1/resetpassword/',
+    // urlConfirmation: 'https://eclass-doesuniversity.herokuapp.com/v1/confirmation/',
+    // urlToken: 'https://eclass-doesuniversity.herokuapp.com/v1/checktoken/',
+
+    /* Master (Manual Deploy) */
+    // ==============================
+    // urlAbout: 'https://eclass.doesuniversity.com/v1/about',
+    // urlCourses: 'https://eclass.doesuniversity.com/v1/courses',
+    // UrlCoursesByid: 'https://eclass.doesuniversity.com/v1/course/',
+    // urlUser: 'https://eclass.doesuniversity.com/v1/user/',
+    // urlCategory: 'https://eclass.doesuniversity.com/v1/categories',
+    // urlRegister: 'https://eclass.doesuniversity.com/v1/register',
+    // urlRegisterGoogle: 'https://eclass.doesuniversity.com/v1/registergoogle',
+    // urlLogin: 'https://eclass.doesuniversity.com/v1/login',
+    // urlLoginGoogle: 'https://eclass.doesuniversity.com/v1/logingoogle',
+    // urlForgotPassword:'https://eclass.doesuniversity.com/v1/forgotpassword',
+    // urlEditProfile: 'https://eclass.doesuniversity.com/v1/editprofile/',
+    // urlAvatar: 'https://eclass.doesuniversity.com/v1/uploadavatar/',
+    // urlDeactive: 'https://eclass.doesuniversity.com/v1/deactivate',
+    // urlChangePassword: 'https://eclass.doesuniversity.com/v1/changepassword',
+    // urlResetPassword: 'https://eclass.doesuniversity.com/v1/resetpassword/',
+    // urlConfirmation: 'https://eclass.doesuniversity.com/v1/confirmation/',
+    // urlToken: 'https://eclass.doesuniversity.com/v1/checktoken/',
+
+    /* Local (Master Backend KW) */
+    // ==============================
+    // urlCourses: 'http://192.168.2.231:3000/v1/courses',
+    // UrlCoursesByid: 'http://192.168.2.231:3000/v1/course/',
+    // urlUser: 'http://192.168.2.231:3000/v1/user/',
+    // urlCategory: 'http://192.168.2.231:3000/v1/categories',
+    // urlRegister: 'http://192.168.2.231:3000/v1/register',
+    // urlRegisterGoogle: 'http://192.168.2.231:3000/v1/registergoogle',
+    // urlLogin: 'http://192.168.2.231:3000/v1/login',
+    // urlLoginGoogle: 'http://192.168.2.231:3000/v1/logingoogle',
+    // urlForgotPassword:'http://192.168.2.231:3000/v1/forgotpassword',
+    // urlEditProfile: 'http://192.168.2.231:3000/v1/editprofile/',
+    // urlAvatar: 'http://192.168.2.231:3000/v1/uploadavatar/',
+    // urlDeactive: 'http://192.168.2.231:3000/v1/deactivate',
+    // urlChangePassword: 'http://192.168.2.231:3000/v1/changepassword',
+    // urlResetPassword: 'http://192.168.2.231:3000/v1/resetpassword/',
+    // urlConfirmation: 'http://192.168.2.231:3000/v1/confirmation/',
+    // urlToken: 'http://192.168.2.231:3000/v1/checktoken/',
+  }
+
   
   export default {
     name:"app",
     data () {
       return {
-        route: '',
+        ListUrl: ListUrl,
         defaultAvatar: ava,
         profileImg: null,
         isLoggedIn: false,
@@ -180,59 +251,8 @@
         dataCourse : null,
         searchResult: null,
         dataUser: [],
-
-        ListUrl: {
-          // urlCourses: 'https://eclass-does.herokuapp.com/v1/courses',
-          // UrlCoursesByid: 'https://eclass-does.herokuapp.com/v1/course/',
-          // urlUser: 'https://eclass-does.herokuapp.com/v1/user/',
-          // urlCategory: 'https://eclass-does.herokuapp.com/v1/categories',
-          // urlRegister: 'https://eclass-does.herokuapp.com/v1/register',
-          // urlRegisterGoogle: 'https://eclass-does.herokuapp.com/v1/registergoogle',
-          // urlLogin: 'https://eclass-does.herokuapp.com/v1/login',
-          // urlLoginGoogle: 'https://eclass-does.herokuapp.com/v1/logingoogle',
-          // urlForgotPassword:'https://eclass-does.herokuapp.com/v1/forgotpassword',
-          // urlEditProfile: 'https://eclass-does.herokuapp.com/v1/editprofile/',
-          // urlAvatar: 'https://eclass-does.herokuapp.com/v1/uploadavatar/',
-          // urlDeactive: 'https://eclass-does.herokuapp.com/v1/deactivate',
-          // urlChangePassword: 'https://eclass-does.herokuapp.com/v1/changepassword',
-          // urlResetPassword: 'https://eclass-does.herokuapp.com/v1/resetpassword/',
-          // urlConfirmation: 'https://eclass-does.herokuapp.com/v1/confirmation/',
-          // urlToken: 'https://eclass-does.herokuapp.com/v1/checktoken/',
-
-          urlCourses: 'https://eclass-doesuniversity.herokuapp.com/v1/courses',
-          UrlCoursesByid: 'https://eclass-doesuniversity.herokuapp.com/v1/course/',
-          urlUser: 'https://eclass-doesuniversity.herokuapp.com/v1/user/',
-          urlCategory: 'https://eclass-doesuniversity.herokuapp.com/v1/categories',
-          urlRegister: 'https://eclass-doesuniversity.herokuapp.com/v1/register',
-          urlRegisterGoogle: 'https://eclass-doesuniversity.herokuapp.com/v1/registergoogle',
-          urlLogin: 'https://eclass-doesuniversity.herokuapp.com/v1/login',
-          urlLoginGoogle: 'https://eclass-doesuniversity.herokuapp.com/v1/logingoogle',
-          urlForgotPassword:'https://eclass-doesuniversity.herokuapp.com/v1/forgotpassword',
-          urlEditProfile: 'https://eclass-doesuniversity.herokuapp.com/v1/editprofile/',
-          urlAvatar: 'https://eclass-doesuniversity.herokuapp.com/v1/uploadavatar/',
-          urlDeactive: 'https://eclass-doesuniversity.herokuapp.com/v1/deactivate',
-          urlChangePassword: 'https://eclass-doesuniversity.herokuapp.com/v1/changepassword',
-          urlResetPassword: 'https://eclass-doesuniversity.herokuapp.com/v1/resetpassword/',
-          urlConfirmation: 'https://eclass-doesuniversity.herokuapp.com/v1/confirmation/',
-          urlToken: 'https://eclass-doesuniversity.herokuapp.com/v1/checktoken/',
-
-          // urlCourses: 'http://192.168.2.231:3000/v1/courses',
-          // UrlCoursesByid: 'http://192.168.2.231:3000/v1/course/',
-          // urlUser: 'http://192.168.2.231:3000/v1/user/',
-          // urlCategory: 'http://192.168.2.231:3000/v1/categories',
-          // urlRegister: 'http://192.168.2.231:3000/v1/register',
-          // urlRegisterGoogle: 'http://192.168.2.231:3000/v1/registergoogle',
-          // urlLogin: 'http://192.168.2.231:3000/v1/login',
-          // urlLoginGoogle: 'http://192.168.2.231:3000/v1/logingoogle',
-          // urlForgotPassword:'http://192.168.2.231:3000/v1/forgotpassword',
-          // urlEditProfile: 'http://192.168.2.231:3000/v1/editprofile/',
-          // urlAvatar: 'http://192.168.2.231:3000/v1/uploadavatar/',
-          // urlDeactive: 'http://192.168.2.231:3000/v1/deactivate',
-          // urlChangePassword: 'http://192.168.2.231:3000/v1/changepassword',
-          // urlResetPassword: 'http://192.168.2.231:3000/v1/resetpassword/',
-          // urlConfirmation: 'http://192.168.2.231:3000/v1/confirmation/',
-          // urlToken: 'http://192.168.2.231:3000/v1/checktoken/',
-        }
+        categories: [],
+        about: ''
       }
     },
 
@@ -241,6 +261,17 @@
 
       this.route = this.$route.name;
 
+      // Check token
+      if(localStorage.getItem('EClassToken')){
+        this.isLoggedIn = true
+      }
+      
+      // Get users
+      if(this.isLoggedIn){
+        this.getUserData();
+      }
+
+      // Logged In Listener
       this.$root.$on('isLoggedIn', function(){
         console.log('isLoggedIn dari app')
         self.isLoggedIn = true;
@@ -248,28 +279,40 @@
         self.$router.push('/');
       })
 
+      // Logged Out Listener
       this.$root.$on('isLoggedOut', function(){
         self.logout();
       })
 
-      if(localStorage.getItem('EClassToken')) {
-        self.isLoggedIn = true
-      }
-    
-      if(this.isLoggedIn){
-        this.getUserData();
-      }
-
-      axios.get(this.ListUrl.urlCourses).then(res =>{
-        this.dataCourse = res.data.result
-      })
+      // Data Getter
+      this.getCourses();
+      this.getCategories();
+      this.getAbout();
     },
     methods: {
       search(){
         console.log(this.searchThis)
+        if(this.$route.path != '/search'){
+          this.$router.push('/search');
+        }
         this.$root.$emit('search', this.searchThis)
       },
-
+      getAbout(){
+        axios.get(this.ListUrl.urlAbout).then(res =>{
+          console.log(res)
+          this.about = res.data.result
+        })
+      },
+      getCourses(){
+        axios.get(this.ListUrl.urlCourses).then(res =>{
+          this.dataCourse = res.data.result
+        })
+      },
+      getCategories(){
+        axios.get(this.ListUrl.urlCategory).then(res =>{
+          this.categories = res.data.result
+        })
+      },
       getUserData(){
         var EclassId = localStorage.getItem('ECLASS-id');
         const headers = {
