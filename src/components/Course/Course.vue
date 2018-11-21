@@ -406,7 +406,6 @@
 						'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type'
 					}
 				}
-				
 				axios.post(App.data().ListUrl.UrlUnjoinCourse + id, {}, params).then(response => {
 					if(response.status === 200) {
 						alert('Sukses')
