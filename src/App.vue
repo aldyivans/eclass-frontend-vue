@@ -191,6 +191,7 @@
     urlToken: mainUrl + 'v1/checktoken/',
     urlDeleteComment: mainUrl + 'v1/comment/',
     urlDeletReply: mainUrl + 'v1/reply/',
+    urlContact: mainUrl +'/v1/contact'
 
     /* HEROKU (Master Backend Ori) */
     // ==============================
@@ -250,7 +251,7 @@
     // urlConfirmation: 'http://192.168.2.231:3000/v1/confirmation/',
     // urlToken: 'http://192.168.2.231:3000/v1/checktoken/',
 
-    urlContact: 'http://192.168.2.225:3000/v1/contact'
+    // urlContact: 'http://192.168.2.225:3000/v1/contact'
   }
 
   
