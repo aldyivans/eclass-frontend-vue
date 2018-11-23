@@ -59,14 +59,8 @@
           </nav>
         </div> -->
       </div>
-      <div class="row justify-content-center py-5" v-if="loading">
-        <div class="py-5 my-5">
-          <h1 class="font-weight-bold py-5 my-5">Waith. . .</h1>
-        </div>
-        
-      </div>
       <div class="bg-light" v-else>
-        <div class="container py-5">
+        <div class="container py-5" v-if="!loading">
           <div class="jumbotron m-0 bg-light">
             <h1 class="display-4 bg">Hello Student</h1>
             <p class="lead">the word you entered does not match</p>
@@ -78,9 +72,11 @@
           
         </div>
       </div>
-<!--       <div v-if="loading">
-        <h1 class="font-weight-bold">Waith. . .</h1>
-      </div> -->
+      <div class="row justify-content-center py-5" v-if="loading">
+        <div class="py-5 my-5">
+          <h1 class="font-weight-bold py-5 my-5">Waith. . .</h1>
+        </div>
+      </div>
     </div>
 	</div>
 </template>
