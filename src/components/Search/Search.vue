@@ -46,8 +46,11 @@
           </nav>
         </div> -->
       </div>
-      <div v-if="loading">
-        <h1 class="font-weight-bold">Waith. . .</h1>
+      <div class="row justify-content-center py-5" v-if="loading">
+        <div class="py-5 my-5">
+          <h1 class="font-weight-bold py-5 my-5">Waith. . .</h1>
+        </div>
+        
       </div>
       <div class="bg-light" v-else>
         <div class="container py-5">

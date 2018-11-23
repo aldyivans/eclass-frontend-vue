@@ -159,8 +159,9 @@
 
   import axios from 'axios'
 
-  // var mainUrl = 'https://eclass-does.herokuapp.com/'
-  var mainUrl = 'http://192.168.2.231:3000/'
+  var mainUrl = 'https://eclass-does.herokuapp.com/'
+  // var mainUrl = 'http://192.168.2.231:3000/'
+  // var mainUrl = 'http://192.168.2.231:3000/'
 
   var ListUrl = {
 
@@ -188,6 +189,8 @@
     urlResetPassword: mainUrl + 'v1/resetpassword/',
     urlConfirmation: mainUrl + 'v1/confirmation/',
     urlToken: mainUrl + 'v1/checktoken/',
+    urlDeleteComment: mainUrl + 'v1/comment/',
+    urlDeletReply: mainUrl + 'v1/reply/',
 
     /* HEROKU (Master Backend Ori) */
     // ==============================

@@ -25,6 +25,7 @@
 </template>
 
 <script>
+	
 </script>
 <style scoped>
 	.indent {
