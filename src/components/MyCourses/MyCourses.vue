@@ -6,7 +6,6 @@
 	          <h1 class="font-weight-bold">My Courses</h1>
 	        </div>
 	        <div class="col-12 p-0 py-5 d-flex">
-
 	        	<div v-for="data in myCourse">
 	        		<router-link :to="{name:'course', params:{id: data.aid}}">
 	            <div class="card mr-2" style="width: 18rem;">

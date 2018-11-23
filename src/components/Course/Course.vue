@@ -1,26 +1,22 @@
 <template>
 	<div class="container-fluid bg-light p-0">
-
 		<div class="bg-dark text-white" v-if="datacourse">
 			<div class="container">
 				<div class="row m-0">
 					<div class="col-12 p-0">
 						<div class="d-block d-sm-flex align-items-center my-4">
-
 							<!-- Course Thumbnail -->
 							<div class="d-inline-block col-12 col-sm-5 col-md-4 col-lg-3 p-0">
 								<div class="course-thumb">
 									<img v-bind:src="datacourse.thumbnail" >
 								</div>
 							</div>
-
 							<div class="d-inline-block ml-0 mt-4 ml-sm-4 mt-sm-0">
 								<!-- Course Information -->
 								<h4 class="text-uppercase font-weight-bold">{{datacourse.title}}</h4>
 								<p class="m-0 ">{{datacourse.subtitle}}</p>
 								<p class="m-0" >Instructor :<br>
 								<span class="mr-2" v-for="(ins, i) in datacourse.instructors" v-bind:key="i">{{ins.name}}</span></p>
-
 								<!-- JOIN BUTTON - belum selesai -->
 								<div class="mt-2" v-if="!joined(datacourse)">
 									<button v-if="join" class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)">Join Course</button>
@@ -29,14 +25,12 @@
 								<div class="mt-2" v-else>
 									<button class="btn btn-danger rounded-0 font-weight-bold" type="button" v-on:click="unjoin(datacourse.aid)">Unjoin Course</button>
 								</div>
-
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<div class="container" v-if="datacourse">
 			<div class="row flex-column">
 			<div class="col-12 col-md-8 mt-5">
@@ -53,27 +47,16 @@
 					<div class="w-100 bg-white border-bottom" v-for="(video, j) in data.videos" v-bind:key="j">
 						<li>
 							<div v-if="video.locked" class="row text-muted  justify-content-around align-items-center text-left p-3">
-
 								<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
-
 								<span class="col-7">{{video.title}}</span>
-							
 								<font-awesome-icon icon="lock" class="col-2 text-center"></font-awesome-icon>
-
-
-
 								<span class="col-2">{{ video.duration}}</span>
 							</div>
 							<div class="row text-primary justify-content-around align-items-center text-left p-3" v-else>
 								<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
-
 								<span class="col-7" data-toggle="modal" data-target="#exampleModalCenter">{{video.title}}</span>
-
 								<span class="col-2 text-center" v-if="j === 0">Preview</span>
-
 								<font-awesome-icon icon="check" class="col-2 text-center text-primary" v-if="j !== 0"></font-awesome-icon>
-								
-
 								<span class="col-2">{{ video.duration}}</span>
 							</div>
 							<!-- modal -->
@@ -102,12 +85,10 @@
 						<div class="text-center p-3 bg-dark text-white border-bottom">
 							<h6 class="font-weight-bold m-0">Question & Answer</h6>
 						</div>
-
 						<!-- Ask new question btn wrapper -->
 						<div class="p-4">
 							<button class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="collapse" data-target="#send" aria-controls="send" aria-expanded="false"><font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question</button>
 						</div>
-
 						<!-- Collapse New Question-->
 						<div class=" collapse m-0" id="send" v-if="user">
 							<div class="w-100 py-4 mb-2">
@@ -131,14 +112,13 @@
 								</div>
 							</div>
 						</div>
-
 						<div class="row m-0" v-if="datacourse.comments.length > 0">
 							<div class="col-12 col-lg-12 mb-3">
 								<!-- Single Comment -faris -->
 								<div v-for="(comment, index) in datacourse.comments" v-if="comment" :key="index">
 									<!-- MAIN COMMENT -->
 									<!-- {{comment}} -->
-									<div class="d-flex align-items-center">
+									<div class="d-flex align-items-center mb-2">
 										<!-- User Avatar -->
 										<div class="ques d-inline-block">
 											<img v-if="comment.user" v-bind:src="comment.user.avatar" alt="Generic placeholder image" id="quesimg">
@@ -153,10 +133,12 @@
 											<div class="date">
 												<p class="d-inline-block m-0 mr-1 mr-lg-3" v-if="comment.created_at">{{comment.created_at._seconds | date}}</p>
 												<span class="text-primary" data-toggle="collapse" :data-target="'#answer' + index" aria-controls="answer" aria-expanded="false">Answer</span>
+
+												<font-awesome-icon icon="trash" class="ml-2" @click="deleteComment(index)"></font-awesome-icon>
+
 											</div>
 										</div>
 									</div>
-
 									<!-- Collapse Answer -->
 									<div class=" d-flex justify-content-center" v-if="user">
 										<div class="collapse col-12 col-lg-10"  v-bind:id="['answer'+index]" >
@@ -178,9 +160,8 @@
 											</div>
 										</div>
 									</div>
-
 									<!-- REPLIES -->
-									<div class="ml-5" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
+									<div class="ml-5 mb-3" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
 										<div class="d-flex align-items-center">
 											<div class="ques">
 												<img v-if="user" v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
@@ -193,11 +174,11 @@
 												</div>
 												<div class="date">
 													<p class="d-inline-block m-0" v-if="reply.created_at">{{reply.created_at._seconds | date}}</p>
+													<font-awesome-icon icon="trash" class="ml-2" @click="deleteReply(replyIndex)"></font-awesome-icon>
 												</div>
 											</div>
 										</div>
 									</div>
-
 								</div>
 							</div>
 						</div>
@@ -205,7 +186,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!-- MODAL -->
 		<div class="modal fade" id="buttonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -269,6 +249,7 @@
 			if(localStorage.getItem('EClassToken')) {
 			this.join = true
 			}
+			console.log("ID COURSE", this.datacourse)
 		},
 		methods: {
 			getUser(){
@@ -417,7 +398,7 @@
 				console.log('please wait...')
 
 				axios.post(App.data().ListUrl.urlComment, data).then(res => {
-					alert('ok');
+					alert('Your Comment is Success');
 					setTimeout(()=>{
 						this.getCourse();
 					}, 1000)
@@ -427,6 +408,7 @@
 					console.log(err)
 				})
 			},
+
 			sendAnswer(index){
 				var data ={
 					user_id: localStorage.getItem('ECLASS-id'),
@@ -437,7 +419,7 @@
 				var comment_id = this.datacourse.comments[index].id;
 
 				axios.post(App.data().ListUrl.urlReplyComment + comment_id, data).then(res=>{
-					alert('Berhasil Reply')
+					alert('Your Reply is Success')
 
 					setTimeout(()=>{
 						this.getCourse();
@@ -450,7 +432,63 @@
 					}, 1000)
 				})
 				.catch(err =>{
-					alert("Tidak Berhasil")
+					alert("Not Success")
+					console.log(err)
+				})
+			},
+
+			deleteComment(index){
+				var commentid = this.datacourse.comments[index].id;
+				var token = localStorage.getItem('EClassToken');
+				console.log("ID COMMENT", commentid)
+				console.log("ID COURSE", this.datacourse.id)
+				
+				const	params = {
+					headers : {
+						'x-access-token': token,
+						'Content-Type':'application/json',
+						'Accept': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+						'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type'
+					} 
+				}
+
+				axios.delete(App.data().ListUrl.urlDeleteComment + this.datacourse.id + '/' + commentid, params).then(res =>{
+					console.log(res)
+					alert("Deleted is Success")
+					this.getCourse();
+				})
+				.catch(err =>{
+					alert("Deleted not Success")
+					console.log(err)
+				})
+			},
+
+			deleteReply(replyIndex){
+				var commentid = this.datacourse.comments[replyIndex].aid;
+				var replyid = this.datacourse.comments[replyIndex].replies[replyIndex].id
+				var token = localStorage.getItem('EClassToken');
+				console.log("ID COMMENT", commentid)
+				console.log("ID REPLIES", replyid)
+
+				
+				const	params = {
+					headers : {
+						'x-access-token': token,
+						'Content-Type':'application/json',
+						'Accept': 'application/json',
+						'Access-Control-Allow-Origin': '*',
+						'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type'
+					} 
+				}
+
+				axios.delete(App.data().ListUrl.urlDeletReply + commentid + '/' + replyid, params).then(res =>{
+					console.log(res)
+					alert("Deleted is Success")
+					this.getCourse();
+				})
+				.catch(err =>{
+					alert("Deleted not Success")
 					console.log(err)
 				})
 			}
