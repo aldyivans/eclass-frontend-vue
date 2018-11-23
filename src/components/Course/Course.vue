@@ -9,7 +9,9 @@
 
 							<!-- Course Thumbnail -->
 							<div class="d-inline-block col-12 col-sm-5 col-md-4 col-lg-3 p-0">
-								<img class="w-100" v-bind:src="datacourse.thumbnail" >
+								<div class="course-thumb">
+									<img v-bind:src="datacourse.thumbnail" >
+								</div>
 							</div>
 
 							<div class="d-inline-block ml-0 mt-4 ml-sm-4 mt-sm-0">
@@ -55,8 +57,10 @@
 								<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
 
 								<span class="col-7">{{video.title}}</span>
-
+							
 								<font-awesome-icon icon="lock" class="col-2 text-center"></font-awesome-icon>
+
+
 
 								<span class="col-2">{{ video.duration}}</span>
 							</div>
@@ -65,7 +69,9 @@
 
 								<span class="col-7" data-toggle="modal" data-target="#exampleModalCenter">{{video.title}}</span>
 
-								<span class="col-2 text-center">Preview</span>
+								<span class="col-2 text-center" v-if="j === 0">Preview</span>
+
+								<font-awesome-icon icon="check" class="col-2 text-center text-primary" v-if="j !== 0"></font-awesome-icon>
 								
 
 								<span class="col-2">{{ video.duration}}</span>
@@ -104,7 +110,7 @@
 
 						<!-- Collapse New Question-->
 						<div class=" collapse m-0" id="send" v-if="user">
-							<div class="w-100 py-4">
+							<div class="w-100 py-4 mb-2">
 								<div class="col-lg-8">
 									<div class="media px-0 px-lg-1 align-items-center">
 										<div class="ques">
@@ -119,49 +125,26 @@
 										</div>
 										</div>
 									</div>
-									<div class="text-right p-3">
+									<div class="text-right px-3 p-2">
 										<button class="btn btn-warning border-0" type="button" @click="sendComment">Send</button>
 									</div>
 								</div>
 							</div>
 						</div>
 
-						<div class="row m-0">
-
-							<div class="col-12 col-lg-8 mb-3">
-
-								<!-- Single Comment (dummy) -->
-								<div>
-									<!-- User Avatar -->
-									<div class="ques d-inline-block">
-										<img v-bind:src="images2" alt="Generic placeholder image" id="quesimg">
-									</div>
-									<!-- Text -->
-									<div class="px-3 d-inline-block">
-										<div class="speech-bubble">
-										<div class="p-2">
-											<p class="m-0">Hy Guys apa kabar ?</p>
-										</div>
-										</div>
-										<div class="date">
-										<p class="d-inline-block m-0 mr-1 mr-lg-3">10.22, 9 October 2018</p>
-										<span class="text-primary" data-toggle="collapse" data-target="#answer" aria-controls="answer" aria-expanded="false">Answer</span>
-										</div>
-									</div>
-								</div>
-
+						<div class="row m-0" v-if="datacourse.comments.length > 0">
+							<div class="col-12 col-lg-12 mb-3">
 								<!-- Single Comment -faris -->
 								<div v-for="(comment, index) in datacourse.comments" v-if="comment" :key="index">
-
 									<!-- MAIN COMMENT -->
 									<!-- {{comment}} -->
-									<div>
+									<div class="d-flex align-items-center">
 										<!-- User Avatar -->
 										<div class="ques d-inline-block">
 											<img v-if="comment.user" v-bind:src="comment.user.avatar" alt="Generic placeholder image" id="quesimg">
 										</div>
 										<!-- Text -->
-										<div class="px-3 d-inline-block">
+										<div class="col-8 px-3 d-inline-block">
 											<div class="speech-bubble">
 												<div class="p-2">
 													<p class="m-0">{{comment.text}}</p>
@@ -175,77 +158,49 @@
 									</div>
 
 									<!-- Collapse Answer -->
-									<div class="w-100 d-flex justify-content-center" v-if="user">
-										<div class="collapse col-12 col-lg-8"  v-bind:id="['answer'+index]" >
-											<div class="px-0 px-lg-1 align-items-center">
+									<div class=" d-flex justify-content-center" v-if="user">
+										<div class="collapse col-12 col-lg-10"  v-bind:id="['answer'+index]" >
+											<div class="px-0 px-lg-1 d-flex align-items-center">
 												<div class="ques">
 													<img v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
 												</div>
-												<div class="media-body px-3">
+												<div class=" d-inline-block media-body px-3">
 													<div class="speech-bubble">
 														<div class="p-2">
-															<textarea type="text" name="answer" rows="4" class="border-0 w-100 p-0 m-0"> 
+															<textarea type="text" name="answer" rows="4" class="border-0 p-0 m-0 w-100" v-model="answerComment"> 
 															</textarea>
 														</div>
 													</div>
 												</div>
 											</div>
-											<div class="text-right p-3">
-												<button class="btn btn-warning border-0" type="button">Reply</button>
+											<div class="text-right px-3 p-2">
+												<button class="btn btn-warning border-0" type="button" @click="sendAnswer(index)">Reply</button>
 											</div>
 										</div>
 									</div>
 
 									<!-- REPLIES -->
 									<div class="ml-5" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
-										<!-- User Avatar -->
-										<div class="ques d-inline-block">
-											<img v-if="reply.user" v-bind:src="reply.user.avatar" alt="Generic placeholder image" id="quesimg">
-										</div>
-										<!-- Text -->
-										<div class="px-3 d-inline-block">
-											<div class="speech-bubble">
-												<div class="p-1">
-													<p class="m-0">{{reply.text}}</p>
-												</div>
+										<div class="d-flex align-items-center">
+											<div class="ques">
+												<img v-if="user" v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
 											</div>
-											<div class="date">
-												<p class="d-inline-block m-0" v-if="reply.created_at">{{reply.created_at._seconds | date}}</p>
-												<!-- <span class="text-primary" data-toggle="collapse" :data-target="'#answer' + index" aria-controls="answer" aria-expanded="false">Answer</span> -->
+											<div class="col-10 px-3">
+												<div class="speech-bubble">
+													<div class="p-1">
+														<p class="m-0">{{reply.text}}</p>
+													</div>
+												</div>
+												<div class="date">
+													<p class="d-inline-block m-0" v-if="reply.created_at">{{reply.created_at._seconds | date}}</p>
+												</div>
 											</div>
 										</div>
 									</div>
 
 								</div>
-
 							</div>
-
-							<!-- Collapse Answer (dummy) -->
-							<!-- <div class="w-100 d-flex justify-content-center" v-if="user">
-								<div class="collapse col-12 col-lg-8"  id="answer" >
-									<div class="px-0 px-lg-1 align-items-center">
-										<div class="ques">
-											<img v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
-										</div>
-										<div class="media-body px-3">
-											<div class="speech-bubble">
-												<div class="p-2">
-													<textarea type="text" name="answer" rows="4" class="border-0 w-100 p-0 m-0"> 
-													</textarea>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="text-right p-3">
-										<button class="btn btn-warning border-0" type="button">Reply</button>
-									</div>
-								</div>
-							</div> -->
-
 						</div>
-
-						
-
 					</div>
 				</div>
 			</div>
@@ -293,52 +248,80 @@
 				join: false,
 				dataData: null,
 				user: null,
-				newcomment: ''
+				newcomment: '',
+				answerComment: '',
+				commentsId: null,
+				dataLocked: []
 
 			}
 		},
 		mounted() {
+			var self = this;
 			var EclassId = localStorage.getItem('ECLASS-id');
 
 			if(EclassId){
-				axios.get(App.data().ListUrl.urlUser + EclassId).then(res=>{
-					this.user = res.data.userData
-				})
+				this.getUser()
 			}
-	
-			this.dataData = this.$route.params.id
-			console.log("data dari id", this.dataData)
 
+			this.dataData = this.$route.params.id
 			this.getCourse();
-		
+
 			if(localStorage.getItem('EClassToken')) {
 			this.join = true
 			}
 		},
 		methods: {
-			getCourse(){
-				this.datacourse = null;
-				console.log('get course...')
+			getUser(){
+				var self = this;
 
-				// Get selected course by id
+				var EclassId = localStorage.getItem('ECLASS-id');
+
+				axios.get(App.data().ListUrl.urlUser + EclassId).then(res=>{
+					this.user = res.data.userData
+					res.data.userData.my_course.map(data => {
+						if(data.aid == this.datacourse.aid){
+							this.datacourse.sections.map(section => {
+								section.videos.map(video => {
+									video.locked = false
+								})
+							})
+						}
+					});
+				})
+			},
+			getCourse(){
+				// console.clear();
+				console.log('GET COURSE', this.dataData)
+
+				this.datacourse = null;
+
 				axios.get( App.data().ListUrl.UrlCoursesByid + this.dataData).then(res=>{
-					console.log('sukses get course')
+					console.log('sukses get course', res)
 					if(res.status == 200){
+						this.datacourse = res.data.result;
+
 						var cloned = JSON.parse(JSON.stringify(res.data.result))
-						this.datacourse = cloned;
-						
-						// Convert user_id to user and get the user avatar
+
+						this.dataLocked.push(res.data.result)
+
+						// this.datacourse.comments.map(commentId=>{
+						// 	this.commentsId = commentId.aid
+						// })
+
 						var comments = [];
 						cloned.comments.map(comment => {
 							if(comment.user_id){
+
+								// Get user yang komen
 								axios.get( App.data().ListUrl.urlUser + comment.user_id).then(res=>{
 									if(res.status == 200){
-										// console.log('USER YANG COMMENT', res.data.userData)
 										comment.user = res.data.userData
 										comments.push(comment);
+
+										// Sorting comment, yang paling baru diatas
 										comments.sort((a, b) => a.created_at._seconds < b.created_at._seconds);
 										this.datacourse.comments = comments;
-										console.log('asolleee', this.datacourse)
+										// console.log('asolleee', this.datacourse)
 									}
 								});
 							}
@@ -351,6 +334,7 @@
 				document.getElementById('iframeCourse').src = document.getElementById('iframeCourse').src;
 			},
 			joinCourse(id){
+				var self = this;
 				console.log(id)
 				var token = localStorage.getItem('EClassToken');
 				console.log(token)
@@ -391,6 +375,7 @@
 				}
 			},
 			unjoin(id){
+				var self = this;
 				console.log('unjoin' + id)
 
 				console.log(id)
@@ -433,13 +418,39 @@
 
 				axios.post(App.data().ListUrl.urlComment, data).then(res => {
 					alert('ok');
-					console.log(res)
 					setTimeout(()=>{
 						this.getCourse();
 					}, 1000)
 				})
 				.catch(err => {
 					alert('failed')
+					console.log(err)
+				})
+			},
+			sendAnswer(index){
+				var data ={
+					user_id: localStorage.getItem('ECLASS-id'),
+					text: this.answerComment,
+					course_id: this.datacourse.id
+				}
+
+				var comment_id = this.datacourse.comments[index].id;
+
+				axios.post(App.data().ListUrl.urlReplyComment + comment_id, data).then(res=>{
+					alert('Berhasil Reply')
+
+					setTimeout(()=>{
+						this.getCourse();
+
+					// this.$router.go({
+					// 	path: '/course/'+this.$route.params.id,
+					// 	force: true
+					// });
+
+					}, 1000)
+				})
+				.catch(err =>{
+					alert("Tidak Berhasil")
 					console.log(err)
 				})
 			}
@@ -477,8 +488,8 @@ a:hover {
 	background-color: #7faefe;
 }
 .ques {
-	width: 60px;
-	height: 60px;
+	width: 40px;
+	height: 40px;
 	background-color: #fff;
 	border-radius: 50%;
 	border: 1px solid #ccc;
@@ -566,6 +577,20 @@ button {
 	font-size: 35px;
 }
 
+.course-thumb {
+	position: relative;
+	overflow: hidden;
+	height: 200px;
+	border: 1px solid #dee2e6 !important;
+}
+
+.course-thumb img {
+	height: 100%;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
 
 
 </style>

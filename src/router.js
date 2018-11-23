@@ -11,6 +11,8 @@ import Search from './views/Search.vue'
 import Courses from './views/MyCourses.vue'
 import NewPassword from'./views/NewPassword.vue'
 import Selected from './views/selectedCategory.vue'
+import Privacy from './views/Privacy.vue'
+import Contact from './views/Contact.vue'
 Vue.use(Router)
 
 var sitename = 'Eclass';
@@ -89,7 +91,7 @@ const router = new Router({
       }
     },
     {
-      path: '/course',
+      path: '/course/:id',
       name: 'course',
       component: Course,
       meta: {
@@ -97,7 +99,7 @@ const router = new Router({
       }
     },
      {
-      path: '/search',
+      path: '/search/',
       name: 'search',
       component: Search,
       meta: {
@@ -121,13 +123,30 @@ const router = new Router({
       }
     },
     {
-      path: '/selected',
+      path: '/selected/:name',
       name: 'selected',
       component: Selected,
       meta: {
         title: sitetitle('Selected')
       }
-    }
+    },
+    {
+      path: '/privacy-policy',
+      name: 'privacy-policy',
+      component: Privacy,
+      meta: {
+        title: sitetitle('Privacy')
+      }
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: Contact,
+      meta: {
+        title: sitetitle('Contact')
+      }
+    },
+    { path: '*', redirect: '/' }
   ]
 })
 

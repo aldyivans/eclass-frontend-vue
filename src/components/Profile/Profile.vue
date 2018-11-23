@@ -8,7 +8,7 @@
 			  </div>
 			  <div class="border-right col-12 col-lg-3 p-0">
 				<div class="border-bottom border-top p-3">
-				  <h5 class="font-weight-bold m-0">{{user.fullname}}</h5>
+				  <h5 class="font-weight-bold m-0">{{fullname}}</h5>
 				</div>
 				<div class="p-3">
 				  <ul class="list-unstyled font-weight-bold">
@@ -31,7 +31,7 @@
 					  <div class=" row justify-content-center">
 						<div class="col-8 col-sm-6 col-md-6 col-lg-4 col-md-4  text-center">
 						  <div id="uploadImg">
-							<img v-bind:src="user.profilePic">
+							<img v-bind:src="profilePic">
 						  </div>
 						  <div class="custom-file">
 							<input type="file" class="custom-file-input" id="customFile"  @change="onFilePicked">
@@ -40,41 +40,80 @@
 						  </div>
 						</div>
 					  </div>
-					  <form class=" form-group py-4">
-						<div class="p-0 mb-2">
-						  <label for="username" class="font-weight-bold m-0">Username</label>
-						  <input type="text" class="form-control rounded-0 shadow-none" ref="username" v-model="user.username">
-						  <span class="text-danger" ref="inputWarning1" style="font-size: 12px"></span>
+
+					  <form class="form-group text-left py-4" ref="register_form">
+			
+            	<!-- FORM FIELDS -->
+						<div class="form-field">
+							<label for="username">Username</label>
+							<input 
+								autocomplete="off" 
+								id="username"
+								ref="input_username"
+								type="text"
+								v-model="username" 
+							>
+							<span ref="alert_username"></span>
 						</div>
 
+						<div class="form-field">
+							<label for="fullname">Fullname</label>
+							<input 
+								autocomplete="off" 
+								id="fullname"
+								ref="input_fullname"
+								type="text"
+								v-model="fullname" 
+							>
+							<span ref="alert_fullname"></span>
+						</div>
 
-						<div class=" p-0 mb-2">
-						  <label for="fullname" class="font-weight-bold m-0">Fullname</label>
-						  <input type="text" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="fullname" v-model="user.fullname">
-						  <span class="text-danger" ref="inputWarning2" style="font-size: 12px"></span>
+						<div class="form-field">
+							<label for="birthday">Birthday</label>
+							<input 
+								autocomplete="off" 
+								id="birthday"
+								ref="input_birthday"
+								type="date"
+								data-provide="datepicker"
+								v-model="birthday" 
+							>
+							<span ref="alert_birthday"></span>
 						</div>
-						<div class=" p-0 mb-2">
-						  <label for="birthday" class="font-weight-bold m-0">Birthday</label>
-						  <input class="form-control rounded-0 shadow-none border-top border-left border-right" type="date" v-model="user.birthday" ref="birthday">
-						  <span class="text-danger" ref="inputWarning3" style="font-size: 12px"></span>
+
+						<div class="form-field">
+							<label for="gender">Gender</label>
+							<select 
+								v-model="gender"
+								ref="input_gender"
+								class="custom-select form-control rounded-0 shadow-none border" autocomplete="off" 
+								id="gender">
+							  <option>Male</option>
+							  <option>Female</option>
+							</select>
+							<span ref="alert_gender"></span>
 						</div>
-						<div class=" p-0 mb-2">
-						  <label for="gender" class="font-weight-bold m-0">Gender</label>
-						  <select class="form-control rounded-0 shadow-none border-top border-left border-right" v-model="user.gender" ref="gender">
-							<option>Male</option>
-							<option>Female</option>
-						  </select>
-						  <span class="text-danger" ref="inputWarning4" style="font-size: 12px"></span>
+
+					  <div class="form-field">
+							<label for="email">Email</label>
+							<input 
+								autocomplete="off"
+								id="email"
+								ref="input_email"
+								type="text"
+								v-model="email" 
+							>
+							<span ref="alert_email"></span>
 						</div>
-						<div class=" p-0 mb-2">
-						  <label for="email" class="font-weight-bold m-0">Email</label>
-						  <input type="email" class="form-control rounded-0 shadow-none border-top border-left border-right" ref="email" aria-describedby="emailHelp" v-model="user.email">
-						  <span class="text-danger" ref="inputWarning5" style="font-size: 12px"></span>
-						</div>
-					  </form>
+					</form>
+
+
 					  <div class="row">
 						<div class="col text-right">
-						  <button type="submit" style="margin-right: 7px" class="btn btn-success rounded-0 font-weight-bold shadow-none" v-on:click="save">Save</button>
+						  <button type="submit" style="margin-right: 7px" class="btn btn-success rounded-0 font-weight-bold shadow-none" v-on:click="save" v-if="!procesing">Save</button>
+
+						   <button type="submit" style="margin-right: 7px" class="btn btn-warning rounded-0 font-weight-bold shadow-none" disabled v-if="procesing">Processing...</button>
+
 						  <button type="submit" class="btn btn-warning rounded-0 font-weight-bold shadow-none" @click="$router.push('/')">Cancel</button>
 						</div>
 					  </div>
@@ -97,21 +136,27 @@ export default {
 		return {
 			procesing: false,
 			userData: {},
-			user : {
 				profilePic: '',
 				username: '',
 				fullname: '',
 				birthday: '',
 				gender: '',
-				email: ''
-			},
+				email: '',
+
 			urlUser: App.data().ListUrl.urlUser,
 			urleditProfile: App.data().ListUrl.urlEditProfile,
 			urlAvatar: App.data().ListUrl.urlAvatar
 		}
 	},
 	mounted() {
-			let self = this;
+		document.querySelectorAll('label').forEach(l=> l.classList.add('font-weight-bold', 'm-0'));
+			document.querySelectorAll('.form-field').forEach(f=> {
+				f.classList.add('p-0', 'mb-2');
+				f.querySelector('span').classList.add('text-danger', 'font-weight-normal');
+			});
+			this.$refs.register_form.querySelectorAll('input').forEach(l => l.classList.add('form-control', 'rounded-0', 'shadow-none', 'border'));
+
+		let self = this;
 		var EclassId = localStorage.getItem('ECLASS-id');
 		
 		const headers = {
@@ -125,78 +170,51 @@ export default {
 		axios.get(this.urlUser + EclassId).then(res=>{
 		  console.log(res.data.userData)
 		  // self.userData = res.data.userData;
-		self.user.username = res.data.userData.username;
-		self.user.fullname = res.data.userData.fullname;
-		self.user.birthday = res.data.userData.birthday;
-		self.user.gender = res.data.userData.gender;
-		self.user.email = res.data.userData.email;
-		self.user.profilePic = res.data.userData.avatar;
+		self.username = res.data.userData.username;
+		self.fullname = res.data.userData.fullname;
+		self.birthday = res.data.userData.birthday;
+		self.gender = res.data.userData.gender;
+		self.email = res.data.userData.email;
+		self.profilePic = res.data.userData.avatar;
 		})
 	},
 	methods : {
 		save() {
+			this.procesing = true;
+			var alphabets = /^[a-zA-Z-0-9]+$/;
+				var space = /^[a-zA-Z-0-9\s]+$/;
 
-			var username = this.$refs.username;
-			var fullname = this.$refs.fullname;
-			var birthday = this.$refs.birthday;
-			var gender = this.$refs.gender;
-			var email = this.$refs.email;
-			var inpWarning1 = this.$refs.inputWarning1;
-			var inpWarning2 = this.$refs.inputWarning2;
-			var inpWarning3 = this.$refs.inputWarning3;
-			var inpWarning4 = this.$refs.inputWarning4;
-			var inpWarning5 = this.$refs.inputWarning5;
+				this.processing = true;
 
-			if(this.user.username == "") {
-				username.style.borderBottom = "1px solid red"
-				inpWarning1.innerHTML = "field cannot be empty!"
-			} else {
-				username.style.borderBottom = "1px solid #28a745"
-				inpWarning1.innerHTML = ""
-			}
-			if(this.user.username.length > 15) {
-				username.style.borderBottom = "1px solid red"
-				inpWarning1.innerHTML = "username must be between 6 and 15"
-			} else {
-				username.style.borderBottom = "1px solid #28a745"
-				inpWarning1.innerHTML = ""
-			}
+				if(
+					// Username
+					// ---------------------------------------- 
+					this.validate('username', this.username, this.$refs.input_username, this.$refs.alert_username) &&
 
-			if(this.user.fullname == "") {
-				fullname.style.borderBottom = "1px solid red"
-				inpWarning2.innerHTML = "field cannot be empty!"
-			} else {
-				fullname.style.borderBottom = "1px solid #28a745"
-				inpWarning2.innerHTML = ""
-			}
+					// Fullname
+					// ----------------------------------------
+					this.validate('fullname', this.fullname, this.$refs.input_fullname, this.$refs.alert_fullname) &&
 
-			if(this.user.birthday == "") {
-				birthday.style.borderBottom = "1px solid red"
-				inpWarning3.innerHTML = "field cannot be empty!"
-			} else {
-				birthday.style.borderBottom = "1px solid #28a745"
-				inpWarning3.innerHTML = ""
-			}
+					// Birthday
+					// ----------------------------------------
+					this.validate('birthday', this.birthday, this.$refs.input_birthday, this.$refs.alert_birthday) &&
 
-			if(this.user.gender == "") {
-				gender.style.borderBottom = "1px solid red"
-				inpWarning4.innerHTML = "field cannot be empty!"
-			} else {
-				gender.style.borderBottom = "1px solid #28a745"
-				inpWarning4.innerHTML = ""
-			}
+					// Gender
+					// ------------------------------------
+					this.validate('gender', this.gender, this.$refs.input_gender, this.$refs.alert_gender) &&
 
-			if(this.user.email == "") {
-				email.style.borderBottom = "1px solid red"
-				inpWarning5.innerHTML = "field cannot be empty!"
-			} else {
-				email.style.borderBottom = "1px solid #28a745"
-				inpWarning5.innerHTML = ""
-			}
-
-			if(this.user.username != "" && this.user.username.length < 15 && this.user.fullname != "" && this.user.birthday != "" && this.user.gender != "" && this.user.email != "") {
-				
-				var EclassId = localStorage.getItem('ECLASS-id');
+					// Email
+					// -------------------------------------
+					this.validate('email', this.email, this.$refs.input_email, this.$refs.alert_email)
+				){
+					this.post();
+				}else{
+					console.log('form not valid')
+					this.procesing = false;
+				}
+		},
+		post(){
+			var EclassId = localStorage.getItem('ECLASS-id');
 				
 				const params = {
 					headers: {
@@ -208,25 +226,22 @@ export default {
 				}
 
 				const userData = {
-					username: this.user.username,
-					fullname: this.user.fullname,
-					birthday: this.user.birthday,
-					gender: this.user.gender,
-					email: this.user.email,
-					avatar: this.user.profilePic
+					username: this.username,
+					fullname: this.fullname,
+					birthday: this.birthday,
+					gender: this.gender,
+					email: this.email
 				}
 
 				axios.put(this.urleditProfile + EclassId, userData , params).then(response=>{
 					if(response.status === 200){
 						console.log('Response', response)
-						location.reload();
-
+						this.procesing = false
 					}
 				}).catch(e=>{
 					console.log('error', e.response);
 					
 				})
-			}
 		},
 		onFilePicked(event) {
 			let self = this;
@@ -250,15 +265,101 @@ export default {
 			  if(request.readyState === 4 && request.status === 200) {
 			  	var res = JSON.parse(request.responseText);
 			    console.log('IMAGE UPLOADED. url:', res.url);
-			    self.user.profilePic = res.url;
+			    self.profilePic = res.url;
 			  }else{
 			  	console.log('ERROR')
 			  }
 		      self.procesing = false;
 			};
+		},
+		validate(key, val, input, alert){
+				var alphabets = /^[a-zA-Z-0-9]+$/;
+				var space = /^[a-zA-Z-0-9\s]+$/;
+				var result = true;
+
+				if(val === ''){
+					let redkey = key;
+					if(key == 'confirmpassword'){
+						redkey = 'confirm password';
+					}
+					red("please fill the " + redkey + " field");
+				}else{
+
+					// Birthday & Gender cuma di cek kosongnya aja
+
+					// Username
+					if(key == 'username'){
+						if(
+							val.length < 6 || 
+							val.length > 15 ||
+							!(alphabets.test(val))
+							){
+
+							if(val.length < 6 || val.length > 15){
+								red("username must be between 6 and 15");
+							}
+							else if(!(alphabets.test(val))){
+								red("only alphabet and number, no space and symbol");
+							}
+						}else{
+							clear();
+						}
+					}
+
+					// Fullname
+					else if(key == 'fullname'){
+						if(!(space.test(val))){
+							red("only alphabet and number");
+						}else{
+							clear();
+						}
+					}
+
+					// Email
+					else if(key == 'email'){
+						if(val.indexOf('@')<= 0){
+							red("@ invalid position");
+						}else{
+							clear();
+						}
+					}
+
+					else{
+						clear();
+					}
+				}
+
+				function clear(){
+					alert.innerHTML = "";
+					input.className = "form-control rounded-0 shadow-none border border-success";
+				}
+				function red(msg){
+					input.className = "form-control rounded-1 shadow-none border-danger";
+					alert.innerHTML = msg;
+					result = false;
+				}
+
+				return result;
+		}
+	},
+	watch: {
+			username(val){
+				this.validate('username', val, this.$refs.input_username, this.$refs.alert_username);
+			},
+			fullname(val){
+				this.validate('fullname', val, this.$refs.input_fullname, this.$refs.alert_fullname);
+			},
+			birthday(val){
+				this.validate('birthday', val, this.$refs.input_birthday, this.$refs.alert_birthday);
+			},
+			gender(val){
+				this.validate('gender', val, this.$refs.input_gender, this.$refs.alert_gender);
+			},
+			email(val){
+				this.validate('email', val, this.$refs.input_email, this.$refs.alert_email);
+			}
 		}
 	}
-}
 </script>
 
 <style>

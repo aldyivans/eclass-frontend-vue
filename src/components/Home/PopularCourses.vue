@@ -5,34 +5,36 @@
 		    <div class="col-12">
 		      <h1 class="font-weight-bold">Popular Courses</h1>
 		    </div>
-			    <div class="col-12 p-0 justify-content-center">
-			      	<carousel :per-page-custom="[[375, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false" :navigationEnabled="true" navigationNextLabel="<h1>&#8250;</h1>" navigationPrevLabel="<h1>&#8249;</h1>">
-			        	<slide v-for="x in dataCourse">
+		    <div class="col-12 p-0 justify-content-center">
+		    	<div class="px-5 py-0 px-sm-0">
+		      	<carousel :per-page-custom="[[320, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false" :navigationEnabled="true" navigationNextLabel="<h1>&#8250;</h1>" navigationPrevLabel="<h1>&#8249;</h1>">
+		        	<slide v-for="x in dataCourse">
 
-			        		<router-link :to="{name:'course', params:{id: x.aid}}">
-					          <div class="card m-2">
-					          	<div class="poto">
-						            <img class="card-img-top" v-bind:src="x.thumbnail" >
-					          	</div>
-					            <div class="card-body text-dark">
-					            	<div>
-						              <h5 class="card-title">{{ x.title }}</h5>
-					            	</div>
-					              <p class="card-text">{{ x.subtitle }}</p>
-					              <div class="view-counter mt-4 text-right">
-					                <i class="fa fa-eye"></i>
-					                <span>
-					                	<font-awesome-icon icon="eye" />
-					                	{{ x.view_count }} views
-					                </span>
-					              </div>
-					            </div>
-					          </div>
-					        </router-link>
+		        		<router-link :to="{name:'course', path:'course/', params:{id: x.aid}}">
+				          <div class="card m-2">
+				          	<div class="poto">
+					            <img class="card-img-top" v-bind:src="x.thumbnail" >
+				          	</div>
+				            <div class="card-body text-dark">
+				            	<div>
+					              <h5 class="card-title">{{ x.title }}</h5>
+				            	</div>
+				              <p class="card-text">{{ x.subtitle }}</p>
+				              <div class="view-counter mt-4 text-right">
+				                <i class="fa fa-eye"></i>
+				                <span>
+				                	<font-awesome-icon icon="eye" />
+				                	{{ x.view_count }} views
+				                </span>
+				              </div>
+				            </div>
+				          </div>
+				        </router-link>
 
-			        	</slide>
-			        </carousel>
-			    </div>
+		        	</slide>
+		        </carousel>
+		    	</div>
+		    </div>
 		  </div>
 		</div>
 	</div>
@@ -58,6 +60,7 @@ export default {
 		}	 
 	},
 	mounted(){
+		var dataA=[]
 	    axios.get(this.url).then(res=>{
 	    	if(res.status === 200){
 	    		console.log("[HEROKU POPULAR COURSES]:",res.data.result)
