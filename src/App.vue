@@ -191,7 +191,7 @@
     urlToken: mainUrl + 'v1/checktoken/',
     urlDeleteComment: mainUrl + 'v1/comment/',
     urlDeletReply: mainUrl + 'v1/reply/',
-    urlContact: mainUrl +'/v1/contact'
+    urlContact: mainUrl + 'v1/contact'
 
     /* HEROKU (Master Backend Ori) */
     // ==============================
