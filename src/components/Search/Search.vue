@@ -1,6 +1,19 @@
 <template>
-	<div class="search bg-light">
-		<div class="container p-0" v-if="data">
+  <div class="search bg-light">
+    <div class="bg-light" v-if="!data">
+      <div class="container py-5">
+        <div class="jumbotron m-0 bg-light">
+          <h1 class="display-4 bg">Hello Student</h1>
+          <p class="lead">the word you entered does not match</p>
+          <hr class="my-4">
+          <div class="text-right">
+            <router-link class="btn btn-primary rounded-0" to="/" role="button">Back</router-link>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    <div class="container p-0">
       <div class="row m-0 py-5"  v-if="data.length >0">
         <div class=" col-12 p-3">
             <h5 class="m-0 font-weight-bold">{{data.length}} Result for {{dataKeyword}}</h5>
@@ -46,22 +59,9 @@
           </nav>
         </div> -->
       </div>
-      <div v-if="loading">
+<!--       <div v-if="loading">
         <h1 class="font-weight-bold">Waith. . .</h1>
-      </div>
-      <div class="bg-light" v-else>
-        <div class="container py-5">
-          <div class="jumbotron m-0 bg-light">
-            <h1 class="display-4 bg">Hello Student</h1>
-            <p class="lead">the word you entered does not match</p>
-            <hr class="my-4">
-            <div class="text-right">
-              <router-link class="btn btn-primary rounded-0" to="/" role="button">Back</router-link>
-            </div>
-          </div>
-          
-        </div>
-      </div>
+      </div> -->
     </div>
 	</div>
 </template>
@@ -129,7 +129,9 @@
 
         this.data = arr;
 
-        console.log('ini data hasil bro',this.data)
+        var tes = JSON.stringify(this.data);
+
+        console.log('ini data hasil bro', tes)
         // this.updateVisibleCourses();
       },
       // updatePage(pageNumber) {
