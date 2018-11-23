@@ -18,9 +18,10 @@ import { faLock } from '@fortawesome/free-solid-svg-icons'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faBars, faSearch, faTh, faTimes, faChevronDown, faEye,faMinus, faPlayCircle,faLock, faPlus)
+library.add(faBars, faSearch, faTh, faTimes, faChevronDown, faEye,faMinus, faPlayCircle,faLock, faPlus, faCheck)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

@@ -12,7 +12,7 @@
           <li class="list-group-item list-group-item-action d-flex justify-content-between font-weight-bold" v-on:click="openCategory">Categories<font-awesome-icon icon="chevron-down" size="lg" /></li>
           <li class="mobile-category list-group-item" ref="mobileCategory" style="display: none">
             <ul class="list-group list-group-flush" v-for="category in categories">
-              <li class="list-group-item"><a href="#">{{category.name}}</a></li>
+              <router-link :to="{name: 'selected', params:{id: category.aid, path:'selected/' ,name:category.name}}"><li class="list-group-item">{{category.name}}</li></router-link>
             </ul>
           </li>
         </ul>
@@ -50,11 +50,11 @@
                 <ul class="dropdown-menu multi-level rounded-0 border-0 m-0 pb-2 p-0" role="menu" aria-labelledby="dropdownMenu">
 
                   <li class="dropdown-submenu pt-2 p-0" v-for="category in categories" :key="category.aid">
-                    <router-link class="dropdown-item" tabindex="-1" :to="{name: 'selected', params:{id: category.aid, name:category.name}}">{{category.name}}</router-link>
+                    <router-link class="dropdown-item" tabindex="-1" :to="{name: 'selected', params:{id: category.aid, path:'selected/' ,name:category.name}}">{{category.name}}</router-link>
                     <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
 
                       <li class="dropdown-submenu pt-2 p-0" v-for="sub in category.subs" :key="sub.number">
-                        <router-link class="dropdown-item" tabindex="-1" :to="{name: 'selected', params:{id: category.aid, name:category.name}}">{{sub.name}}</router-link> 
+                        <router-link class="dropdown-item" tabindex="-1" to="#">{{sub.name}}</router-link> 
                         <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 pb-2 p-0">
 
                           <li class="pt-2 p-0" v-for="topic in sub.topics" :key="topic"><a class="dropdown-item" href="#">{{topic}}</a></li>
@@ -69,11 +69,11 @@
           </div>
           <div class="col-lg-6 my-4 my-lg-0">
             <div class="input-group border">
-              <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searchThis">
+              <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searching">
 
               <!-- SEARCH -->
               <div class="input-group-append" v-if="$route.path != '/search'">
-                <router-link :to="{name:'search', params:{ selected_keyword: searchThis}}">
+                <router-link :to="{name:'search', path:'/search/', query:{keyword: searching}}">
                   <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
                     <!-- {{$route.path}} -->
                     <font-awesome-icon icon="search" />
@@ -93,7 +93,6 @@
               <div class="dropdown d-inline-flex">
                 <button class="avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img :src="profileImg" v-if="profileImg">
-                <img :src="defaultAvatar" v-else>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                   <router-link class="dropdown-item" to="/profile">Profile</router-link>
@@ -121,18 +120,27 @@
         <div class="container-fluid">
           <div class="row p-5">
             <div class="col-lg-4 my-3">
-              <h1>About e-Class</h1>
+              <h1>About E-Class</h1>
               <p>{{about}}</p>
-              <!-- <p>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass. </p> -->
             </div>
             <div class="col-lg-4 my-3">
               <h1>Follow Us</h1>
-              <p>Now that we know who you are, I know who I am. I'm not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villain's going to be? He's the exact opposite of the hero. And most times they're friends, like you and me! I should've known way back when... You know why, David? Because of the kids. They called me Mr Glass. </p>
+              <div>
+                <img v-bind:src="google" class="mr-2">
+                <img v-bind:src="fb" class="mr-2">
+                <img v-bind:src="instagrams" class="mr-2">
+                <img v-bind:src="twitter" class="mr-2">
+              </div>
             </div>
             <div class="col-lg-4 my-3">
               <h1>Does University</h1>
-              <p>Soekamtiland, Area Sawah, Sidoarum, Godean, Sleman Regency, Special Region of Yogyakarta 55264</p>
+              <p>Soekamtiland<br> Area Sawah, Sidoarum<br>
+              Kecamatan Godean Kabupaten Sleman Yogyakarta 55264 Indonesia</p>
             </div>
+          </div>
+          <div class="p-1 px-5 text-right">
+            <router-link class="mr-3 text-muted" to="/contact">Contact Us</router-link>
+            <router-link class="text-muted" to="/privacy-policy">Privacy Policy</router-link>
           </div>
         </div>
       </div>
@@ -150,33 +158,36 @@
 <script>
 
   import axios from 'axios'
-  var ava = require('@/assets/ava.png');
 
+  // var mainUrl = 'https://eclass-does.herokuapp.com/'
+  var mainUrl = 'http://192.168.2.231:3000/'
 
   var ListUrl = {
 
     /* HEROKU (Master Backend KW) */
     // ==============================
-    urlComment: 'https://eclass-does.herokuapp.com/v1/comment',
-    urlAbout: 'https://eclass-does.herokuapp.com/v1/about',
-    urlCourses: 'https://eclass-does.herokuapp.com/v1/courses',
-    UrlCoursesByid: 'https://eclass-does.herokuapp.com/v1/course/',
-    UrlJoinCourse: 'https://eclass-does.herokuapp.com/v1/joincourse/',
-    UrlUnjoinCourse: 'https://eclass-does.herokuapp.com/v1/unjoincourse/',
-    urlUser: 'https://eclass-does.herokuapp.com/v1/user/',
-    urlCategory: 'https://eclass-does.herokuapp.com/v1/categories',
-    urlRegister: 'https://eclass-does.herokuapp.com/v1/register',
-    urlRegisterGoogle: 'https://eclass-does.herokuapp.com/v1/registergoogle',
-    urlLogin: 'https://eclass-does.herokuapp.com/v1/login',
-    urlLoginGoogle: 'https://eclass-does.herokuapp.com/v1/logingoogle',
-    urlForgotPassword:'https://eclass-does.herokuapp.com/v1/forgotpassword',
-    urlEditProfile: 'https://eclass-does.herokuapp.com/v1/editprofile/',
-    urlAvatar: 'https://eclass-does.herokuapp.com/v1/uploadavatar/',
-    urlDeactive: 'https://eclass-does.herokuapp.com/v1/deactivate',
-    urlChangePassword: 'https://eclass-does.herokuapp.com/v1/changepassword',
-    urlResetPassword: 'https://eclass-does.herokuapp.com/v1/resetpassword/',
-    urlConfirmation: 'https://eclass-does.herokuapp.com/v1/confirmation/',
-    urlToken: 'https://eclass-does.herokuapp.com/v1/checktoken/',
+    urlComment: mainUrl + 'v1/comment',
+    urlReplyComment: mainUrl + 'v1/reply/',
+    urlAbout: mainUrl + 'v1/about',
+    urlCourses: mainUrl + 'v1/courses',
+    urlCoursesPage: 'http://192.168.2.231:3000/v1/coursespage?page=2&size=2',
+    UrlCoursesByid: mainUrl + 'v1/course/',
+    UrlJoinCourse: mainUrl + 'v1/joincourse/',
+    UrlUnjoinCourse: mainUrl + 'v1/unjoincourse/',
+    urlUser: mainUrl + 'v1/user/',
+    urlCategory: mainUrl + 'v1/categories',
+    urlRegister: mainUrl + 'v1/register',
+    urlRegisterGoogle: mainUrl + 'v1/registergoogle',
+    urlLogin: mainUrl + 'v1/login',
+    urlLoginGoogle: mainUrl + 'v1/logingoogle',
+    urlForgotPassword:mainUrl + 'v1/forgotpassword',
+    urlEditProfile: mainUrl + 'v1/editprofile/',
+    urlAvatar: mainUrl + 'v1/uploadavatar/',
+    urlDeactive: mainUrl + 'v1/deactivate',
+    urlChangePassword: mainUrl + 'v1/changepassword',
+    urlResetPassword: mainUrl + 'v1/resetpassword/',
+    urlConfirmation: mainUrl + 'v1/confirmation/',
+    urlToken: mainUrl + 'v1/checktoken/',
 
     /* HEROKU (Master Backend Ori) */
     // ==============================
@@ -235,6 +246,8 @@
     // urlResetPassword: 'http://192.168.2.231:3000/v1/resetpassword/',
     // urlConfirmation: 'http://192.168.2.231:3000/v1/confirmation/',
     // urlToken: 'http://192.168.2.231:3000/v1/checktoken/',
+
+    urlContact: 'http://192.168.2.225:3000/v1/contact'
   }
 
   
@@ -242,17 +255,19 @@
     name:"app",
     data () {
       return {
+        searching: '',
         ListUrl: ListUrl,
-        defaultAvatar: ava,
         profileImg: null,
         isLoggedIn: false,
-        searchThis: '',
-        // isSearching : false,
         dataCourse : null,
         searchResult: null,
         dataUser: [],
         categories: [],
-        about: ''
+        about: null,
+        google: require('./assets/google-plus.png'),
+        fb: require('./assets/facebook.png'),
+        instagrams: require('./assets/instagram.png'),
+        twitter: require('./assets/twitter.png')
       }
     },
 
@@ -291,11 +306,12 @@
     },
     methods: {
       search(){
-        console.log(this.searchThis)
-        if(this.$route.path != '/search'){
-          this.$router.push('/search');
+        const keyword = this.searching;
+
+        if(this.$route.path != '/search/'){
+          this.$router.push({ name: "search", query: {keyword: this.searching}});
         }
-        this.$root.$emit('search', this.searchThis)
+        this.$root.$emit('search', this.searching)
       },
       getAbout(){
         axios.get(this.ListUrl.urlAbout).then(res =>{
@@ -320,7 +336,6 @@
           'Accept': 'application/json',
           'Access-Control-Allow-Origin': '*',
           'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-          // 'withCredentials': true,
         }
         axios.get(this.ListUrl.urlUser + EclassId, headers).then(res => {
           if(res.status === 200) {
@@ -381,6 +396,9 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 a {
+  text-decoration: none;
+}
+li a:hover{
   text-decoration: none;
 }
 
@@ -656,6 +674,11 @@ button:focus {
   font-size: 14px;
   font-weight: bold;
 }
-
+/*
+@media (max-width: 576px) {
+  .VueCarousel-navigation {
+    display: none;
+  }
+}*/
 
 </style>
