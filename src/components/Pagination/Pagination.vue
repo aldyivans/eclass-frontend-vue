@@ -46,7 +46,7 @@
           this.$emit('page:update', this.inputedPage - 1);
           this.inputedPage = 1;
         }else{
-          this.inputedPage = 1;
+          this.inputedPage = 1;OA
         }
       }
     },
@@ -67,4 +67,5 @@
   .pagination-btn:active {
     transform: scale(0.95);
   }
+  
 </style>
