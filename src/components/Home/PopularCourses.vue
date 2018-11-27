@@ -8,7 +8,7 @@
 		    <div class="col-12 p-0 justify-content-center">
 		    	<div class="px-5 py-0 px-sm-0">
 		      	<carousel :per-page-custom="[[320, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false" :navigationEnabled="true" navigationNextLabel="<h1>&#8250;</h1>" navigationPrevLabel="<h1>&#8249;</h1>">
-		        	<slide v-for="x in dataCourse">
+		        	<slide v-for="x in dataSort">
 
 		        		<router-link :to="{name:'course', path:'course/', params:{id: x.aid}}">
 				          <div class="card m-2">
@@ -57,16 +57,31 @@ export default {
 		return {
 			url: App.data().ListUrl.urlCourses,
 			dataCourse: null,
+			dataSort : [],
+			dataSortResult : []
 		}	 
 	},
 	mounted(){
-		var dataA=[]
 	    axios.get(this.url).then(res=>{
 	    	if(res.status === 200){
 	    		console.log("[HEROKU POPULAR COURSES]:",res.data.result)
 	    		this.dataCourse = res.data.result
+	    		this.sortData(this.dataCourse);
 	    	}
 	    })
+	},
+	methods: {
+		sortData(e){
+			var self = this;
+			e.map(data=>{
+				console.log(data.view_count)
+				self.dataSort.push(data)
+			})
+			self.dataSort.sort(function(a,b){
+				return b.view_count - a.view_count
+			})
+			console.log("SORT", self.dataSort)
+		}
 	}
 }
 </script>

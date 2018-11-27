@@ -68,8 +68,16 @@ export default {
 		      	this.courses.push(data)
 	      	})
 	        console.log('[HEROKU NEW COURSES]:', this.courses)
+	        this.dataSort(this.courses)
 	      }
 	    })
+		},
+
+		dataSort(e){
+			var dataCreated = []
+			e.map(data=>{
+				console.log("DATA CREATE",data.created_at._seconds)
+			})
 		}
 	},
 	computed: {

@@ -162,6 +162,7 @@
   var mainUrl = 'https://eclass-does.herokuapp.com/'
   // var mainUrl = 'http://192.168.2.231:3000/'
   // var mainUrl = 'http://192.168.2.231:3000/'
+  // var mainUrl = 'https://eclass.doesuniversity.com/'
 
   var ListUrl = {
 
