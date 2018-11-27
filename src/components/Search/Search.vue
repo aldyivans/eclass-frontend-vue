@@ -57,7 +57,7 @@
         this.loading = true;
         var arr = []
 
-        axios.get(this.url).then(res => {
+        axios.get('https://eclass-does.herokuapp.com/').then(res => {
           res.data.result.map(data => {
             if(this.dataKeyword != ''){
               if(this.dataKeyword == data.title.toLowerCase() || data.title.toLowerCase().indexOf(this.dataKeyword)!== -1){
