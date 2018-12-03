@@ -210,6 +210,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<!-- MODAL -->
 		<div class="modal fade" id="buttonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
