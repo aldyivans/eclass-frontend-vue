@@ -31,11 +31,11 @@
 					  <div class=" row justify-content-center">
 						<div class="col-8 col-sm-6 col-md-6 col-lg-4 col-md-4  text-center">
 						  <div id="uploadImg">
-							<img v-bind:src="profilePic">
-						  </div>
-						  <div class="custom-file">
-							<input type="file" class="custom-file-input" id="customFile"  @change="onFilePicked">
-							<label class="custom-file-label shadow-none" for="customFile">Choose file</label>
+						<img v-bind:src="profilePic">
+					  </div>
+					  <div class="custom-file">
+						<input type="file" class="custom-file-input" id="customFile"  @change="onFilePicked">
+						<label class="custom-file-label shadow-none" for="customFile">Choose file</label>
 							<label class="custom-file-label shadow-none font-weight-bold" for="customFile" v-if="procesing" disabled >Processing...</label>
 						  </div>
 						</div>
@@ -110,9 +110,9 @@
 
 					  <div class="row">
 						<div class="col text-right">
-						  <button type="submit" style="margin-right: 7px" class="btn btn-success rounded-0 font-weight-bold shadow-none" v-on:click="save" v-if="!procesing">Save</button>
+						  <button type="submit" style="margin-right: 7px" class="btn btn-success rounded-0 font-weight-bold shadow-none" v-on:click="save" v-if="!procesingSave">Save</button>
 
-						   <button type="submit" style="margin-right: 7px" class="btn btn-warning rounded-0 font-weight-bold shadow-none" disabled v-if="procesing">Processing...</button>
+						   <button type="submit" style="margin-right: 7px" class="btn btn-warning rounded-0 font-weight-bold shadow-none" disabled v-if="procesingSave">Processing...</button>
 
 						  <button type="submit" class="btn btn-warning rounded-0 font-weight-bold shadow-none" @click="$router.push('/')">Cancel</button>
 						</div>
@@ -135,13 +135,14 @@ export default {
 	data() {
 		return {
 			procesing: false,
+			procesingSave: false,
 			userData: {},
-				profilePic: '',
-				username: '',
-				fullname: '',
-				birthday: '',
-				gender: '',
-				email: '',
+			profilePic: '',
+			username: '',
+			fullname: '',
+			birthday: '',
+			gender: '',
+			email: '',
 
 			urlUser: App.data().ListUrl.urlUser,
 			urleditProfile: App.data().ListUrl.urlEditProfile,
@@ -168,7 +169,7 @@ export default {
 		}
 
 		axios.get(this.urlUser + EclassId).then(res=>{
-		  console.log(res.data.userData)
+		  console.log("IMAGES",res.data.userData)
 		  // self.userData = res.data.userData;
 		self.username = res.data.userData.username;
 		self.fullname = res.data.userData.fullname;
@@ -180,7 +181,8 @@ export default {
 	},
 	methods : {
 		save() {
-			this.procesing = true;
+			// this.procesing = true;
+			this.procesingSave = true;
 			var alphabets = /^[a-zA-Z-0-9]+$/;
 				var space = /^[a-zA-Z-0-9\s]+$/;
 
@@ -211,6 +213,7 @@ export default {
 				}else{
 					console.log('form not valid')
 					this.procesing = false;
+					this.procesingSave = false;
 				}
 		},
 		post(){
@@ -236,17 +239,21 @@ export default {
 				axios.put(this.urleditProfile + EclassId, userData , params).then(response=>{
 					if(response.status === 200){
 						console.log('Response', response)
+						alert('Success')
+						window.location.reload()
 						this.procesing = false
+						this.procesingSave = false;
 					}
 				}).catch(e=>{
 					console.log('error', e.response);
+					alert('Failed')
 					
 				})
 		},
 		onFilePicked(event) {
 			let self = this;
 
-			var oldAvatar = JSON.parse(JSON.stringify(this.user.profilePic));
+			var oldAvatar = JSON.parse(JSON.stringify(this.profilePic));
 
 			this.procesing = true;
 			const image = event.target.files[0];
@@ -264,13 +271,14 @@ export default {
 			request.onreadystatechange = function () {
 			  if(request.readyState === 4 && request.status === 200) {
 			  	var res = JSON.parse(request.responseText);
+			  	console.log("INI RES",res)
 			    console.log('IMAGE UPLOADED. url:', res.url);
-			    self.profilePic = res.url;
-			  }else{
-			  	console.log('ERROR')
-			  }
-		      self.procesing = false;
-			};
+		    self.profilePic = res.url;
+		  }else{
+		  	console.log('ERROR POST GAMBAR')
+		  }
+	      self.procesing = false;
+		};
 		},
 		validate(key, val, input, alert){
 				var alphabets = /^[a-zA-Z-0-9]+$/;

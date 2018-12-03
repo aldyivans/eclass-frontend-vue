@@ -13,7 +13,7 @@
     </div>
     
     <div class="d-inline-flex justify-content-center">
-      <input class="ml-3 pl-1 w-50" id="inputNumPage" type="number" value="numPage" v-model="inputedPage" min="1">
+      <input class="ml-3 pl-1 w-50 bg-white p-0" id="inputNumPage" type="number" value="numPage" v-model="inputedPage" min="1">
       <button class="btn btn-dark btn-sm rounded-0" v-on:click="gotoPage()">Go!</button>
     </div>
   </div>

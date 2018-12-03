@@ -36,20 +36,15 @@
 								<span class="text-danger" ref="inputWarning2"></span>
 							</div>
 
-							<template v-show="!processing">
-								<button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold shadow-none" id="buttonSignup" v-on:click="save">Login</button>
+							<button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold shadow-none" id="buttonSignup" v-on:click="save" v-if="!processing">Login</button>
+							<button type="button" class="btn btn-warning btn-md btn-block rounded-0 font-weight-bold shadow-none" disabled v-if="processing">Processing...</button>
+							
+							<div class="py-2">
+								<h5 class="text-center p-2 m-0" id="magic">or</h5>
+							</div>
 
-								<div class="py-2">
-									<h5 class="text-center p-2 m-0" id="magic">or</h5>
-								</div>
-
-								<button type="submit" class="btn btn-block border p-0 rounded-0" id="googleBtn"  v-on:click="googleSignIn" v-show="gRendered">
-								</button>
-							</template>
-
-							<template v-if="processing">
-								<button type="button" class="btn btn-warning btn-md btn-block rounded-0 font-weight-bold shadow-none" disabled>Processing...</button>
-							</template>
+							<button type="submit" class="btn btn-block border p-0 rounded-0" id="googleBtn"  v-on:click="googleSignIn" v-show="gRendered">
+							</button>
 
 							<div class="text-center">
 								<button type="button" style="color: #007bff;" class="btn bg-white border-0 mt-2 shadow-none" data-toggle="modal" data-target="#exampleModalCenter">

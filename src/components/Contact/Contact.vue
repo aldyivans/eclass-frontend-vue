@@ -161,11 +161,8 @@
 		},
 		watch: {
 			firstname(val){
-				this.validate('firstname', val, this.$refs.input_firstname, this.$refs.alert_firstname);
+				this.validate('your name', val, this.$refs.input_firstname, this.$refs.alert_firstname);
 			},
-			// lastname(val){
-			// 	this.validate('lastname', val, this.$refs.input_lastname, this.$refs.alert_lastname);
-			// },
 			email(val){
 				this.validate('email', val, this.$refs.input_email, this.$refs.alert_email);
 			},

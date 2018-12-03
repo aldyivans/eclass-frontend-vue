@@ -1,4 +1,7 @@
-<template>
+
+<!-- MY COURSES NGAMBIL DARI COMPONENT HOME MY COURSES -->
+
+<!-- <template>
 	<div class="my-course">
 	    <div class="container">
 	      <div class="row my-5">
@@ -16,7 +19,7 @@
 							  	<div>
 							  		<h5 class="card-title">{{data.title}}</h5>
 							  	</div>
-							    <p class="card-text">{{data.description}}</p>
+							    <p class="card-text">{{data.subtitle}}...</p>
 							    <div class="view-counter mt-4">
 	                  <div class="progress">
 										  <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
@@ -45,18 +48,34 @@
 		data(){
 			return {
 				url: App.data().ListUrl.urlUser,
-				myCourse: null
+				myCourse: []
 				
 			}
 		},
 		mounted(){
-			var EclassId = localStorage.getItem('ECLASS-id');
+			this.getUser();
+		
+		},
 
-			axios.get(this.url + EclassId).then(res=>{
-				this.myCourse = res.data.userData.my_course
-				console.log("[MY COURSE]", this.myCourse)
-			
-			})
+		methods: {
+			getUser(){
+				
+				var EclassId = localStorage.getItem('ECLASS-id');
+
+				axios.get(this.url + EclassId).then(res=>{
+					for (var i = 0; i < res.data.userData.my_course.length; i++) {
+						this.myCourse.push(res.data.userData.my_course[i])
+					}
+
+					for (var i = 0; i < this.myCourse.length; i++) {
+			    	if(this.myCourse[i].subtitle.length > 25){
+			    		var x = this.myCourse[i].subtitle.slice(0, 23);
+			    		this.myCourse[i].subtitle = x
+			    	}
+		    	}
+				
+				})
+			}
 		}
 	}
 </script>
@@ -79,4 +98,4 @@
 	a:hover {
 		text-decoration: none;
 	}
-</style>
+</style> -->

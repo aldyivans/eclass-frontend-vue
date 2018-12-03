@@ -37,12 +37,14 @@
 				<h5 class="font-weight-bold">Description:</h5>
 				<p>{{datacourse.description}}</p>
 			</div>
-			<div class="col-12 col-md-8 py-5" v-for="(data, i) in datacourse.sections" v-bind:key="i">
-				<div class="shadow bg-white">
-				<button class="btn rounded-0 bg-white w-100 text-left border-0 p-3 font-weight-bold d-flex align-items-center" type="button" data-toggle="collapse" data-target="#collapseExample" aria-controls="collapseExample" aria-expanded="false"><font-awesome-icon icon="minus" class="mr-2"></font-awesome-icon>
+			<div class="col-12 col-md-8 py-5">
+				<div class="shadow bg-white" v-for="(data, i) in datacourse.sections" v-bind:key="i">
+				<button class="btn rounded-0 bg-white w-100 text-left border-0 p-3 font-weight-bold d-flex align-items-center" type="button" data-toggle="collapse" :data-target="'#collapseExample' + i" aria-controls="collapseExample" aria-expanded="false">
+				<font-awesome-icon icon="minus" class="mr-2"></font-awesome-icon>
+				
 				<h6 class="font-weight-bold m-0">{{data.title}}</h6>
 				</button>
-				<div class="collapse w-100 rounded-0 bg-white border-top" id="collapseExample">
+				<div class="collapse w-100 rounded-0 bg-white border-top" v-bind:id="['collapseExample' + i]">
 					<ul class="p-0 m-0" >
 					<div class="w-100 bg-white border-bottom" v-for="(video, j) in data.videos" v-bind:key="j">
 						<li>
@@ -239,6 +241,7 @@
 <script>
 	import axios from 'axios'
 	import App from '../../App.vue'
+	import router from '../../router'
 
 	$("#exampleModalCenter").on('hidden.bs.modal', function (e) {
     $("#exampleModalCenter iframe").attr("src", $("#exampleModalCenter iframe").attr("src"));
@@ -256,7 +259,7 @@
 				newcomment: '',
 				answerComment: '',
 				commentsId: null,
-				dataLocked: []
+				dataLocked: [],
 
 			}
 		},
@@ -264,12 +267,13 @@
 			var self = this;
 			var EclassId = localStorage.getItem('ECLASS-id');
 
+			this.dataData = this.$route.params.id
+			this.getCourse();
+			
 			if(EclassId){
 				this.getUser()
 			}
 
-			this.dataData = this.$route.params.id
-			this.getCourse();
 
 			if(localStorage.getItem('EClassToken')) {
 			this.join = true
@@ -424,9 +428,7 @@
 
 				axios.post(App.data().ListUrl.urlComment, data).then(res => {
 					alert('Your Comment is Success');
-					setTimeout(()=>{
-						this.getCourse();
-					}, 1000)
+					this.getCourse()
 				})
 				.catch(err => {
 					alert('failed')
@@ -448,12 +450,6 @@
 
 					setTimeout(()=>{
 						this.getCourse();
-
-					// this.$router.go({
-					// 	path: '/course/'+this.$route.params.id,
-					// 	force: true
-					// });
-
 					}, 1000)
 				})
 				.catch(err =>{

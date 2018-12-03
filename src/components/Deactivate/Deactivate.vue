@@ -79,14 +79,16 @@
 		},
 		mounted(){
 			var EclassId = localStorage.getItem('ECLASS-id');
+			
 			axios.get(this.urlUSer + EclassId).then(res => {
-			if(res.status === 200) {
-			this.dataUser = res.data.userData
-			console.log("data user:", this.dataUser)
-			}
-		});
+				if(res.status === 200) {
+					this.dataUser = res.data.userData
+					console.log("data user:", this.dataUser)
+				}
+			});
 		},
 		methods: {
+
 			save() {
 
 				var params = {

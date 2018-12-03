@@ -44,6 +44,7 @@
 			console.log(this.currentPage)
 		},
 		beforeMount: function() {
+			this.datas = [];
 			if(this.searchresult){
 				this.datas = this.searchresult;
 			}
@@ -55,6 +56,7 @@
 		    	this.updateVisibleDatas();
 		    },
 		    updateVisibleDatas() {
+		    	this.visibleDatas = [];
 		    	this.visibleDatas = this.datas.slice(this.currentPage * this.pageSize, (this.currentPage * this.pageSize) + this.pageSize);
 
 		    	if (this.visibleDatas.length == 0 && this.currentPage > 0) {
@@ -64,7 +66,10 @@
 		},
 		watch: {
 			searchresult(val){
+				this.datas = [];
+				this.visibleDatas = [];
 				this.datas = val;
+				this.updateVisibleDatas();
 			}
 		}
 	}

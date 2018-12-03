@@ -12,7 +12,7 @@
     </div>
   </div>
 </template> 
-<script>
+<!-- <script>
 	import App from '@/App.vue'
 	import axios from 'axios'
 
@@ -24,25 +24,25 @@
 			}
 		},
 		mounted(){
-			this.sortir(this.$route.params.id)
+			// this.sortir(this.$route.params.id)
 		},
 		methods: {
-			sortir(datacat){
-				var self =this
-				axios.get(this.urlCourse).then(res =>{
-					res.data.result.map(data =>{
-					data.categories.map(e=>{
-						if(e == datacat){
-							self.dataCategory.push(data)
-						}
-					})
+			// sortir(datacat){
+			// 	var self =this
+			// 	axios.get(this.urlCourse).then(res =>{
+			// 		res.data.result.map(data =>{
+			// 		data.categories.map(e=>{
+			// 			if(e == datacat){
+			// 				self.dataCategory.push(data)
+			// 			}
+			// 		})
 						
-					})
-				})
-			}
+			// 		})
+			// 	})
+			// }
 		}
 	}
-</script>    
+</script> -->    
 <style scoped>
 	#banner {
   color: #fff;

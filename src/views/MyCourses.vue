@@ -6,7 +6,7 @@
 </template>
 <script>
 	import Blue from '@/components/Blue.vue'
-	import MyCoursesList from'@/components/MyCourses/MyCourses.vue'
+	import MyCoursesList from'@/components/Home/MyCourse.vue'
 export default {
   components: {
     Blue,

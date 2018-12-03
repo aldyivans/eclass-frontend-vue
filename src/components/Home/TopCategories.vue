@@ -5,11 +5,13 @@
 		    <div class="col-12">
 		      <h1 class="font-weight-bold">Top Categories</h1>
 		    </div>
+
 		    <div v-for="category in dataCategory" class="col-12 col-sm-4 col-lg-2 p-0 justify-content-center">
-		      <div class="col-course p-2">
+		      <div class="col-course p-2" v-on:click="send(category)">
 		          <p class="m-0">{{ category.name }}</p>
 		      </div>
 		    </div>
+
 		  </div>
 		</div>
 	</div>
@@ -18,20 +20,27 @@
 <script>
 import App from '../../App.vue'
 import axios from 'axios'
+import router from '../../router'
 
 export default {
 	name: 'top-categories',
 	data() {
 		return {
-			url: App.data().ListUrl.urlCategory,
 			dataCategory: null
 		}
 	},
 	mounted() {
-		axios.get(this.url).then(res=>{
-			this.dataCategory = res.data.result
-			console.log("[HEROKU CATEGORIES]", this.dataCategory)
-		})
+
+		this.getCategory();
+	},
+	methods: {
+		getCategory(){
+			var route = router.app.category
+			this.dataCategory = route
+		},
+		send(category){
+			this.$router.push({name: 'selected', path:'/selected/', params: {id: category.id, name: category.name}})
+		}
 	}
 }
 </script>

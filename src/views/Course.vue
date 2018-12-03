@@ -9,6 +9,7 @@
 // @ is an alias to /src
 import Blue from '@/components/Blue.vue'
 import Course from '@/components/Course/Course.vue'
+import router from '../router'
 
 export default {
   name: 'course',

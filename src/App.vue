@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="bg-light">
     <!-- Mobile Sidebar -->
     <div class="sidebar">
       <div class="sidebar-menu bg-light" ref="sidebarMenu">
@@ -7,12 +7,27 @@
           <li class="list-group-item active text-right rounded-0">
             <font-awesome-icon icon="times" size="lg" v-on:click="openSidebar" class="shadow-none" />
           </li>
-          <router-link to="/login"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Log In</li></router-link>
-          <router-link to="/signup"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Sign Up</li></router-link>
+          <li class="list-group-item p-0" v-if="isLoggedIn">
+            <div class="col-lg-4 d-lg-block text-center p-3">
+              <button class="avatar" type="button">
+              <img :src="profileImg" v-if="profileImg">
+              </button>
+            </div>
+            <router-link class="text-dark" to="/profile"><li class="list-group-item">Profile
+            </li></router-link>
+            <router-link class="text-dark" to="/mycourses"><li class="list-group-item">My Courses
+            </li></router-link>
+            <span class="border-0 bg-white" v-on:click="logout"><li class="list-group-item">Log Out
+            </li></span>
+          </li>
+          <template v-if="!isLoggedIn">
+            <router-link to="/login"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Log In</li></router-link>
+            <router-link to="/signup"><li class="list-group-item list-group-item-action font-weight-bold text-primary">Sign Up</li></router-link>
+          </template>
           <li class="list-group-item list-group-item-action d-flex justify-content-between font-weight-bold" v-on:click="openCategory">Categories<font-awesome-icon icon="chevron-down" size="lg" /></li>
           <li class="mobile-category list-group-item" ref="mobileCategory" style="display: none">
-            <ul class="list-group list-group-flush" v-for="category in categories">
-              <router-link :to="{name: 'selected', params:{id: category.aid, path:'selected/' ,name:category.name}}"><li class="list-group-item">{{category.name}}</li></router-link>
+            <ul class="list-group list-group-flush" v-for="category in categories" :key="category.name">
+              <a v-on:click="sendCategory(category)"><li class="list-group-item">{{category.name}}</li></a>
             </ul>
           </li>
         </ul>
@@ -57,6 +72,12 @@
                       <li class="dropdown-submenu pt-2 p-0" v-for="sub in category.subs" :key="sub.number">
                         <router-link class="dropdown-item" tabindex="-1" to="#">{{sub.name}}</router-link> 
                         <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 pb-2 p-0 shadow-sm">
+                    <a class="dropdown-item" tabindex="-1" v-on:click="sendCategory(category)">{{category.name}}</a>
+                    <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
+
+                      <li class="dropdown-submenu pt-2 p-0" v-for="sub in category.subs" :key="sub.number">
+                        <a class="dropdown-item" tabindex="-1">{{sub.name}}</a> 
+                        <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 pb-2 p-0">
 
                           <li class="pt-2 p-0" v-for="topic in sub.topics" :key="topic"><a class="dropdown-item" href="#">{{topic}}</a></li>
                         </ul>                  
@@ -157,7 +178,8 @@
 <script>
 
   import axios from 'axios'
-  
+
+  import router from './router'
   var mainUrl = 'https://eclass-does.herokuapp.com/'
   // var mainUrl = 'http://192.168.2.231:3000/'
   // var mainUrl = 'https://eclass.doesuniversity.com/'
@@ -182,7 +204,7 @@
     urlLoginGoogle: mainUrl + 'v1/logingoogle',
     urlForgotPassword:mainUrl + 'v1/forgotpassword',
     urlEditProfile: mainUrl + 'v1/editprofile/',
-    urlAvatar: mainUrl + 'v1/uploadavatar/',
+    urlAvatar: mainUrl + 'v1/uploadavatar',
     urlDeactive: mainUrl + 'v1/deactivate',
     urlChangePassword: mainUrl + 'v1/changepassword',
     urlResetPassword: mainUrl + 'v1/resetpassword/',
@@ -191,6 +213,8 @@
     urlDeleteComment: mainUrl + 'v1/comment/',
     urlDeletReply: mainUrl + 'v1/reply/',
     urlContact: mainUrl + 'v1/contact'
+    urlContact: mainUrl + 'v1/contact',
+    urlPrivacy: mainUrl +  'v1/privacypolicy'
   }
 
   
@@ -217,6 +241,9 @@
     mounted() {
       var self = this;
 
+      console.clear();
+      console.log('WAWWWW',router)
+
       this.route = this.$route.name;
 
       // Check token
@@ -225,10 +252,8 @@
       }
       
       // Get users
-      if(this.isLoggedIn){
-        this.getUserData();
-      }
-
+      
+      
       // Logged In Listener
       this.$root.$on('isLoggedIn', function(){
         console.log('isLoggedIn dari app')
@@ -236,6 +261,10 @@
         self.getUserData();
         self.$router.push('/');
       })
+
+      if(this.isLoggedIn){
+        this.getUserData();
+      }
 
       // Logged Out Listener
       this.$root.$on('isLoggedOut', function(){
@@ -248,31 +277,49 @@
       this.getAbout();
     },
     methods: {
-      search(){
-        const keyword = this.searching;
+      sendCategory(category){
+        console.clear();
 
+        console.log("sendCategory dari App.vue:", category.aid)
+
+        if(this.$route.name != 'selected'){
+          this.$router.push({
+            name: 'selected', 
+            path:'/selected/', 
+            params: {id: category.id, name: category.name}
+          })
+        }else{
+          // ini berarti dari page selected, ngeklik kategori lagi
+          console.log('emiting...', this.$root)
+          this.$router.push({
+            params: {id: category.id, name: category.name}
+          })
+          this.$root.$emit('categorySelected', category)
+          // this.$root.$emit('top-topic', category.name)
+        }
+      },
+      
+      search(){
         if(this.$route.path != '/search/'){
           this.$router.push({ name: "search", query: {keyword: this.searching}});
         }
         this.$root.$emit('search', this.searching)
       },
+
       getAbout(){
-        axios.get(this.ListUrl.urlAbout).then(res =>{
-          console.log(res)
-          this.about = res.data.result
-        })
+        this.about = router.app.about
       },
+
       getCourses(){
-        axios.get(this.ListUrl.urlCourses).then(res =>{
-          this.dataCourse = res.data.result
-        })
+        this.dataCourse = router.app.courses
       },
+
       getCategories(){
-        axios.get(this.ListUrl.urlCategory).then(res =>{
-          this.categories = res.data.result
-        })
+        this.categories = router.app.category
       },
+
       getUserData(){
+
         var EclassId = localStorage.getItem('ECLASS-id');
         const headers = {
           'Content-Type':'application/json',
@@ -284,8 +331,6 @@
           if(res.status === 200) {
             this.dataUser.push(res.data.userData)
             this.profileImg = res.data.userData.avatar;
-            console.log("USER", this.dataUser)
-            console.log("IMAGE", this.profileImg)
           }
         });
       },
@@ -338,6 +383,7 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
+
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -628,4 +674,7 @@ button:focus {
   width: 100px;
 }
 
+span {
+  cursor: pointer;
+}
 </style>
