@@ -25,13 +25,13 @@
 
     <!-- Header -->
 
-    <div class="header bg-light position-relative">
+    <div class="header position-relative bg-white">
       <div class="navbar navbar-expand-lg align-items-center p-2">
         <button class="navbar-toggler shadow-none" type="button" v-on:click="openSidebar">
           <font-awesome-icon icon="bars" />
         </button>
         <div class="col-4 col-sm-3 col-lg-1 logo text-center text-lg-left">
-          <router-link to="/"><h2>EClass</h2></router-link>
+          <router-link to="/"><img class="eclass-logo" src="@/assets/Eclass-logo.png"></router-link>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <font-awesome-icon icon="search" />
@@ -43,19 +43,20 @@
               <button class="btn shadow-none" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
                 <div class="category-header">
                   <font-awesome-icon icon="th" />
-                  <span>Categories</span>
+                  <span class="text-secondary">Categories</span>
                 </div>
               </button>
               <div>
-                <ul class="dropdown-menu multi-level rounded-0 border-0 m-0 pb-2 p-0" role="menu" aria-labelledby="dropdownMenu">
+                <ul class="dropdown-menu multi-level rounded-0 border-0 m-0 pb-2 p-0 shadow-sm" role="menu" aria-labelledby="dropdownMenu">
+                  <div></div>
 
                   <li class="dropdown-submenu pt-2 p-0" v-for="category in categories" :key="category.aid">
                     <router-link class="dropdown-item" tabindex="-1" :to="{name: 'selected', params:{id: category.aid, path:'selected/' ,name:category.name}}">{{category.name}}</router-link>
-                    <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2">
+                    <ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2 h-100 shadow-sm">
 
                       <li class="dropdown-submenu pt-2 p-0" v-for="sub in category.subs" :key="sub.number">
                         <router-link class="dropdown-item" tabindex="-1" to="#">{{sub.name}}</router-link> 
-                        <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 pb-2 p-0">
+                        <ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 pb-2 p-0 shadow-sm">
 
                           <li class="pt-2 p-0" v-for="topic in sub.topics" :key="topic"><a class="dropdown-item" href="#">{{topic}}</a></li>
                         </ul>                  
@@ -68,21 +69,19 @@
             </div>
           </div>
           <div class="col-lg-6 my-4 my-lg-0">
-            <div class="input-group border">
-              <input type="text" class="form-control rounded-0 shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searching">
+            <div class="input-group border rounded bg-white">
+              <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searching">
 
               <!-- SEARCH -->
               <div class="input-group-append" v-if="$route.path != '/search'">
-                <router-link :to="{name:'search', path:'/search/', query:{keyword: searching}}">
-                  <button class="btn rounded-0 shadow-none bg-yellow" type="button" id="button-addon2">
+                <router-link :to="{name:'search', path:'/search/', query:{keyword: searching}}" class="btn">
                     <!-- {{$route.path}} -->
                     <font-awesome-icon icon="search" />
-                  </button>
                 </router-link>
               </div>
 
               <div class="input-group-append" v-else>
-                <button class="btn rounded-0 shadow-none bg-yellow" type="button" v-on:click="search">
+                <button class="btn rounded-0 shadow-none" type="button" v-on:click="search">
                   <!-- anda di rute search -->
                   <font-awesome-icon icon="search" />
                 </button>
@@ -158,9 +157,8 @@
 <script>
 
   import axios from 'axios'
-
+  
   var mainUrl = 'https://eclass-does.herokuapp.com/'
-  // var mainUrl = 'http://192.168.2.231:3000/'
   // var mainUrl = 'http://192.168.2.231:3000/'
   // var mainUrl = 'https://eclass.doesuniversity.com/'
 
@@ -172,7 +170,7 @@
     urlReplyComment: mainUrl + 'v1/reply/',
     urlAbout: mainUrl + 'v1/about',
     urlCourses: mainUrl + 'v1/courses',
-    urlCoursesPage: 'http://192.168.2.231:3000/v1/coursespage?page=2&size=2',
+    urlCoursesPage: mainUrl + '/v1/coursespage?page=2&size=2',
     UrlCoursesByid: mainUrl + 'v1/course/',
     UrlJoinCourse: mainUrl + 'v1/joincourse/',
     UrlUnjoinCourse: mainUrl + 'v1/unjoincourse/',
@@ -193,66 +191,6 @@
     urlDeleteComment: mainUrl + 'v1/comment/',
     urlDeletReply: mainUrl + 'v1/reply/',
     urlContact: mainUrl + 'v1/contact'
-
-    /* HEROKU (Master Backend Ori) */
-    // ==============================
-    // urlCourses: 'https://eclass-doesuniversity.herokuapp.com/v1/courses',
-    // UrlCoursesByid: 'https://eclass-doesuniversity.herokuapp.com/v1/course/',
-    // urlUser: 'https://eclass-doesuniversity.herokuapp.com/v1/user/',
-    // urlCategory: 'https://eclass-doesuniversity.herokuapp.com/v1/categories',
-    // urlRegister: 'https://eclass-doesuniversity.herokuapp.com/v1/register',
-    // urlRegisterGoogle: 'https://eclass-doesuniversity.herokuapp.com/v1/registergoogle',
-    // urlLogin: 'https://eclass-doesuniversity.herokuapp.com/v1/login',
-    // urlLoginGoogle: 'https://eclass-doesuniversity.herokuapp.com/v1/logingoogle',
-    // urlForgotPassword:'https://eclass-doesuniversity.herokuapp.com/v1/forgotpassword',
-    // urlEditProfile: 'https://eclass-doesuniversity.herokuapp.com/v1/editprofile/',
-    // urlAvatar: 'https://eclass-doesuniversity.herokuapp.com/v1/uploadavatar/',
-    // urlDeactive: 'https://eclass-doesuniversity.herokuapp.com/v1/deactivate',
-    // urlChangePassword: 'https://eclass-doesuniversity.herokuapp.com/v1/changepassword',
-    // urlResetPassword: 'https://eclass-doesuniversity.herokuapp.com/v1/resetpassword/',
-    // urlConfirmation: 'https://eclass-doesuniversity.herokuapp.com/v1/confirmation/',
-    // urlToken: 'https://eclass-doesuniversity.herokuapp.com/v1/checktoken/',
-
-    /* Master (Manual Deploy) */
-    // ==============================
-    // urlAbout: 'https://eclass.doesuniversity.com/v1/about',
-    // urlCourses: 'https://eclass.doesuniversity.com/v1/courses',
-    // UrlCoursesByid: 'https://eclass.doesuniversity.com/v1/course/',
-    // urlUser: 'https://eclass.doesuniversity.com/v1/user/',
-    // urlCategory: 'https://eclass.doesuniversity.com/v1/categories',
-    // urlRegister: 'https://eclass.doesuniversity.com/v1/register',
-    // urlRegisterGoogle: 'https://eclass.doesuniversity.com/v1/registergoogle',
-    // urlLogin: 'https://eclass.doesuniversity.com/v1/login',
-    // urlLoginGoogle: 'https://eclass.doesuniversity.com/v1/logingoogle',
-    // urlForgotPassword:'https://eclass.doesuniversity.com/v1/forgotpassword',
-    // urlEditProfile: 'https://eclass.doesuniversity.com/v1/editprofile/',
-    // urlAvatar: 'https://eclass.doesuniversity.com/v1/uploadavatar/',
-    // urlDeactive: 'https://eclass.doesuniversity.com/v1/deactivate',
-    // urlChangePassword: 'https://eclass.doesuniversity.com/v1/changepassword',
-    // urlResetPassword: 'https://eclass.doesuniversity.com/v1/resetpassword/',
-    // urlConfirmation: 'https://eclass.doesuniversity.com/v1/confirmation/',
-    // urlToken: 'https://eclass.doesuniversity.com/v1/checktoken/',
-
-    /* Local (Master Backend KW) */
-    // ==============================
-    // urlCourses: 'http://192.168.2.231:3000/v1/courses',
-    // UrlCoursesByid: 'http://192.168.2.231:3000/v1/course/',
-    // urlUser: 'http://192.168.2.231:3000/v1/user/',
-    // urlCategory: 'http://192.168.2.231:3000/v1/categories',
-    // urlRegister: 'http://192.168.2.231:3000/v1/register',
-    // urlRegisterGoogle: 'http://192.168.2.231:3000/v1/registergoogle',
-    // urlLogin: 'http://192.168.2.231:3000/v1/login',
-    // urlLoginGoogle: 'http://192.168.2.231:3000/v1/logingoogle',
-    // urlForgotPassword:'http://192.168.2.231:3000/v1/forgotpassword',
-    // urlEditProfile: 'http://192.168.2.231:3000/v1/editprofile/',
-    // urlAvatar: 'http://192.168.2.231:3000/v1/uploadavatar/',
-    // urlDeactive: 'http://192.168.2.231:3000/v1/deactivate',
-    // urlChangePassword: 'http://192.168.2.231:3000/v1/changepassword',
-    // urlResetPassword: 'http://192.168.2.231:3000/v1/resetpassword/',
-    // urlConfirmation: 'http://192.168.2.231:3000/v1/confirmation/',
-    // urlToken: 'http://192.168.2.231:3000/v1/checktoken/',
-
-    // urlContact: 'http://192.168.2.225:3000/v1/contact'
   }
 
   
@@ -388,6 +326,13 @@
 
 <style>
 
+@import url('https://fonts.googleapis.com/css?family=Cantata+One');
+
+
+.courses-header {
+  font-family: 'Cantata One', serif;
+}
+
 * {
   outline: none !important;
   box-sizing: border-box;
@@ -449,8 +394,7 @@ button:focus {
 
 .header {
   width: 100%;
-  background-color: #fff;
-  box-shadow: 0 3px 20px #00000050;
+  background-color: #000;
   padding: 0;
   margin: 0;
 }
@@ -679,11 +623,9 @@ button:focus {
   font-size: 14px;
   font-weight: bold;
 }
-/*
-@media (max-width: 576px) {
-  .VueCarousel-navigation {
-    display: none;
-  }
-}*/
+
+.eclass-logo {
+  width: 100px;
+}
 
 </style>

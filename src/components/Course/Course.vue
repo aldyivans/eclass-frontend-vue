@@ -87,7 +87,31 @@
 						</div>
 						<!-- Ask new question btn wrapper -->
 						<div class="p-4">
-							<button class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="collapse" data-target="#send" aria-controls="send" aria-expanded="false"><font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question</button>
+							<button v-if="joined(datacourse)" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="collapse" data-target="#send" aria-controls="send" aria-expanded="false"><font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question</button>
+							<!-- Alert join first -->
+							<button v-else type="button" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="modal" data-target="#exampleModalCenter">
+							  <font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question
+							</button>
+
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							  <div class="modal-dialog modal-dialog-centered" role="document">
+							    <div class="modal-content bg-white">
+							      <div class="modal-header">
+							        <h4 class="modal-title" id="exampleModalCenterTitle">Anda harus Join Course ini terlebih dahulu sebelum bertanya</h4>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							      <div class="modal-body">
+							        <div class="mt-2" v-if="!joined(datacourse)">
+												<button v-if="join" class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course</button>
+												<button v-else class="btn btn-warning rounded-0 font-weight-bold" type="button" data-toggle="modal" data-target="#buttonModal">Join Course</button>
+											</div>
+							      </div>
+							    </div>
+							  </div>
+							</div>
 						</div>
 						<!-- Collapse New Question-->
 						<div class=" collapse m-0" id="send" v-if="user">
