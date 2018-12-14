@@ -42,9 +42,7 @@
 <script>
 
 import { Carousel, Slide } from 'vue-carousel';
-// import axios from 'axios'
 import router from '../../router.js'
-// import App from '../../App.vue'
 
 export default {
 	name: 'popular-course',
@@ -66,8 +64,7 @@ export default {
 			for (var i = 0; i < this.dataFix.length; i++) {
 
 					if(this.dataFix[i].subtitle.length > 25){
-						var x = this.dataFix[i].subtitle.slice(0, 23);
-						console.log("XXXXXXX", x)
+						var x = this.dataFix[i].subtitle.slice(0, 19);
 						this.dataFix[i].subtitle = x
 					}
 				}
@@ -80,16 +77,15 @@ export default {
 			this.sortData(this.dataCourse)
 		},
 		sortData(e){
-			var self = this;
 			e.map(data=>{
-				self.dataSort.push(data)
+				this.dataSort.push(data)
 			})
-			self.dataSort.sort(function(a,b){
+			this.dataSort.sort(function(a,b){
 				return b.view_count - a.view_count
 			})
-			for (var i = 0; i < self.dataSort.length; i++) {
+			for (var i = 0; i < this.dataSort.length; i++) {
 				if(i < 10){
-					self.dataFix.push(self.dataSort[i])
+					this.dataFix.push(this.dataSort[i])
 				}
 			}
 		}

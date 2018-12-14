@@ -5,9 +5,9 @@
 				<div class="col-12 col-lg-4 col-md-6 col-sm-8 p-0">
 					<h3 class="font-weight-bold text-center">Sign Up</h3>
 					<hr class="w-100">
-					<form class="form-group text-left" ref="register_form">
+					<form class="form-group text-left" ref="register_form" v-on:keyup.enter="keyDisabled">
 			
-            	<!-- FORM FIELDS -->
+				<!-- FORM FIELDS -->
 						<div class="form-field">
 							<label for="username">Username</label>
 							<input 
@@ -52,13 +52,13 @@
 								ref="input_gender"
 								class="custom-select form-control rounded-0 shadow-none border" autocomplete="off" 
 								id="gender">
-							  <option>Male</option>
-							  <option>Female</option>
+								<option>Male</option>
+								<option>Female</option>
 							</select>
 							<span ref="alert_gender"></span>
 						</div>
 
-					  <div class="form-field">
+						<div class="form-field">
 							<label for="email">Email</label>
 							<input 
 								autocomplete="off"
@@ -89,31 +89,30 @@
 								id="confirmpassword"
 								ref="input_confirmpassword"
 								type="password"
-								v-model="confirmpassword" 
+								v-model="confirmpassword"
 							>
 							<span ref="alert_confirmpassword"></span>
 						</div>
-
-					  <button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold" id="buttonSignup" v-on:click="signup" v-if="!processing">Sign Up</button>
-
-					  <button type="button" class="btn btn-warning btn-md btn-block rounded-0 font-weight-bold" disabled v-else>Processing...</button>
-
-					  <div class="py-2">
-							<h5 class="text-center p-2 m-0" id="magic">or</h5>
-					  </div>
-					  <button class="btn btn-block p-0 rounded-0 font-weight-bold" id="google-signin-btn" v-on:click="googleSignIn" v-show="gerendered"></button>
-					  <div  class="text-center p-2">
-							<h6 class="font-weight-bold">Already Joined?<router-link to="/login" class="mr-1 ml-1">Log In</router-link>Now</h6>
-					  </div>
 					</form>
-		  		</div>
+
+						<button type="button" class="btn btn-primary btn-md btn-block rounded-0 font-weight-bold" id="buttonSignup" v-on:click="signup" v-if="!processing">Sign Up</button>
+
+						<button type="button" class="btn btn-warning btn-md btn-block rounded-0 font-weight-bold" disabled v-else>Processing...</button>
+
+						<div class="py-2">
+							<h5 class="text-center p-2 m-0" id="magic">or</h5>
+						</div>
+						<button class="btn btn-block p-0 rounded-0 font-weight-bold" id="google-signin-btn" v-on:click="googleSignIn" v-show="gerendered"></button>
+						<div  class="text-center p-2">
+							<h6 class="font-weight-bold">Already Joined?<router-link to="/login" class="mr-1 ml-1">Log In</router-link>Now</h6>
+						</div>
+				</div>
 			</div>
-	  </div>
+		</div>
 	</div>
 </template>
 
 <script>
-	import router from '../../router.js'
 	import VueAxios from 'vue-axios'
 	import axios from 'axios'
 	import Vue from 'vue'
@@ -134,9 +133,9 @@
 				confirmpassword: '',
 				gerendered : false,
 				googleUser: null,
-        register: App.data().ListUrl.urlRegister,
-        registerGoogle: App.data().ListUrl.urlRegisterGoogle,
-        loginGoogleUrl: App.data().ListUrl.urlLoginGoogle,
+				register: App.data().ListUrl.urlRegister,
+				registerGoogle: App.data().ListUrl.urlRegisterGoogle,
+				loginGoogleUrl: App.data().ListUrl.urlLoginGoogle,
 			}
 		},
 		mounted() {
@@ -149,14 +148,33 @@
 			this.$refs.register_form.querySelectorAll('input').forEach(l => l.classList.add('form-control', 'rounded-0', 'shadow-none', 'border'));
 
 			// Google Button
-			gapi.signin2.render('google-signin-btn',{
-				'onsuccess': this.renderGoogleBtn,
-				'width':'none',
-				'longtitle':true,
-				'height': 40
-				})
+
+			// eslint-disable-next-line
+			if(gapi){
+				// eslint-disable-next-line
+				gapi.signin2.render('google-signin-btn',{
+					'onsuccess': this.renderGoogleBtn,
+					'width':'none',
+					'longtitle':true,
+					'height': 40
+					})
+			}
+				
 		},
 		methods: {
+			keyDisabled(e){
+				var key;
+				if(window.event){
+					key = window.event.keyCode;
+				}else {
+					key = e.which;
+				}
+				if(key == 13){
+					return false;
+				}else{
+					return true;
+				}
+			},
 			isValid(key){
 				if(key === '' || key.length < 5){
 					return false
@@ -165,8 +183,6 @@
 				}
 			},
 			signup() {
-				var alphabets = /^[a-zA-Z-0-9]+$/;
-				var space = /^[a-zA-Z-0-9\s]+$/;
 
 				this.processing = true;
 
@@ -209,57 +225,57 @@
 				var userText;
 				var emailText;
 
-        var headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        		}
-				var dataUser = {
-						username: this.username.toLowerCase(),
-						fullname: this.fullname,
-						birthday: this.birthday,
-						gender: this.gender,
-						password: this.password,
-						email: this.email.toLowerCase(),
-						avatar: null,
-						role: null,
-						token: null,
-						token_expired:null,
-						google_id: null,
-						active: true,
-						verified: false,
-				}
-				axios.post(this.register, dataUser, headers)
-				.then((response, err) => {
-          if (response.status === 200) {
-          	console.log('response:', response)
-          	alert('Selamat! Pendaftaran berhasil!. Silahkan Check Email Untuk Verifikasi Account');
-          	// Redirect Ke login Tinggal di Uncomment Code di bawah
-          	this.$router.push('/login')
-          }else {
-            throw new Error("Error");
-             response.status = 200;
-          }
-          this.processing = false;
-        }).catch(e => {
-        	alert('Mohon maaf, pendaftaran belum berhasil. Silahkan coba kembali.');
-          console.log('[ERROR]: ', e.response);
-        	if(e.response.data.message == 'Username exist'){
-        		userText = e.response.data.message
+				var headers = {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+						}
+						var dataUser = {
+								username: this.username.toLowerCase(),
+								fullname: this.fullname,
+								birthday: this.birthday,
+								gender: this.gender,
+								password: this.password,
+								email: this.email.toLowerCase(),
+								avatar: null,
+								role: null,
+								token: null,
+								token_expired:null,
+								google_id: null,
+								active: true,
+								verified: false,
+						}
+						axios.post(this.register, dataUser, headers)
+						.then((response) => {
+					if (response.status === 200) {
+					console.log('response:', response)
+					alert('Selamat! Pendaftaran berhasil!. Silahkan Check Email Untuk Verifikasi Account');
+					// Redirect Ke login Tinggal di Uncomment Code di bawah
+					this.$router.push('/login')
+					}else {
+					throw new Error("Error");
+						response.status = 200;
+					}
+					this.processing = false;
+				}).catch(e => {
+					alert('Mohon maaf, pendaftaran belum berhasil. Silahkan coba kembali.');
+					console.log('[ERROR]: ', e.response);
+					if(e.response.data.message == 'Username exist'){
+						userText = e.response.data.message
 
-        		this.$refs.alert_username.innerHTML = userText;
-						this.$refs.input_username.className = "form-control rounded-1 shadow-none border-danger"
+						this.$refs.alert_username.innerHTML = userText;
+								this.$refs.input_username.className = "form-control rounded-1 shadow-none border-danger"
+								this.processing = false;
+								return false;
+					} 
+					if( e.response.data.message == 'Email exist') {
+						emailText = e.response.data.message
+						this.$refs.alert_email.innerHTML = emailText;
+								this.$refs.input_email.className = "form-control rounded-1 shadow-none border-danger"
 						this.processing = false;
-						return false;
-        	} 
-        	if( e.response.data.message == 'Email exist') {
-        		emailText = e.response.data.message
-        		this.$refs.alert_email.innerHTML = emailText;
-						this.$refs.input_email.className = "form-control rounded-1 shadow-none border-danger"
-	        	this.processing = false;
-						return false;
-        	}
-        });
+								return false;
+					}
+				});
 			},
 
 			renderGoogleBtn(googleUser) {
@@ -267,66 +283,66 @@
 				this.gerendered = true;
 			},
 			googleSignIn() {
-        console.clear();
-        console.log('[GOOGLE SIGN IN SUCCESS]');
+				console.clear();
+				console.log('[GOOGLE SIGN IN SUCCESS]');
 
-        let self = this;
-				const profile = this.googleUser.getBasicProfile();
-        const token = this.googleUser.getAuthResponse().id_token;
-        const id = profile.getId();
-        const name = profile.getName();
-        const imageUrl = profile.getImageUrl();
-        const email = profile.getEmail();
+				let self = this;
+						const profile = this.googleUser.getBasicProfile();
+				const token = this.googleUser.getAuthResponse().id_token;
+				const id = profile.getId();
+				const name = profile.getName();
+				const imageUrl = profile.getImageUrl();
+				const email = profile.getEmail();
 
-				console.log('TOKEN: ' + token);
-        console.log('ID: ' + id);
-        console.log('Name: ' + name);
-        console.log('Image URL: ' + imageUrl);
-        console.log('Email: ' + email);
+						console.log('TOKEN: ' + token);
+				console.log('ID: ' + id);
+				console.log('Name: ' + name);
+				console.log('Image URL: ' + imageUrl);
+				console.log('Email: ' + email);
 
-        const dataUser = {
-					username: "",
-					token: token,
-					fullname: name,
-					email: email,
-					avatar: imageUrl,
-					role: "student",
-					// token_expired:"",
-					google_id: id,
-					active: true,
-					verified: true,
-				}
+				const dataUser = {
+							username: "",
+							token: token,
+							fullname: name,
+							email: email,
+							avatar: imageUrl,
+							role: "student",
+							// token_expired:"",
+							google_id: id,
+							active: true,
+							verified: true,
+						}
 
-				console.log('GOOGLE USER DATA:',dataUser)
+						console.log('GOOGLE USER DATA:',dataUser)
 
-				const params = {
-					headers : {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'Access-Control-Allow-Origin': '*'
-					}
-				}
+						const params = {
+							headers : {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json',
+					'Access-Control-Allow-Origin': '*'
+							}
+						}
 
-				// POST GOOGLE USER DATA TO BACKEND
-      	axios.post(this.registerGoogle, dataUser, params).then((response, err) => {
-          if (response.status === 200) {
-          	console.log('google register success:', response)
-          	alert('Selamat! Anda berhasil terdaftar!');
-          	
-          	// Langsung login
-          	googleLogin();
-          	
-          	// this.$router.push('/');
-          }else {
-            throw new Error("Error");
-             response.status = 200;
-          } 
-        }).catch(e => {
-        	alert('Mohon maaf, pendaftaran belum berhasil.');
-          console.log('google register error: ', e.response);
-        });
+						// POST GOOGLE USER DATA TO BACKEND
+				axios.post(this.registerGoogle, dataUser, params).then((response) => {
+					if (response.status === 200) {
+					console.log('google register success:', response)
+					alert('Selamat! Anda berhasil terdaftar!');
+					
+					// Langsung login
+					googleLogin();
+					
+					// this.$router.push('/');
+					}else {
+					throw new Error("Error");
+						response.status = 200;
+					} 
+				}).catch(e => {
+					alert('Mohon maaf, pendaftaran belum berhasil.');
+					console.log('google register error: ', e.response);
+				});
 
-        function googleLogin(){
+				function googleLogin(){
 					// POST GOOGLE LOGIN DATA TO BACKEND
 					axios.post(self.loginGoogleUrl, dataUser, params).then(response => {
 						if(response.status == 200) {
@@ -462,49 +478,49 @@
 		background-color: #f1f1f1;
 	}
 	.signup {
-	  border-bottom: .05rem solid #e5e5e5;
+		border-bottom: .05rem solid #e5e5e5;
 	}
 
 	#google {
-	  background-color: #fff; 
+		background-color: #fff; 
 	}
 	#googleImg {
-	  width: 25px;
-	  margin-right: 15px;
+		width: 25px;
+		margin-right: 15px;
 
 	}
 	#buttonSignup {
-	  background-color: #5384bc;
+		background-color: #5384bc;
 	}
 
 	/* Custom page footer */
 	.footer {
-	  padding-top: 1.5rem;
-	  color: #777;
-	  border-top: .05rem solid #e5e5e5;
+		padding-top: 1.5rem;
+		color: #777;
+		border-top: .05rem solid #e5e5e5;
 	}
 
 	#magic {
-	  position: relative;
+		position: relative;
 	}
 
 	#magic:before,
 	#magic:after {
-	  content: '';
-	  height: 1px;
-	  background-color: #aaa;
-	  width: 45%;
-	  position: absolute;
-	  top: 50%;
-	  transform: translateY(-50%);
+		content: '';
+		height: 1px;
+		background-color: #aaa;
+		width: 45%;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
 	}
 
 	#magic:before {
-	  left: 0;
+		left: 0;
 	}
 
 	#magic:after {
-	  right: 0;
+		right: 0;
 	}
 	span {
 		cursor: pointer;

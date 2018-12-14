@@ -131,6 +131,22 @@ const router = new Router({
       }
     },
     {
+      path: '/selected/subcategory/:name',
+      name: 'selected-subcategory',
+      component: Selected,
+      meta: {
+        title: sitetitle('Selected-Subcategory')
+      }
+    },
+     {
+      path: '/selected/subcategory/topic/:name',
+      name: 'selected-topic',
+      component: Selected,
+      meta: {
+        title: sitetitle('Selected-Topic')
+      }
+    },
+    {
       path: '/privacy-policy',
       name: 'privacy-policy',
       component: Privacy,
