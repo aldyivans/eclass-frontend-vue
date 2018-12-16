@@ -57,8 +57,8 @@
 							<div class="row text-primary justify-content-around align-items-center text-left p-3" v-else>
 								<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
 								<span class="col-7" data-toggle="modal" data-target="#exampleModalCenter">{{video.title}}</span>
-								<span class="col-2 text-center" v-if="j === 0">Preview</span>
-								<font-awesome-icon icon="check" class="col-2 text-center text-primary" v-if="j !== 0"></font-awesome-icon>
+								<!-- <span class="col-2 text-center">Preview</span> -->
+								<font-awesome-icon icon="check" class="col-2 text-center text-primary"></font-awesome-icon>
 								<span class="col-2">{{ video.duration}}</span>
 							</div>
 							<!-- modal -->
@@ -71,7 +71,7 @@
 									</button>
 									</div>
 									<div class="modal-body">
-									<iframe width="100%" height="400" v-bind:src="video.url" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen id="iframeCourse"></iframe>
+									<iframe width="100%" height="400" v-bind:src="video.url" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen id="iframeCourse" sandbox="allow-scripts allow-same-origin allow-presentation"></iframe>
 									</div>
 								</div>
 								</div>
@@ -92,27 +92,27 @@
 							<button v-if="joined(datacourse)" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="collapse" data-target="#send" aria-controls="send" aria-expanded="false"><font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question</button>
 							<!-- Alert join first -->
 							<button v-else type="button" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="modal" data-target="#exampleModalCenter">
-							  <font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question
+								<font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question
 							</button>
 
 							<!-- Modal -->
 							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-							  <div class="modal-dialog modal-dialog-centered" role="document">
-							    <div class="modal-content bg-white">
-							      <div class="modal-header">
-							        <h4 class="modal-title" id="exampleModalCenterTitle">Anda harus Join Course ini terlebih dahulu sebelum bertanya</h4>
-							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							          <span aria-hidden="true">&times;</span>
-							        </button>
-							      </div>
-							      <div class="modal-body">
-							        <div class="mt-2" v-if="!joined(datacourse)">
-												<button v-if="join" class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course</button>
-												<button v-else class="btn btn-warning rounded-0 font-weight-bold" type="button" data-toggle="modal" data-target="#buttonModal">Join Course</button>
-											</div>
-							      </div>
-							    </div>
-							  </div>
+								<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content bg-white">
+									<div class="modal-header">
+									<h4 class="modal-title" id="exampleModalCenterTitle">Silahkan Join Courses untuk Melakukan Pertanyaan </h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									</div>
+									<div class="modal-body">
+									<div class="mt-2 text-right" v-if="!joined(datacourse)">
+										<button v-if="join" class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course ?</button>
+										<button v-else class="btn btn-warning rounded-0 font-weight-bold" type="button" data-toggle="modal" data-target="#buttonModal">Join Course</button>
+									</div>
+									</div>
+								</div>
+								</div>
 							</div>
 						</div>
 						<!-- Collapse New Question-->
@@ -190,7 +190,7 @@
 									<div class="ml-5 mb-3" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
 										<div class="d-flex align-items-center">
 											<div class="ques">
-												<img v-if="user" v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
+												<img v-bind:src="reply.avatar" alt="Generic placeholder image" id="quesimg">
 											</div>
 											<div class="col-10 px-3">
 												<div class="speech-bubble">
@@ -244,7 +244,7 @@
 	import router from '../../router'
 
 	$("#exampleModalCenter").on('hidden.bs.modal', function (e) {
-    $("#exampleModalCenter iframe").attr("src", $("#exampleModalCenter iframe").attr("src"));
+	$("#exampleModalCenter iframe").attr("src", $("#exampleModalCenter iframe").attr("src"));
 	});
 
 	export default {
@@ -259,12 +259,10 @@
 				newcomment: '',
 				answerComment: '',
 				commentsId: null,
-				dataLocked: [],
-
+				dataLocked: []
 			}
 		},
 		mounted() {
-			var self = this;
 			var EclassId = localStorage.getItem('ECLASS-id');
 
 			this.dataData = this.$route.params.id
@@ -278,17 +276,16 @@
 			if(localStorage.getItem('EClassToken')) {
 			this.join = true
 			}
-			console.log("ID COURSE", this.datacourse)
 		},
 		methods: {
 			getUser(){
-				var self = this;
 
 				var EclassId = localStorage.getItem('ECLASS-id');
 
 				axios.get(App.data().ListUrl.urlUser + EclassId).then(res=>{
 					this.user = res.data.userData
-					res.data.userData.my_course.map(data => {
+					console.log("INI USER YNG LOGIN", this.user)
+					this.user.my_course.map(data => {
 						if(data.aid == this.datacourse.aid){
 							this.datacourse.sections.map(section => {
 								section.videos.map(video => {
@@ -300,8 +297,6 @@
 				})
 			},
 			getCourse(){
-				// console.clear();
-				console.log('GET COURSE', this.dataData)
 
 				this.datacourse = null;
 
@@ -309,13 +304,14 @@
 					console.log('sukses get course', res)
 					if(res.status == 200){
 						this.datacourse = res.data.result;
+						console.log("INI DATA COURSE YANG DI LIHAT", this.datacourse)
 
 						var cloned = JSON.parse(JSON.stringify(res.data.result))
 
 						this.dataLocked.push(res.data.result)
 
 						// this.datacourse.comments.map(commentId=>{
-						// 	this.commentsId = commentId.aid
+						//  this.commentsId = commentId.aid
 						// })
 
 						var comments = [];
@@ -336,7 +332,6 @@
 								});
 							}
 						});
-						
 					}
 				});
 			},
@@ -344,8 +339,6 @@
 				document.getElementById('iframeCourse').src = document.getElementById('iframeCourse').src;
 			},
 			joinCourse(id){
-				var self = this;
-				console.log(id)
 				var token = localStorage.getItem('EClassToken');
 				console.log(token)
 
@@ -385,10 +378,6 @@
 				}
 			},
 			unjoin(id){
-				var self = this;
-				console.log('unjoin' + id)
-
-				console.log(id)
 				var token = localStorage.getItem('EClassToken');
 				console.log(token)
 
@@ -427,8 +416,10 @@
 				console.log('please wait...')
 
 				axios.post(App.data().ListUrl.urlComment, data).then(res => {
+					console.log("response comment", res)
 					alert('Your Comment is Success');
 					this.getCourse()
+					window.location.reload()
 				})
 				.catch(err => {
 					alert('failed')
@@ -440,17 +431,17 @@
 				var data ={
 					user_id: localStorage.getItem('ECLASS-id'),
 					text: this.answerComment,
-					course_id: this.datacourse.id
+					course_id: this.datacourse.id,
+					avatar: this.user.avatar
 				}
+				console.log("DATA REPLIES", data)
 
 				var comment_id = this.datacourse.comments[index].id;
 
 				axios.post(App.data().ListUrl.urlReplyComment + comment_id, data).then(res=>{
-					alert('Your Reply is Success')
-
-					setTimeout(()=>{
+						alert('Your Reply is Success')
 						this.getCourse();
-					}, 1000)
+						window.location.reload()
 				})
 				.catch(err =>{
 					alert("Not Success")
@@ -464,7 +455,7 @@
 				console.log("ID COMMENT", commentid)
 				console.log("ID COURSE", this.datacourse.id)
 				
-				const	params = {
+				const   params = {
 					headers : {
 						'x-access-token': token,
 						'Content-Type':'application/json',
@@ -493,7 +484,7 @@
 				console.log("ID REPLIES", replyid)
 
 				
-				const	params = {
+				const   params = {
 					headers : {
 						'x-access-token': token,
 						'Content-Type':'application/json',

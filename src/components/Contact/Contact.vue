@@ -98,7 +98,7 @@
 			Send(){
 				this.Processing = true
 				if(
-					this.validate('firstname', this.firstname, this.$refs.input_firstname, this.$refs.alert_firstname) &&
+					this.validate('your name', this.firstname, this.$refs.input_firstname, this.$refs.alert_firstname) &&
 					// this.validate('lastname', this.lastname, this.$refs.input_lastname, this.$refs.alert_lastname) &&
 					this.validate('email', this.email, this.$refs.input_email, this.$refs.alert_email) &&
 					this.validate('subject', this.subject, this.$refs.input_subject, this.$refs.alert_subject) &&

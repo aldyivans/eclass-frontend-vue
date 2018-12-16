@@ -1,60 +1,58 @@
 <template>
-		<div class="my-course" v-if="myCourse">
-				<div class="container">
-					<div class="row my-5">
-						<div class="col-12">
-							<h1 class="font-weight-bold">My Courses</h1>
+	<div class="my-course" v-if="myCourse">
+		<div class="container">
+			<div class="row my-5">
+				<div class="col-12">
+					<h1 class="font-weight-bold">My Courses</h1>
+				</div>
+				<div class="col-12 p-0 justify-content-center">
+					<div class="px-5 py-0 px-sm-0" v-if="myCourse.length > 0">
+						<carousel :per-page-custom="[[0, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false" :navigationEnabled="true" navigationNextLabel="<h1>&#8250;</h1>" navigationPrevLabel="<h1>&#8249;</h1>">
+							<slide v-for="course in myCourse" :key="course.aid">
+								<router-link :to="{name:'course', path:'course/', params:{id: course.aid}}">
+									<div class="card m-2">
+										<div class="poto">
+											<img class="card-img-top" v-bind:src="course.thumbnail">
+										</div>
+										<div class="card-body text-dark">
+											<div style="overflow: hidden">
+												<h5 class="card-title">{{ course.title}}</h5>
+											</div>
+											<p class="card-text">{{ course.subtitle }}...</p>
+											<div class="progress" v-if="$route.path == '/mycourses'">
+												<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+											</div>
+											<div class="view-counter mt-4 text-right" v-else>
+												<i class="fa fa-eye"></i>
+												<span>
+													<font-awesome-icon icon="eye" />
+													{{ course.view_count }} views
+												</span>
+											</div>
+										</div>
+									</div>
+								</router-link>
+							</slide>
+						</carousel>
+					</div>
+					<div v-else>
+						<div class="text-center p-5" v-if="!loading">
+								<h3>Anda Belum Join Course</h3>
 						</div>
-						<div class="col-12 p-0 justify-content-center">
-								<div class="px-5 py-0 px-sm-0" v-if="myCourse.length > 0">
-										<carousel :per-page-custom="[[320, 1],[480, 2], [768, 3], [1440, 4]]" :paginationEnabled="false" :navigationEnabled="true" navigationNextLabel="<h1>&#8250;</h1>" navigationPrevLabel="<h1>&#8249;</h1>">
-												
-												<slide v-for="course in myCourse" :key="course.aid">
-																<router-link :to="{name:'course', path:'course/', params:{id: course.aid}}">
-														<div class="card m-2">
-															<div class="poto">
-																	<img class="card-img-top" v-bind:src="course.thumbnail">
-															</div>
-															<div class="card-body text-dark">
-																	<div style="overflow: hidden">
-																		<h5 class="card-title">{{ course.title}}</h5>
-																	</div>
-																<p class="card-text">{{ course.subtitle }}...</p>
-																<div class="progress" v-if="$route.path == '/mycourses'">
-																											<div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-																										</div>
-																<div class="view-counter mt-4 text-right" v-else>
-																	<i class="fa fa-eye"></i>
-																	<span>
-																			<font-awesome-icon icon="eye" />
-																			{{ course.view_count }} views
-																	</span>
-																</div>
-															</div>
-														</div>
-													</router-link>
-												</slide>
-										</carousel>
-								</div>
-							<div v-else>
-								<div class="text-center p-5" v-if="!loading">
-										<h3>Anda Belum Join Course</h3>
-								</div>
-							</div>
-						<div class="p-5 text-center" v-if="loading">
-							<h3>Please Wait. . .</h3>
-						</div>
-								</div>
+					</div>
+					<div class="p-5 text-center" v-if="loading">
+						<h3>Please Wait. . .</h3>
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </template>
 
 <script>
 
 import { Carousel, Slide } from 'vue-carousel';
 import App from '../../App.vue'
-// import router from '../../router'
 import axios from 'axios'
 
 export default {
@@ -82,15 +80,13 @@ export default {
 						var EclassId = localStorage.getItem('ECLASS-id');
 
 						axios.get(this.url + EclassId).then(res=>{
-							console.log("GGGG", res.data.userData.my_course)
 							for (var i = 0; i < res.data.userData.my_course.length; i++){
 								this.myCourse.push(res.data.userData.my_course[i])
 							}
 
 							for (var j = 0; j < this.myCourse.length; j++) {
 								if(this.myCourse[j].subtitle.length > 25){
-									var x = this.myCourse[j].subtitle.slice(0, 23);
-									console.log("XXXXXXX", x)
+									var x = this.myCourse[j].subtitle.slice(0, 19);
 									this.myCourse[j].subtitle = x
 								}
 							}

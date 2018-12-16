@@ -42,7 +42,6 @@ const headers = {
 // master data lokal
 var url = App.data().ListUrl
 var data = {
-	user: {},
 	courses: {},
 	privacy: {},
 	about: {},

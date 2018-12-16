@@ -1,49 +1,49 @@
 <template>
 	<div class="container-fluid">
-		  <div class="container">
+			<div class="container">
 			<div class="row border justify-content-center my-5">
-			  <div class="profile col-12 text-center py-2">
+				<div class="profile col-12 text-center py-2">
 				<h4 class="font-weight-bold m-0">Profile</h4>
 				<p class="m-0">Add/Edit Informations About Your Profile</p>
-			  </div>
-			  <div class="border-right col-12 col-lg-3 p-0">
+				</div>
+				<div class="border-right col-12 col-lg-3 p-0">
 				<div class="border-bottom border-top p-3">
-				  <h5 class="font-weight-bold m-0">{{fullname}}</h5>
+					<h5 class="font-weight-bold m-0">{{fullname}}</h5>
 				</div>
 				<div class="p-3">
-				  <ul class="list-unstyled font-weight-bold">
+					<ul class="list-unstyled font-weight-bold">
 					<li>
-					  <router-link to="/profile">Profile</router-link>
+						<router-link to="/profile">Profile</router-link>
 					</li>
 					<li>
-					  <router-link to="/changepassword">Change Password</router-link>
+						<router-link to="/changepassword">Change Password</router-link>
 					</li>
 					<li>
-					  <router-link to="/deactive">Deactive Account</router-link>
+						<router-link to="/deactive">Deactive Account</router-link>
 					</li>
-				  </ul>
+					</ul>
 				</div>
-			  </div>
-			  <div class="border-top col-lg-9 justify-content-center p-0">
+				</div>
+				<div class="border-top col-lg-9 justify-content-center p-0">
 				<div class="container">
-				  <div class="row justify-content-center">
+					<div class="row justify-content-center">
 					<div class="col-12 col-sm-10 col-md-8 col-lg-9 py-5 px-3">
-					  <div class=" row justify-content-center">
+						<div class=" row justify-content-center">
 						<div class="col-8 col-sm-6 col-md-6 col-lg-4 col-md-4  text-center">
-						  <div id="uploadImg">
+							<div id="uploadImg">
 						<img v-bind:src="profilePic">
-					  </div>
-					  <div class="custom-file">
+						</div>
+						<div class="custom-file">
 						<input type="file" class="custom-file-input" id="customFile"  @change="onFilePicked">
 						<label class="custom-file-label shadow-none" for="customFile">Choose file</label>
 							<label class="custom-file-label shadow-none font-weight-bold" for="customFile" v-if="procesing" disabled >Processing...</label>
-						  </div>
+							</div>
 						</div>
-					  </div>
+						</div>
 
-					  <form class="form-group text-left py-4" ref="register_form">
+						<form class="form-group text-left py-4" ref="register_form">
 			
-            	<!-- FORM FIELDS -->
+							<!-- FORM FIELDS -->
 						<div class="form-field">
 							<label for="username">Username</label>
 							<input 
@@ -88,13 +88,13 @@
 								ref="input_gender"
 								class="custom-select form-control rounded-0 shadow-none border" autocomplete="off" 
 								id="gender">
-							  <option>Male</option>
-							  <option>Female</option>
+								<option>Male</option>
+								<option>Female</option>
 							</select>
 							<span ref="alert_gender"></span>
 						</div>
 
-					  <div class="form-field">
+						<div class="form-field">
 							<label for="email">Email</label>
 							<input 
 								autocomplete="off"
@@ -108,21 +108,21 @@
 					</form>
 
 
-					  <div class="row">
+						<div class="row">
 						<div class="col text-right">
-						  <button type="submit" style="margin-right: 7px" class="btn btn-success rounded-0 font-weight-bold shadow-none" v-on:click="save" v-if="!procesingSave">Save</button>
+							<button type="submit" style="margin-right: 7px" class="btn btn-success rounded-0 font-weight-bold shadow-none" v-on:click="save" v-if="!procesingSave">Save</button>
 
-						   <button type="submit" style="margin-right: 7px" class="btn btn-warning rounded-0 font-weight-bold shadow-none" disabled v-if="procesingSave">Processing...</button>
+							<button type="submit" style="margin-right: 7px" class="btn btn-warning rounded-0 font-weight-bold shadow-none" disabled v-if="procesingSave">Processing...</button>
 
-						  <button type="submit" class="btn btn-warning rounded-0 font-weight-bold shadow-none" @click="$router.push('/')">Cancel</button>
+							<button type="submit" class="btn btn-warning rounded-0 font-weight-bold shadow-none" @click="$router.push('/')">Cancel</button>
 						</div>
-					  </div>
+						</div>
 					</div>
-				  </div>
+					</div>
 				</div>
-			  </div>
+				</div>
 			</div>
-		  </div>
+			</div>
 	</div>
 </template>
 
@@ -159,18 +159,10 @@ export default {
 
 		let self = this;
 		var EclassId = localStorage.getItem('ECLASS-id');
-		
-		const headers = {
-		  'x-access-token': localStorage.getItem('EClassToken'),
-		  'Content-Type':'application/json',
-		  'Accept': 'application/json',
-		  'Access-Control-Allow-Origin': '*',
-		  'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-		}
 
 		axios.get(this.urlUser + EclassId).then(res=>{
-		  console.log("IMAGES",res.data.userData)
-		  // self.userData = res.data.userData;
+			console.log("IMAGES",res.data.userData)
+			// self.userData = res.data.userData;
 		self.username = res.data.userData.username;
 		self.fullname = res.data.userData.fullname;
 		self.birthday = res.data.userData.birthday;
@@ -183,8 +175,6 @@ export default {
 		save() {
 			// this.procesing = true;
 			this.procesingSave = true;
-			var alphabets = /^[a-zA-Z-0-9]+$/;
-				var space = /^[a-zA-Z-0-9\s]+$/;
 
 				this.processing = true;
 
@@ -233,7 +223,9 @@ export default {
 					fullname: this.fullname,
 					birthday: this.birthday,
 					gender: this.gender,
-					email: this.email
+					email: this.email,
+					avatar: this.profilePic
+
 				}
 
 				axios.put(this.urleditProfile + EclassId, userData , params).then(response=>{
@@ -269,16 +261,16 @@ export default {
 			request.open('POST', this.urlAvatar);
 			request.send(data);
 			request.onreadystatechange = function () {
-			  if(request.readyState === 4 && request.status === 200) {
-			  	var res = JSON.parse(request.responseText);
-			  	console.log("INI RES",res)
-			    console.log('IMAGE UPLOADED. url:', res.url);
-		    self.profilePic = res.url;
-		  }else{
-		  	console.log('ERROR POST GAMBAR')
-		  }
-	      self.procesing = false;
-		};
+				if(request.readyState === 4 && request.status === 200) {
+					var res = JSON.parse(request.responseText);
+					console.log("INI RES",res)
+					console.log('IMAGE UPLOADED. url:', res.url);
+				self.profilePic = res.url;
+			}else{
+				console.log('ERROR POST GAMBAR')
+			}
+				self.procesing = false;
+		}
 		},
 		validate(key, val, input, alert){
 				var alphabets = /^[a-zA-Z-0-9]+$/;
@@ -373,26 +365,26 @@ export default {
 <style>
 	
 #uploadImg {
-  width: 150px;
-  height: 150px;
-  background-color: #fff;
-  border-radius: 50%;
-  border: 1px solid #ccc;
-  display: inline-block;
-  position: relative;
-  overflow: hidden;
+	width: 150px;
+	height: 150px;
+	background-color: #fff;
+	border-radius: 50%;
+	border: 1px solid #ccc;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
 }
 
 #uploadImg img {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 50%;
-  transform: translate(0, -50%);
+	width: 100%;
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translate(0, -50%);
 }
 
 label.custom-file-label::after {
-  display: none;
+	display: none;
 }
 	
 </style>

@@ -5,19 +5,15 @@
 					<div class="col-12 col-lg-4 col-md-6 col-sm-8 p-0">
 						<h3 class="font-weight-bold text-center">Log In</h3>
 						<hr class="w-100">
-						<div class="text-center">
-							<span class="text-success" v-if="$router.history.current['path'] == '/login/verified'">Selamat! <br>
+						<div class="text-center" v-if="$router.history.current['path'] == '/login/verified'">
+							<span class="text-success d-block pb-3">Selamat! <br>
 							Akun anda sudah terverifikasi. Silahkan Login.</span>
-							<span class="text-danger" ref="invalid"></span>
 						</div>
+						<div class="text-center">
+							<span class="text-danger text-center" ref="invalid"></span>
+						</div>
+
 						<form onkeypress="return event.keyCode != 13;">
-							<!-- Deactive Alert -->
-							<div class="mb-4">
-								<div class="alert alert-warning alert-dismissible fade show text-center m-0" role="alert" v-if="deactiv">
-									<strong>Hallo!</strong><br> Welcome back! We sent you an email to reactivate your account
-								</div>
-								
-							</div>
 							<!--  -->
 							<div class="form-group">
 								<label for="exampleInputEmail" class="m-0 font-weight-bold">Email/Username</label>
@@ -47,7 +43,7 @@
 							</button>
 
 							<div class="text-center">
-								<button type="button" style="color: #007bff;" class="btn bg-white border-0 mt-2 shadow-none" data-toggle="modal" data-target="#exampleModalCenter">
+								<button type="button" style="color: #007bff;" class="btn bg-light border-0 mt-2 shadow-none" data-toggle="modal" data-target="#exampleModalCenter">
 									Forgot Password?
 								</button>
 							</div>
@@ -103,7 +99,6 @@ export default {
 				username: '',
 				password: ''
 			},
-			deactiv :false,
 			gRendered : false,
 			googleUser: null,
 			urlLogin: App.data().ListUrl.urlLogin,
@@ -122,7 +117,6 @@ export default {
 			})
 		}
 
-		// pengaman fiesta
 		if(localStorage.getItem('EClassToken')){
 			this.$router.push('/')
 		}
@@ -149,7 +143,6 @@ export default {
 			var self = this;
 
 			if(this.login.username == "") {
-				// loginUsername.style.border = "1px solid red"
 				inpWarning1.innerHTML = "field cannot be empty!"
 				this.processing = false;
 			} else {
@@ -158,7 +151,6 @@ export default {
 			}
 
 			if(this.login.password == "") {
-				// loginPassword.style.border = "1px solid red"
 				inpWarning2.innerHTML = "field cannot be empty!"
 				this.processing = false;
 			} else {
@@ -173,7 +165,6 @@ export default {
 					'Accept': 'application/json',
 					'Access-Control-Allow-Origin': '*',
 					'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-					// 'withCredentials': true,
 				}
 
 				var dataUser = {
@@ -186,7 +177,6 @@ export default {
 					if(response.status === 200){
 						localStorage.setItem('EClassToken', response.data.token)
 						localStorage.setItem('ECLASS-id', response.data.ID)
-						// console.log("login",response .data)
 
 						self.$root.$emit('isLoggedIn');
 						this.processing = false;
@@ -194,14 +184,9 @@ export default {
 				}).catch(e=>{
 					console.log('error', e.response);
 					invalid.innerHTML = e.response.data.message;
-					if(e.response.data.message == 'User deactive') {
-						this.deactiv = true;
-					}
 					this.processing = false;
 				})
 			}
-
-			console.log("seng tak kirim", this.login.username, this.login.password)
 		},
 		renderGoogleBtn(googleUser) {
 				this.googleUser = googleUser;

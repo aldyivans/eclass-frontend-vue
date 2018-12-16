@@ -1,6 +1,6 @@
 <template>
-  <div v-if="totalPages() > 0" class="pagination-wrapper my-3 text-center justify-content-center d-flex">
-    <div class="d-inline-flex align-items-center">
+  <div v-if="totalPages() > 0" class="col-12 my-3 text-center">
+    <div class="col-12">
       <span v-if="showPreviousLink()" class="btn btn-white rounded-0 pagination-btn border-0" v-on:click="updatePage(currentPage - 1)"> &#xab; </span>
       <span v-else class="btn disabled rounded-0 pagination-btn border-0"> &#xab; </span>
 
@@ -11,10 +11,13 @@
       <span v-if="showNextLink()" class="btn btn-white rounded-0 pagination-btn border-0" v-on:click="updatePage(currentPage + 1)"> &#xbb; </span>
       <span v-else class="btn disabled rounded-0 pagination-btn border-0"> &#xbb; </span>
     </div>
-    
-    <div class="d-inline-flex justify-content-center">
-      <input class="ml-3 pl-1 w-50 bg-white p-0" id="inputNumPage" type="number" value="numPage" v-model="inputedPage" min="1">
-      <button class="btn btn-dark btn-sm rounded-0" v-on:click="gotoPage()">Go!</button>
+    <div class="col-8 col-sm-6 col-md-4 col-lg-3 d-inline-block">
+      <div class="input-group input-group-sm mb-3 border rounded">
+        <input class="form-control bg-white shadow-none" placeholder="0" aria-label="Recipient's username" aria-describedby="basic-addon2" id="inputNumPage" type="number" value="numPage" v-model="inputedPage" min="1">
+        <div class="input-group-append">
+          <button class="btn btn-sm bg-dark text-white" v-on:click="gotoPage()">Go!</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -46,7 +49,7 @@
           this.$emit('page:update', this.inputedPage - 1);
           this.inputedPage = 1;
         }else{
-          this.inputedPage = 1;OA
+          this.inputedPage = 1;
         }
       }
     },

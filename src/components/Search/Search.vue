@@ -1,6 +1,9 @@
 <template>
   <div class="search bg-light" v-if="data">
     <div class="container p-0">
+      <div class="my-4" v-if="data.length > 0">
+        <h5 class="font-weight-bold">{{data.length}} Result For {{dataKeyword}}</h5>
+      </div>
       <Pagination :searchresult="data" v-if="data.length>0"/>
         <div class="row py-5" v-else>
           <div class="w-100 bg-light py-5">
@@ -26,7 +29,6 @@
 </template>
 
 <script>
-    import axios from 'axios'
     import App from '../../App.vue'
     import router from '../../router'
     import Pagination from '../../views/PaginationSearch.vue'
@@ -52,7 +54,6 @@
       })
 
       this.dataKeyword = this.$route.query.keyword;
-      console.log("key", this.dataKeyword)
       this.get()
 
     },
@@ -60,15 +61,8 @@
       get(){
         this.loading = true;
         var arr = []
-        var route = router.app.courses
-
-        axios.get('https://eclass-does.herokuapp.com/').then(res => {
-          res.data.result.map(data => {
-            if(this.dataKeyword != ''){
-              if(this.dataKeyword == data.title.toLowerCase() || data.title.toLowerCase().indexOf(this.dataKeyword)!== -1){
-                arr.push(data)
-              }
-        route.map(data => {
+        var courses = router.app.courses
+        courses.map(data => {
           if(this.dataKeyword != ''){
             if(this.dataKeyword == data.title.toLowerCase() || data.title.toLowerCase().indexOf(this.dataKeyword)!== -1){
               arr.push(data)
@@ -78,9 +72,10 @@
         })
 
         this.data = arr;
-      },
+      }
+      }
     }
-  }
+
 </script>
 
 <style scoped>

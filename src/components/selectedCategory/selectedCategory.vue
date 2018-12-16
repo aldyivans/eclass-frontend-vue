@@ -1,53 +1,57 @@
 <template>
-	<div class="SelectCategory bg-light">
+	<div class="SelectCategory">
 		<div id="banner" class="p-0 ">
 			<div class="container">
-	      <div class="py-3">
-	        <div class=" col-12 col-lg-6 p-0">
-	          <h2 class="font-weight-bold p-0">{{$route.params.name}}</h2>
-	          <p class="p-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and</p>
-	        </div>
-	      </div>
+				<div class="py-3">
+					<div class=" col-12 col-lg-6 p-0">
+						<h2 class="font-weight-bold p-0" >{{dataParams}}</h2>
+						<p class="p-0" v-for="(desc, i) in dataDesc" :key="i" v-if="$route.name == 'selected'">{{desc}}</p>
+					</div>
+				</div>
 			</div>
-    </div>
-  </div>
+		</div>
+	</div>
 </template> 
-<!-- <script>
-	import App from '@/App.vue'
-	import axios from 'axios'
+<script>
+	import router from '../../router'
 
 	export default {
 		data(){
-			return{
-				urlCourse: App.data().ListUrl.urlCourses,
-				dataCategory: []
+			return {
+				dataParams: null,
+				dataDesc: []
 			}
 		},
 		mounted(){
-			// this.sortir(this.$route.params.id)
+			this.getcategory()
 		},
-		methods: {
-			// sortir(datacat){
-			// 	var self =this
-			// 	axios.get(this.urlCourse).then(res =>{
-			// 		res.data.result.map(data =>{
-			// 		data.categories.map(e=>{
-			// 			if(e == datacat){
-			// 				self.dataCategory.push(data)
-			// 			}
-			// 		})
-						
-			// 		})
-			// 	})
-			// }
+
+		methods : {
+			getcategory(){
+				this.dataParams = this.$route.params.name
+				var category = router.app.category
+				this.filterCategory(category);
+			},
+
+			filterCategory(dataCategory) {
+				var data = [];
+				for (var i = 0; i < dataCategory.length; i++) {
+					if(this.dataParams == dataCategory[i].name){
+						data.push(dataCategory[i].category_desc)
+					}
+				}
+				this.dataDesc = data
+			}
 		}
 	}
-</script> -->    
+</script>
+  
 <style scoped>
-	#banner {
+  #banner {
   color: #fff;
   height: auto;
   background-image: linear-gradient(-90deg, #27d4fe ,#6678ff );
-	}
+  }
+
 
 </style>
