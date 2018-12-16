@@ -156,12 +156,14 @@
 													<p class="m-0">{{comment.text}}</p>
 												</div>
 											</div>
-											<div class="date">
+											<div class="date d-flex">
 												<p class="d-inline-block m-0 mr-1 mr-lg-3" v-if="comment.created_at">{{comment.created_at._seconds | date}}</p>
-												<span class="text-primary" data-toggle="collapse" :data-target="'#answer' + index" aria-controls="answer" aria-expanded="false">Answer</span>
-
-												<font-awesome-icon icon="trash" class="ml-2" @click="deleteComment(index)"></font-awesome-icon>
-
+												<div class="d-flex" v-if="joined(datacourse)">
+													<span class="text-primary" data-toggle="collapse" :data-target="'#answer' + index" aria-controls="answer" aria-expanded="false">Answer</span>
+													<div v-if="showAnswerDelete(comment)">
+														<font-awesome-icon icon="trash" class="ml-2" @click="deleteComment(index)"></font-awesome-icon>
+													</div>
+												</div>
 											</div>
 										</div>
 									</div>
@@ -198,9 +200,12 @@
 														<p class="m-0">{{reply.text}}</p>
 													</div>
 												</div>
-												<div class="date">
+												<div class="date d-flex">
 													<p class="d-inline-block m-0" v-if="reply.created_at">{{reply.created_at._seconds | date}}</p>
-													<font-awesome-icon icon="trash" class="ml-2" @click="deleteReply(replyIndex)"></font-awesome-icon>
+													<div v-if="joined(datacourse)">
+														<font-awesome-icon icon="trash" class="ml-2" @click="deleteReply(replyIndex)" v-if="showAnwerReplie(reply)"></font-awesome-icon>
+														
+													</div>
 												</div>
 											</div>
 										</div>
@@ -259,7 +264,8 @@
 				newcomment: '',
 				answerComment: '',
 				commentsId: null,
-				dataLocked: []
+				dataLocked: [],
+				buttonAnswer: false,
 			}
 		},
 		mounted() {
@@ -284,7 +290,6 @@
 
 				axios.get(App.data().ListUrl.urlUser + EclassId).then(res=>{
 					this.user = res.data.userData
-					console.log("INI USER YNG LOGIN", this.user)
 					this.user.my_course.map(data => {
 						if(data.aid == this.datacourse.aid){
 							this.datacourse.sections.map(section => {
@@ -294,7 +299,8 @@
 							})
 						}
 					});
-				})
+				});
+
 			},
 			getCourse(){
 
@@ -304,7 +310,6 @@
 					console.log('sukses get course', res)
 					if(res.status == 200){
 						this.datacourse = res.data.result;
-						console.log("INI DATA COURSE YANG DI LIHAT", this.datacourse)
 
 						var cloned = JSON.parse(JSON.stringify(res.data.result))
 
@@ -377,6 +382,24 @@
 					return joined;
 				}
 			},
+			showAnswerDelete(data){
+				if(this.user){
+					var show = false;
+					if(data.user_id === this.user.id){
+						show = true;
+					}
+					return show;
+				}
+			},
+			showAnwerReplie(dataReply){
+				if(this.user){
+					var showReply = false;
+					if(dataReply.user_id === this.user.id){
+						showReply = true;
+					}
+					return showReply;
+				}
+			},
 			unjoin(id){
 				var token = localStorage.getItem('EClassToken');
 				console.log(token)
@@ -412,11 +435,7 @@
 					course_id: this.datacourse.id
 				}
 
-				console.log('send new comment: ', data)
-				console.log('please wait...')
-
 				axios.post(App.data().ListUrl.urlComment, data).then(res => {
-					console.log("response comment", res)
 					alert('Your Comment is Success');
 					this.getCourse()
 					window.location.reload()
@@ -434,7 +453,6 @@
 					course_id: this.datacourse.id,
 					avatar: this.user.avatar
 				}
-				console.log("DATA REPLIES", data)
 
 				var comment_id = this.datacourse.comments[index].id;
 
@@ -452,8 +470,6 @@
 			deleteComment(index){
 				var commentid = this.datacourse.comments[index].id;
 				var token = localStorage.getItem('EClassToken');
-				console.log("ID COMMENT", commentid)
-				console.log("ID COURSE", this.datacourse.id)
 				
 				const   params = {
 					headers : {
@@ -480,11 +496,8 @@
 				var commentid = this.datacourse.comments[replyIndex].aid;
 				var replyid = this.datacourse.comments[replyIndex].replies[replyIndex].id
 				var token = localStorage.getItem('EClassToken');
-				console.log("ID COMMENT", commentid)
-				console.log("ID REPLIES", replyid)
-
 				
-				const   params = {
+				const params = {
 					headers : {
 						'x-access-token': token,
 						'Content-Type':'application/json',
