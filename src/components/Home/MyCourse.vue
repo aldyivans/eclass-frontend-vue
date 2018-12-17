@@ -56,46 +56,46 @@ import App from '../../App.vue'
 import axios from 'axios'
 
 export default {
-		name: 'my-course',
-		components: {
-				Carousel,
-				Slide
-		},
-		data() {
-				return {
-						url: App.data().ListUrl.urlUser,
-						myCourse: [],
-						loading: false
-						
-				}
-		},
-		mounted(){
-				this.getUser();
-
-		},
-		methods: {
-				getUser(){
-						this.loading = true;
-
-						var EclassId = localStorage.getItem('ECLASS-id');
-
-						axios.get(this.url + EclassId).then(res=>{
-							for (var i = 0; i < res.data.userData.my_course.length; i++){
-								this.myCourse.push(res.data.userData.my_course[i])
-							}
-
-							for (var j = 0; j < this.myCourse.length; j++) {
-								if(this.myCourse[j].subtitle.length > 25){
-									var x = this.myCourse[j].subtitle.slice(0, 19);
-									this.myCourse[j].subtitle = x
-								}
-							}
-							this.loading = false;
-								
-						})
-						
-				}
+	name: 'my-course',
+	components: {
+		Carousel,
+		Slide
+	},
+	data() {
+		return {
+			url: App.data().ListUrl.urlUser,
+			myCourse: [],
+			loading: false
+				
 		}
+	},
+	mounted(){
+		this.getUser();
+
+	},
+	methods: {
+		getUser(){
+			this.loading = true;
+
+			var EclassId = localStorage.getItem('ECLASS-id');
+
+			axios.get(this.url + EclassId).then(res=>{
+				for (var i = 0; i < res.data.userData.my_course.length; i++){
+					this.myCourse.push(res.data.userData.my_course[i])
+				}
+
+				for (var j = 0; j < this.myCourse.length; j++) {
+					if(this.myCourse[j].subtitle.length > 25){
+						var x = this.myCourse[j].subtitle.slice(0, 19);
+						this.myCourse[j].subtitle = x
+					}
+				}
+				this.loading = false;
+					
+			})
+				
+		}
+	}
 }
 </script>
 <style scoped>

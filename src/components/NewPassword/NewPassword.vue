@@ -126,7 +126,6 @@ export default {
 				password: this.password.confirmNew
 			}
 
-			console.log('RESET PASSWORD,' , dataUser, this.url+this.token)
 			if(this.token && this.token !== null){
 				axios.put(this.urlResetPassword + this.token, dataUser, params).then(response => {
 					if(response.status === 200){

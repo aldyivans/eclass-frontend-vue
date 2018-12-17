@@ -205,13 +205,6 @@ export default {
 			const imageUrl = profile.getImageUrl();
 			const email = profile.getEmail();
 
-			console.log('TOKEN: ' + googleUser.getAuthResponse().id_token);
-			console.log('ID: ' + profile.getId());
-			console.log('Name: ' + profile.getName());
-			console.log('Image URL: ' + profile.getImageUrl());
-			console.log('Email: ' + profile.getEmail());
-			console.log('Profile', profile)
-
 			const params = {
 				headers : {
 					'Content-Type': 'application/json',
@@ -236,7 +229,6 @@ export default {
 			// POST GOOGLE LOGIN DATA TO BACKEND
 			axios.post(this.loginGoogleUrl, dataUser, params).then(response =>{
 				if(response.status == 200) {
-					console.log('google signin success: ',response);
 					localStorage.setItem('EClassToken', response.data.token)
 					localStorage.setItem('ECLASS-id', response.data.ID)
 
@@ -271,7 +263,6 @@ export default {
 			axios.post(this.forgotPasswordUrl, theemail, headers).then(response => {
 				if(response.status === 200) {
 					success.innerHTML = "Confirm link was sent to your Email"
-					console.log('response', response)
 					invalid2.innerHTML = ""
 					self.processingForgot = false
 				} else {

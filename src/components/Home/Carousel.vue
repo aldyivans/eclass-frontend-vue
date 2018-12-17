@@ -59,9 +59,9 @@
 					});
 				}
 
-				for (var i = 0; i < this.dataSortDate.length; i++) {
-					if(i < 3){
-						this.dataCarousel.push(this.dataSortDate[i])
+				for (var j = 0; j < this.dataSortDate.length; j++) {
+					if(j < 3){
+						this.dataCarousel.push(this.dataSortDate[j])
 					}
 				}
 
