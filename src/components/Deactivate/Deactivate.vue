@@ -83,7 +83,6 @@
 			axios.get(this.urlUSer + EclassId).then(res => {
 				if(res.status === 200) {
 					this.dataUser = res.data.userData
-					console.log("data user:", this.dataUser)
 				}
 			});
 		},
@@ -104,20 +103,16 @@
 				}
 				axios.put(this.url, dataUser, params).then((response,err)=>{
 					if(response.status === 200){
-						console.log("Response:", response)
-
 						setTimeout(()=>{
 							alert('Your account was successfully deactivated.');
 							localStorage.clear();
-						this.$root.$emit('isLoggedOut');
-						this.isLoggedIn = false;
+							this.$root.$emit('isLoggedOut');
+							this.isLoggedIn = false;
 							this.$router.push('/');
 						}, 1000)
-					}else {
-						console.log("Error", err)
 					}
 				}).catch(e=>{
-					console.log('error', e.response)
+					alert('Failed')
 				})
 			}
 		}

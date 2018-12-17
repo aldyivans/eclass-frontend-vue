@@ -246,7 +246,6 @@
 <script>
 	import axios from 'axios'
 	import App from '../../App.vue'
-	import router from '../../router'
 
 	$("#exampleModalCenter").on('hidden.bs.modal', function (e) {
 	$("#exampleModalCenter iframe").attr("src", $("#exampleModalCenter iframe").attr("src"));
@@ -307,18 +306,11 @@
 				this.datacourse = null;
 
 				axios.get( App.data().ListUrl.UrlCoursesByid + this.dataData).then(res=>{
-					console.log('sukses get course', res)
 					if(res.status == 200){
 						this.datacourse = res.data.result;
 
 						var cloned = JSON.parse(JSON.stringify(res.data.result))
-
 						this.dataLocked.push(res.data.result)
-
-						// this.datacourse.comments.map(commentId=>{
-						//  this.commentsId = commentId.aid
-						// })
-
 						var comments = [];
 						cloned.comments.map(comment => {
 							if(comment.user_id){
@@ -332,7 +324,6 @@
 										// Sorting comment, yang paling baru diatas
 										comments.sort((a, b) => a.created_at._seconds < b.created_at._seconds);
 										this.datacourse.comments = comments;
-										// console.log('asolleee', this.datacourse)
 									}
 								});
 							}
@@ -345,7 +336,6 @@
 			},
 			joinCourse(id){
 				var token = localStorage.getItem('EClassToken');
-				console.log(token)
 
 				const params = {
 					headers: {
@@ -360,15 +350,12 @@
 				axios.post(App.data().ListUrl.UrlJoinCourse + id, {}, params).then(response => {
 					if(response.status === 200) {
 						alert('Sukses')
-						console.log('SUKSES JOIN COURSE', response)
 						this.$router.push('/')
 					} else {
-						alert('Gagal')
-						console.log('GAGAL JOIN COURSE')
+						alert('Gagal, Silahkan Coba lagi')
 					}
 				}).catch(e => {
-					alert('Gagal')
-					console.log('GAGAL JOIN COURSESS', e.response)
+					alert('Gagal,Silahkan Coba Lagi')
 				})
 			},
 			joined(datacourse){
@@ -402,8 +389,6 @@
 			},
 			unjoin(id){
 				var token = localStorage.getItem('EClassToken');
-				console.log(token)
-
 				const params = {
 					headers: {
 						'x-access-token': token,
@@ -416,15 +401,12 @@
 				axios.post(App.data().ListUrl.UrlUnjoinCourse + id, {}, params).then(response => {
 					if(response.status === 200) {
 						alert('Sukses')
-						console.log('SUKSES UNJOIN COURSE', response)
 						this.$router.push('/')
 					} else {
-						alert('Gagal')
-						console.log('GAGAL UNJOIN COURSE')
+						alert('Gagal, Silahkan Coba Lagi')
 					}
 				}).catch(e => {
-					alert('Gagal')
-					console.log('GAGAL UNJOIN COURSESS', e.response)
+					alert('Gagal, Silahkan Coba Lagi')
 				})
 
 			},
@@ -442,7 +424,6 @@
 				})
 				.catch(err => {
 					alert('failed')
-					console.log(err)
 				})
 			},
 
@@ -463,7 +444,6 @@
 				})
 				.catch(err =>{
 					alert("Not Success")
-					console.log(err)
 				})
 			},
 
@@ -482,13 +462,11 @@
 				}
 
 				axios.delete(App.data().ListUrl.urlDeleteComment + this.datacourse.id + '/' + commentid, params).then(res =>{
-					console.log(res)
 					alert("Deleted is Success")
 					this.getCourse();
 				})
 				.catch(err =>{
 					alert("Deleted not Success")
-					console.log(err)
 				})
 			},
 
@@ -508,13 +486,11 @@
 				}
 
 				axios.delete(App.data().ListUrl.urlDeletReply + commentid + '/' + replyid, params).then(res =>{
-					console.log(res)
 					alert("Deleted is Success")
 					this.getCourse();
 				})
 				.catch(err =>{
 					alert("Deleted not Success")
-					console.log(err)
 				})
 			}
 		},

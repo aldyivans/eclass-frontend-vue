@@ -254,7 +254,7 @@
 					this.$router.push('/login')
 					}else {
 					throw new Error("Error");
-						response.status = 200;
+						// response.status = 200;
 					}
 					this.processing = false;
 				}).catch(e => {
@@ -284,7 +284,6 @@
 			},
 			googleSignIn() {
 				console.clear();
-				console.log('[GOOGLE SIGN IN SUCCESS]');
 
 				let self = this;
 						const profile = this.googleUser.getBasicProfile();
@@ -293,12 +292,6 @@
 				const name = profile.getName();
 				const imageUrl = profile.getImageUrl();
 				const email = profile.getEmail();
-
-						console.log('TOKEN: ' + token);
-				console.log('ID: ' + id);
-				console.log('Name: ' + name);
-				console.log('Image URL: ' + imageUrl);
-				console.log('Email: ' + email);
 
 				const dataUser = {
 							username: "",
@@ -313,15 +306,13 @@
 							verified: true,
 						}
 
-						console.log('GOOGLE USER DATA:',dataUser)
-
-						const params = {
-							headers : {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json',
-					'Access-Control-Allow-Origin': '*'
-							}
+				const params = {
+					headers : {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json',
+						'Access-Control-Allow-Origin': '*'
 						}
+					}
 
 						// POST GOOGLE USER DATA TO BACKEND
 				axios.post(this.registerGoogle, dataUser, params).then((response) => {
@@ -335,7 +326,7 @@
 					// this.$router.push('/');
 					}else {
 					throw new Error("Error");
-						response.status = 200;
+						// response.status = 200;
 					} 
 				}).catch(e => {
 					alert('Mohon maaf, pendaftaran belum berhasil.');

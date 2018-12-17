@@ -184,9 +184,9 @@
 	import axios from 'axios'
 
 	import router from './router'
-	var mainUrl = 'https://eclass-does.herokuapp.com/'
+	// var mainUrl = 'https://eclass-does.herokuapp.com/'
 	// var mainUrl = 'http://192.168.2.231:3000/'
-	// var mainUrl = 'https://eclass.doesuniversity.com/'
+	var mainUrl = 'https://eclass.doesuniversity.com/'
 
 	var ListUrl = {
 
@@ -566,26 +566,26 @@ button:focus {
 }
 
 .dropdown-submenu>.dropdown-menu {
-		top: 0;
-		left: 100%;
+	top: 0;
+	left: 100%;
 }
 
 .dropdown-submenu:hover>.dropdown-menu {
-		display: block;
+	display: block;
 }
 
 .dropdown-submenu>a:after {
-		display: block;
-		content: "";
-		float: right;
-		width: 0;
-		height: 0;
-		border-color: transparent;
-		border-style: solid;
-		border-width: 5px 0 5px 5px;
-		border-left-color: #ccc;
-		margin-top: 5px;
-		margin-right: -10px;
+	display: block;
+	content: "";
+	float: right;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #ccc;
+	margin-top: 5px;
+	margin-right: -10px;
 }
 
 .row .col h1 {

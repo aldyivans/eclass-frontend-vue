@@ -24,7 +24,7 @@ export default {
 	name: 'top-categories',
 	data() {
 		return {
-			dataCategory: null
+			dataCategory: null,
 		}
 	},
 	mounted() {
@@ -35,6 +35,7 @@ export default {
 		getCategory(){
 			var route = router.app.category
 			this.dataCategory = route
+
 		},
 		send(category){
 			this.$router.push({name: 'selected', path:'/selected/', params: {id: category.id, name: category.name}})

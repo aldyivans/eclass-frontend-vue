@@ -31,14 +31,6 @@ Vue.use(BootstrapVue, VueCarousel, VueAxios, axios);
 Vue.config.productionTip = false
 
 // === Config ===
-var EclassId = localStorage.getItem('ECLASS-id');
-const headers = {
-  'Content-Type':'application/json',
-  'Accept': 'application/json',
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type',
-}
-
 // master data lokal
 var url = App.data().ListUrl
 var data = {
@@ -71,18 +63,16 @@ window.onload = (()=>{
 
 function getCourses(){
 	axios.get(url.urlCourses).then(res => {
-      if(res.status === 200) {	
-      	console.log("COURSES MAIN JS", res)
-        if(res.data.status === 500){
-        	console.log(res)
-        	renderAppBak();
-        }else{
-        	data.courses = res.data.result;
-
-        	dataCount++;
-        	checkData();
-        }
-      }
+		if(res.status === 200) {  
+		if(res.data.status === 500){
+			console.log(res)
+			renderAppBak();
+		}else{
+			data.courses = res.data.result;
+			dataCount++;
+			checkData();
+		}
+		}
 	})
 	.catch(err => {
 		console.log(err);
@@ -94,11 +84,9 @@ function getPrivacy(){
 	axios.get(url.urlPrivacy).then(res => {
 		if(res.status == 200){
 			if(res.data.status === 500){
-				console.log(res);
 				renderAppBak();
 			}else{
 				data.privacy = res.data.result
-
 				dataCount++;
 				checkData();
 			}
@@ -114,11 +102,9 @@ function getAbout(){
 	axios.get(url.urlAbout).then(res =>{
 		if(res.status == 200){
 			if(res.data.status === 500){
-				console.log(res);
 				renderAppBak();
 			}else {
 				data.about = res.data.result
-
 				dataCount++;
 				checkData();
 			}
@@ -134,7 +120,6 @@ function getCategory(){
 	axios.get(url.urlCategory).then(res =>{
 		if(res.status ==200){
 			if(res.data.status === 500){
-				console.log(res);
 				renderAppBak();
 			}else{
 				data.category = res.data.result
@@ -151,13 +136,10 @@ function getCategory(){
 
 // === Render ===
 function renderApp(){
-	// console.clear();
-    console.log('render app', data);
-
 	new Vue({
-	  data: () => {return data},
-	  router,
-	  render: h => h(App)
+		data: () => {return data},
+		router,
+		render: h => h(App)
 	}).$mount('#app')
 }
 
