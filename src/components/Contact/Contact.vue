@@ -105,7 +105,6 @@
 				){
 					this.post();
 				}else{
-					console.log('form not valid')
 					this.Processing = false
 				}
 			},
@@ -123,6 +122,7 @@
 				})
 				.catch(err=>{
 					alert("Error")
+					this.Processing = false
 				})
 			},
 			validate(key, val, input, alert){

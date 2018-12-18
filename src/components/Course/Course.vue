@@ -48,21 +48,22 @@
 					<ul class="p-0 m-0" >
 					<div class="w-100 bg-white border-bottom" v-for="(video, j) in data.videos" v-bind:key="j">
 						<li>
-							<div v-if="video.locked" class="row text-muted  justify-content-around align-items-center text-left p-3">
-								<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
+							<div v-if="video.locked > 0" class="row text-muted  justify-content-around align-items-center text-left p-3" data-toggle="modal" data-target="#alertSectionCourse">
+								<font-awesome-icon icon="play-circle"></font-awesome-icon>
 								<span class="col-7">{{video.title}}</span>
-								<font-awesome-icon icon="lock" class="col-2 text-center"></font-awesome-icon>
+								<font-awesome-icon icon="lock" class=" text-center"></font-awesome-icon>
 								<span class="col-2">{{ video.duration}}</span>
 							</div>
 							<div class="row text-primary justify-content-around align-items-center text-left p-3" v-else>
-								<font-awesome-icon icon="play-circle" class="col-1"></font-awesome-icon>
+								<font-awesome-icon icon="play-circle"></font-awesome-icon>
 								<span class="col-7" data-toggle="modal" data-target="#exampleModalCenter">{{video.title}}</span>
 								<!-- <span class="col-2 text-center">Preview</span> -->
-								<font-awesome-icon icon="check" class="col-2 text-center text-primary"></font-awesome-icon>
+								<font-awesome-icon icon="check" class="text-center text-primary"></font-awesome-icon>
 								<span class="col-2">{{ video.duration}}</span>
 							</div>
+
 							<!-- modal -->
-							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" v-if="!video.locked" v-on:click="stopVideo">
+							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" v-if="video.locked" v-on:click="stopVideo">
 								<div class=" row modal-dialog modal-dialog-centered modal-lg " role="document">
 								<div class="modal-content border-0 col-12">
 									<div class="modal-header border-0">
@@ -91,30 +92,49 @@
 						<div class="p-4">
 							<button v-if="joined(datacourse)" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="collapse" data-target="#send" aria-controls="send" aria-expanded="false"><font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question</button>
 							<!-- Alert join first -->
-							<button v-else type="button" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="modal" data-target="#exampleModalCenter">
+							<button v-else type="button" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="modal" data-target="#alertSection">
 								<font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question
 							</button>
 
 							<!-- Modal -->
-							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal fade" id="alertSection" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 								<div class="modal-dialog modal-dialog-centered" role="document">
-								<div class="modal-content bg-white">
-									<div class="modal-header">
-									<h4 class="modal-title" id="exampleModalCenterTitle">Silahkan Join Courses untuk Melakukan Pertanyaan </h4>
-									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-										<span aria-hidden="true">&times;</span>
-									</button>
+									<div class="modal-content bg-white">
+										<div class="modal-header">
+											<h4 class="modal-title" id="exampleModalCenterTitle">Silahkan Join Courses untuk Melakukan Pertanyaan </h4>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<div class="mt-2 text-right" v-if="!joined(datacourse)">
+												<button v-if="join" class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course ?</button>
+												<button v-else class="btn btn-warning rounded-0 font-weight-bold" type="button" data-toggle="modal" data-target="#buttonModal">Join Course</button>
+											</div>
+										</div>
 									</div>
-									<div class="modal-body">
-									<div class="mt-2 text-right" v-if="!joined(datacourse)">
-										<button v-if="join" class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course ?</button>
-										<button v-else class="btn btn-warning rounded-0 font-weight-bold" type="button" data-toggle="modal" data-target="#buttonModal">Join Course</button>
-									</div>
-									</div>
-								</div>
 								</div>
 							</div>
 						</div>
+
+						<div class="modal fade" id="alertSectionCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content bg-white">
+									<div class="modal-header">
+										<h4 class="modal-title" id="exampleModalCenterTitle">Silahkan Join Course untuk melihat course </h4>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<div class="mt-2 text-right">
+											<button class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course ?</button>	
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
 						<!-- Collapse New Question-->
 						<div class=" collapse m-0" id="send" v-if="user">
 							<div class="w-100 py-4 mb-2">
@@ -229,7 +249,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<p class="text-dark text-center m-0">Silahkan melakukan login terlebih dahulu untuk join course ini.</p>
+						<p class="text-dark text-center m-0">Silahkan login terlebih dahulu untuk join course ini.</p>
 					</div>
 					<div class="modal-footer border-0">
 						<router-link to="/login">
@@ -279,7 +299,7 @@
 
 
 			if(localStorage.getItem('EClassToken')) {
-			this.join = true
+				this.join = true
 			}
 		},
 		methods: {
@@ -411,6 +431,7 @@
 
 			},
 			sendComment(){
+				var self = this;
 				var data = {
 					user_id: localStorage.getItem('ECLASS-id'),
 					text: this.newcomment,
@@ -418,9 +439,11 @@
 				}
 
 				axios.post(App.data().ListUrl.urlComment, data).then(res => {
-					alert('Your Comment is Success');
-					this.getCourse()
-					window.location.reload()
+					if(res.status === 200){
+						alert('Your Comment is Success');
+						this.getCourse();
+						window.location.reload()
+					}
 				})
 				.catch(err => {
 					alert('failed')
@@ -428,6 +451,7 @@
 			},
 
 			sendAnswer(index){
+				var self = this;
 				var data ={
 					user_id: localStorage.getItem('ECLASS-id'),
 					text: this.answerComment,
@@ -438,9 +462,11 @@
 				var comment_id = this.datacourse.comments[index].id;
 
 				axios.post(App.data().ListUrl.urlReplyComment + comment_id, data).then(res=>{
+					if(res.status === 200){
 						alert('Your Reply is Success')
 						this.getCourse();
 						window.location.reload()
+					}
 				})
 				.catch(err =>{
 					alert("Not Success")

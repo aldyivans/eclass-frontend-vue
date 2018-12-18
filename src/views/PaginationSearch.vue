@@ -35,7 +35,6 @@
 		},
 		mounted(){
 			this.currentPage = 0;
-			console.log(this.currentPage)
 		},
 		beforeMount: function() {
 			this.datas = [];
