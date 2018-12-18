@@ -63,7 +63,7 @@
 							</div>
 
 							<!-- modal -->
-							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" v-if="video.locked" v-on:click="stopVideo">
+							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" v-on:click="stopVideo">
 								<div class=" row modal-dialog modal-dialog-centered modal-lg " role="document">
 								<div class="modal-content border-0 col-12">
 									<div class="modal-header border-0">

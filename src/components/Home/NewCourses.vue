@@ -4,7 +4,7 @@
 		<div class="container">
 			<div class="row my-5">
 				<div class="col-12">
-					<h1 class="font-weight-bold">New Courses</h1>
+					<h2 class="font-weight-bold">New Courses</h2>
 				</div>
 				<div class="col-12 p-0 justify-content-center">
 					<div class="px-5 py-0 px-sm-0" v-if="dataFix.length > 0">
