@@ -64,7 +64,7 @@
         var courses = router.app.courses
         courses.map(data => {
           if(this.dataKeyword != ''){
-            if(this.dataKeyword == data.title.toLowerCase() || data.title.toLowerCase().indexOf(this.dataKeyword)!== -1){
+            if(this.dataKeyword.toLowerCase() == data.title.toLowerCase() || data.title.toLowerCase().indexOf(this.dataKeyword)!== -1 || this.dataKeyword.toUpperCase() == data.title.toUpperCase() || data.title.toUpperCase().indexOf(this.dataKeyword)!== -1){
               arr.push(data)
             }
           }
