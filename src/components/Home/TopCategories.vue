@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="row py-5">
 			<div class="col-12">
-				<h1 class="font-weight-bold">Top Categories</h1>
+				<h2 class="font-weight-bold">Top Categories</h2>
 			</div>
 
 			<div v-for="(category, i) in dataCategory" class="col-12 col-sm-4 col-lg-2 p-0 justify-content-center" :key="i">
