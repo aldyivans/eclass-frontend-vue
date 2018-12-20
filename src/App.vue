@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="bg-light">
+	<div id="app" class="bg-light" v-on:click="exit">
 		<!-- Mobile Sidebar -->
 		<div class="sidebar">
 			<div class="sidebar-menu bg-light" ref="sidebarMenu">
@@ -34,7 +34,7 @@
 					<li class="mobile-category list-group-item" ref="mobileCategory" style="display: none">
 						<ul class="list-group list-group-flush" v-for="category in categories" :key="category.name">
 							<div v-on:click="openSidebar">
-								<a v-on:click="sendCategory(category)"><li class="list-group-item">{{category.name}}</li></a>
+								<a v-on:click="sendCategory(category.name)"><li class="list-group-item">{{category.name}}</li></a>
 							</div>
 						</ul>
 					</li>
@@ -75,11 +75,11 @@
 							<div>
 								<ul class="dropdown-menu multi-level rounded-0 border-0 m-0 pb-2 p-0 shadow-sm" role="menu" aria-labelledby="dropdownMenu">
 									<li class="dropdown-submenu pt-2 p-0" v-for="category in categories" :key="category.aid">
-										<a class="dropdown-item" tabindex="-1" v-on:click="sendCategory(category)">{{category.name}}
+										<a class="dropdown-item" tabindex="-1" v-on:click="sendCategory(category.name)">{{category.name}}
 										</a>
 										<ul class="dropdown-menu rounded-0 border-0 m-0 p-0 pb-2 h-100 shadow-sm">
 											<li class="dropdown-submenu pt-2 p-0" v-for="sub in category.subs" :key="sub.number">
-												<a class="dropdown-item" tabindex="-1" v-on:click="sendSubcategory(sub)">{{sub.name}}</a> 
+												<a class="dropdown-item" tabindex="-1" v-on:click="sendSubcategory(sub.name)">{{sub.name}}</a> 
 												<ul class="dropdown-menu dropdown-menu rounded-0 border-0 m-0 p-0 pb-2 h-100">
 													<li class="pt-2 p-0" v-for="topic in sub.topics" :key="topic">
 														<a class="dropdown-item" v-on:click="sendTopic(topic)">{{topic}}
@@ -95,7 +95,7 @@
 					</div>
 					<div class="col-lg-6 my-4 my-lg-0">
 						<div class="input-group border rounded bg-white">
-							<input type="text" class="form-control shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searching" v-on:keyup="enter">
+							<input type="text" class="form-control shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searching" v-on:keyup="ListSearch" @keypress.13.prevent="enter" ref="dis">
 
 							<!-- SEARCH -->
 							<div class="input-group-append" v-if="$route.path != '/search'">
@@ -112,19 +112,26 @@
 								</button>
 							</div>
 						</div>
-					</div>
-					<div class="col-lg-4 d-none d-lg-block text-right " v-if="isLoggedIn">
-							<div class="dropdown d-inline-flex">
-								<button class="avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<img :src="profileImg" v-if="profileImg">
-								</button>
-								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-									<router-link class="dropdown-item" to="/profile">Profile</router-link>
-									<router-link class="dropdown-item" to="/mycourses">My Courses</router-link>
-									<button type="submit" class="dropdown-item" v-on:click="logout">Log Out</button>
-								</div>
+						<div class="list bg-white border rounded position-absolute w-100" v-if="outputSearch.length > 0" style="z-index: 999; left: 0;" ref="exit">
+							<div class="px-2">
+								<p class="py-3 m-0 border-bottom text-dark font-weight-bold">Result For {{searching}}</p>
+								<p class="text-primary m-0 py-2 border-bottom" style="cursor: pointer;" id="Sugestion" v-for="(list, i) in outputSearch" :key="i" v-on:click="searchSugestion(list)">{{list.title}} || {{list.subtitle}}</p>
 							</div>
 						</div>
+					</div>
+
+					<div class="col-lg-4 d-none d-lg-block text-right " v-if="isLoggedIn">
+							<div class="dropdown d-inline-flex">
+							<button class="avatar" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<img :src="profileImg" v-if="profileImg">
+							</button>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+								<router-link class="dropdown-item" to="/profile">Profile</router-link>
+								<router-link class="dropdown-item" to="/mycourses">My Courses</router-link>
+								<button type="submit" class="dropdown-item" v-on:click="logout">Log Out</button>
+							</div>
+						</div>
+					</div>
 					<div class="col-lg-4 text-right user d-none d-lg-block" v-if="!isLoggedIn">
 						<router-link to="/login" class="btn btn-warning rounded-0 font-weight-bold" style="margin-right: 7px">Login</router-link>
 						<router-link to="/signup" class="btn btn-warning rounded-0 font-weight-bold">Sign Up</router-link>
@@ -142,18 +149,18 @@
 		<div class="footer p-0">
 			<div class="footer-top">
 				<div class="container-fluid">
-					<div class="row p-5 ">
+					<div class="row p-0 p-lg-5 p-md-5">
 						<div class="col-lg-4 my-3">
 							<h1>About E-Class</h1>
 							<p>{{about}}</p>
 						</div>
 						<div class="col-lg-4 my-3">
 							<h1>Follow Us</h1>
-							<div class="col-12">
-								<a href="https://www.instagram.com/doesofficial" target="_blank"><img v-bind:src="google" class="mr-2 p-1"></a>
-								<a href="https://www.instagram.com/doesofficial" target="_blank"><img v-bind:src="fb" class="mr-2"></a>
-								<a href="https://www.instagram.com/doesofficial" target="_blank"><img v-bind:src="instagrams" class="mr-2 p-1"></a>
-								<a href="https://www.instagram.com/doesofficial" target="_blank"><img v-bind:src="twitter" class="mr-2"></a>
+							<div class="col-12 d-flex justify-content-around">
+								<a href="https://www.instagram.com/doesofficial" target="_blank"><img v-bind:src="google"></a>
+								<a href="https://www.instagram.com/doesofficial" target="_blank"><img v-bind:src="fb"></a>
+								<a href="https://www.instagram.com/doesofficial" target="_blank"><img v-bind:src="instagrams"></a>
+								<a href="https://www.instagram.com/doesofficial" target="_blank"><img v-bind:src="twitter"></a>
 							</div>
 						</div>
 						<div class="col-lg-4 my-3">
@@ -187,6 +194,7 @@
 	// var mainUrl = 'https://eclass-does.herokuapp.com/'
 	// var mainUrl = 'http://192.168.2.231:3000/'
 	var mainUrl = 'https://eclass.doesuniversity.com/'
+	// var mainUrl = 'http://192.168.2.120:3000/'
 
 	var ListUrl = {
 
@@ -197,9 +205,13 @@
 		urlCommentByid: mainUrl + 'v1/komentar/',
 		urlReplyComment: mainUrl + 'v1/reply/',
 		urlAbout: mainUrl + 'v1/about',
-		urlCourses: mainUrl + 'v1/courses',
-		urlCoursesPage: mainUrl + '/v1/coursespage?page=2&size=2',
+		urlNewCourses: mainUrl + 'v1/newcourses',
+		urlPopCourses: mainUrl + 'v1/popularcourses',
+		urlCoursesPage: mainUrl + 'v1/searchcourses',
 		UrlCoursesByid: mainUrl + 'v1/course/',
+		urlCategorySearch: mainUrl + 'v1/searchcategories',
+		urlSubSearch: mainUrl + 'v1/searchsubcat',
+		urlTopicSearch: mainUrl + 'v1/searchtopic',
 		UrlJoinCourse: mainUrl + 'v1/joincourse/',
 		UrlUnjoinCourse: mainUrl + 'v1/unjoincourse/',
 		urlUser: mainUrl + 'v1/user/',
@@ -229,6 +241,7 @@
 		data () {
 			return {
 				searching: '',
+				outputSearch: [],
 				ListUrl: ListUrl,
 				profileImg: null,
 				isLoggedIn: false,
@@ -277,6 +290,27 @@
 			this.getAbout();
 		},
 		methods: {
+			ListSearch(){
+				if(this.searching.length >= 3 && this.searching.length <=10){
+				this.outputSearch = []
+					var data = {
+						search: this.searching
+					}
+
+					axios.post(this.ListUrl.urlCoursesPage, data).then(res => {
+						this.outputSearch = []
+						res.data.result.map( data => {
+							this.outputSearch.push(data)
+						})
+					});
+				}
+			},
+			exit(){
+				if(this.searching.length >= 3){
+					this.$refs.exit.className = 'd-none'
+					this.searching = ''
+				}
+			},
 			sendTopic(topic){
 				if(this.$route.name != 'selected-topic'){
 					this.$router.push({
@@ -288,7 +322,7 @@
 					this.$router.push({
 						params: {name: topic}
 					})
-					this.$root.$emit('topicSelected', topic)
+					// this.$root.$emit('topicSelected', topic)
 				}
 			},
 			sendSubcategory(subcategory){
@@ -297,13 +331,13 @@
 					this.$router.push({
 						name: 'selected-subcategory',
 						path: '/selected/subcategory/',
-						params: {name: subcategory.name}
+						params: {name: subcategory}
 					})
 				}else {
 					this.$router.push({
-						params: {name: subcategory.name}
+						params: {name: subcategory}
 					})
-					this.$root.$emit('subCategorySelected', subcategory)
+					// this.$root.$emit('subCategorySelected', subcategory)
 				}
 			},
 			sendCategory(category){
@@ -312,14 +346,14 @@
 					this.$router.push({
 						name: 'selected', 
 						path:'/selected/', 
-						params: {id: category.id, name: category.name}
+						params: {name: category}
 					})
 				}else{
 					// ini berarti dari page selected, ngeklik kategori lagi
 					this.$router.push({
-						params: {id: category.id, name: category.name}
+						params: {name: category}
 					})
-					this.$root.$emit('categorySelected', category)
+					// this.$root.$emit('categorySelected', category)
 					// this.$root.$emit('top-topic', category.name)
 				}
 			},
@@ -327,13 +361,29 @@
 				if(e.keyCode===13) {
 					this.search()
 				}
-
+				if(this.searching.length >= 3){
+					this.exit()
+				}
 			},
 			search(){
+				
 				if(this.$route.path != '/search/'){
 					this.$router.push({ name: "search", query: {keyword: this.searching}});
+				}else {
+					this.$router.push({
+						query: {keyword: this.searching}
+					})
 				}
-				this.$root.$emit('search', this.searching)
+				// this.$root.$emit('search', this.searching)
+			},
+			searchSugestion(e){
+				if(this.$route.path != '/search/'){
+					this.$router.push({ name: "search", query: {keyword: e.title}});
+				}else {
+					this.$router.push({ query : {keyword : e.title}
+					})
+				}
+				// this.$root.$emit('search-sugestion', e.title)
 			},
 
 			getAbout(){
@@ -393,13 +443,9 @@
 				this.isLoggedIn = false;
 				this.$router.push('/');
 				window.location.reload();
-			}
-		},
-		// watch: {
-		//  listSearching(val){
-		//      this.searching
-		//  }
-		// }
+			},
+
+		}
 	}
 	
 </script>
@@ -711,5 +757,9 @@ button:focus {
 
 span {
 	cursor: pointer;
+}
+#Sugestion:hover {
+	background-color: #f1f1f1;
+	border-radius: 5px;
 }
 </style>

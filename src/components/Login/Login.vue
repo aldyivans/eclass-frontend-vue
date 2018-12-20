@@ -43,9 +43,9 @@
 							</button>
 
 							<div class="text-center">
-								<button type="button" style="color: #007bff;" class="btn bg-light border-0 mt-2 shadow-none" data-toggle="modal" data-target="#exampleModalCenter">
+								<h6 style="color: #007bff;" class="btn bg-light border-0 mt-2 shadow-none" data-toggle="modal" data-target="#exampleModalCenter">
 									Forgot Password?
-								</button>
+								</h6>
 							</div>
 
 
@@ -326,5 +326,4 @@ export default {
 	#magic:after {
 		right: 0;
 	}
-
 </style>

@@ -38,7 +38,7 @@ export default {
 
 		},
 		send(category){
-			this.$router.push({name: 'selected', path:'/selected/', params: {id: category.id, name: category.name}})
+			this.$router.push({name: 'selected', path:'/selected/', params: {name: category.name}})
 		}
 	}
 }

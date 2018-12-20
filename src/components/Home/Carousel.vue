@@ -48,38 +48,9 @@
 
 		methods:{
 			getCourses(){
-				var courses = router.app.courses
-
-				for (var i = 0; i < courses.length; i++) {
-					var dataDate = timeConverter(courses[i].created_at._seconds)
-					courses[i].created_at._seconds = dataDate
-					this.dataSortDate.push(courses[i])
-					this.dataSortDate.sort(function(a,b){
-					return new Date(b.created_at._seconds) - new Date(a.created_at._seconds);
-					});
-				}
-
-				for (var j = 0; j < this.dataSortDate.length; j++) {
-					if(j < 3){
-						this.dataCarousel.push(this.dataSortDate[j])
-					}
-				}
-
-
-				function timeConverter(UNIX_timestamp){
-					var a = new Date(UNIX_timestamp * 1000);
-					var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-					var year = a.getFullYear();
-					var month = months[a.getMonth()];
-					var date = a.getDate();
-					var hour = a.getHours();
-					var min = a.getMinutes();
-					var sec = a.getSeconds();
-					var time = date + ' ' + month + ' ' + year + ' ' + hour  + ':' + min + ':' + sec;
-					return time;
-				}
-
-			},
+				var courses = router.app.Newcourses
+				this.dataCarousel = courses
+			}
 		}
 	}
 </script>
