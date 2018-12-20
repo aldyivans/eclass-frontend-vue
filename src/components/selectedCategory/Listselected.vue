@@ -20,11 +20,11 @@
 					</div>
 					<Pagination :searchresult="dataTopic" v-if="dataTopic.length > 0"/>
 				</div>
-
-
 			</div>
-			<div class="py-5 justify-content-center" v-if="showLoader">
-				<div class="loader"></div>
+			<div class="row justify-content-center"  v-if="showLoader">
+				<div class="py-5">
+					<div class="loader"></div>
+				</div>				
 			</div>
 		</div>
 	</div>
@@ -94,6 +94,8 @@
 					}else{
 						this.showLoader = false
 					}
+				}).catch(e=>{
+					this.showLoader = false;
 				})
 			},
 			getCategorySubcategory(){
@@ -110,7 +112,9 @@
 					}else {
 						this.showLoader = false;
 					}
-				});
+				}).catch(e=>{
+					this.showLoader = false;
+				})
 			},
 
 			getTopic(){
@@ -128,6 +132,8 @@
 					}else {
 						this.showLoader = false;
 					}
+				}).catch(e=>{
+					this.showLoader = false;
 				})
 			}
 		}
@@ -163,8 +169,6 @@
 		height: 100px;
 		-webkit-animation: spin 2s linear infinite; /* Safari */
 		animation: spin 2s linear infinite;
-		position: relative;
-		left: 45%;
 	}
 	/* Safari */
 	@-webkit-keyframes spin {

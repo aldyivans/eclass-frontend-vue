@@ -95,20 +95,12 @@
 					</div>
 					<div class="col-lg-6 my-4 my-lg-0">
 						<div class="input-group border rounded bg-white">
-							<input type="text" class="form-control shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searching" v-on:keyup="ListSearch" @keypress.13.prevent="enter" ref="dis">
+							<input type="text" class="form-control shadow-none" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2" v-model="searching" v-on:keyup="ListSearch" @keypress.13.prevent="enter">
 
-							<!-- SEARCH -->
-							<div class="input-group-append" v-if="$route.path != '/search'">
-								<router-link :to="{name:'search', path:'/search/', query:{keyword: searching}}" class="btn">
-										<!-- {{$route.path}} -->
-										<font-awesome-icon icon="search" />
-								</router-link>
-							</div>
-
-							<div class="input-group-append" v-else>
+							<div class="input-group-append">
 								<button class="btn rounded-0 shadow-none" type="button" v-on:click="search">
 									<!-- anda di rute search -->
-									<font-awesome-icon icon="search" />
+									<font-awesome-icon icon="search" v-bind:disabled="disableding" />
 								</button>
 							</div>
 						</div>
@@ -241,6 +233,7 @@
 		data () {
 			return {
 				searching: '',
+				disableding : true,
 				outputSearch: [],
 				ListUrl: ListUrl,
 				profileImg: null,
@@ -304,6 +297,9 @@
 						})
 					});
 				}
+				if(this.searching.length == 0){
+					this.$refs.exit.style.display = 'none'
+				}
 			},
 			exit(){
 				if(this.searching.length >= 3){
@@ -366,13 +362,15 @@
 				}
 			},
 			search(){
-				
-				if(this.$route.path != '/search/'){
-					this.$router.push({ name: "search", query: {keyword: this.searching}});
-				}else {
-					this.$router.push({
-						query: {keyword: this.searching}
-					})
+				if(this.searching.length > 0){
+					if(this.$route.path != '/search/'){
+						this.$router.push({ name: "search", query: {keyword: this.searching}});
+					}else {
+						this.$router.push({
+							query: {keyword: this.searching}
+						})
+					}
+					this.disableding = false;
 				}
 				// this.$root.$emit('search', this.searching)
 			},
