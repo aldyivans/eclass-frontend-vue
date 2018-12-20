@@ -49,7 +49,11 @@
 		methods:{
 			getCourses(){
 				var courses = router.app.Newcourses
-				this.dataCarousel = courses
+				for (var i = 0; i < courses.length; i++) {
+					if(i < 3){
+						this.dataCarousel.push(courses[i])
+					}
+				}
 			}
 		}
 	}

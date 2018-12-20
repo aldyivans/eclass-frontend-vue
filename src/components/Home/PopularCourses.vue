@@ -22,10 +22,10 @@
 											<p class="card-text">{{ x.subtitle }}...</p>
 											<div class="view-counter mt-4 text-right">
 												<i class="fa fa-eye"></i>
-												<span>
+												<p class="text-muted m-0">
 													<font-awesome-icon icon="eye" />
 													{{ x.view_count }} views
-												</span>
+												</p>
 											</div>
 										</div>
 									</div>
