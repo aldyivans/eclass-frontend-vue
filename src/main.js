@@ -34,14 +34,15 @@ Vue.config.productionTip = false
 // master data lokal
 var url = App.data().ListUrl
 var data = {
-	courses: {},
+	Newcourses: {},
+	Popcourses: {},
 	privacy: {},
 	about: {},
 	category: {}
 }
 
 var dataCount = 0;
-var dataLength = 4;
+var dataLength = 5;
 var fallbacked = false;
 
 // hanya render app beneran ketika semua data ada.
@@ -55,23 +56,41 @@ function checkData(){
 // eksekusi fungsi ketika dokumen sudah dimuat.
 window.onload = (()=>{
 	// get semua data yang dibutuhkan
-	getCourses();
+	getNewCourses();
+	getPopCourses();
 	getPrivacy();
 	getAbout();
 	getCategory();
 })();
 
-function getCourses(){
-	axios.get(url.urlCourses).then(res => {
+function getNewCourses(){
+	axios.get(url.urlNewCourses).then(res => {
 		if(res.status === 200) {  
-		if(res.data.status === 500){
-			console.log(res)
-			renderAppBak();
-		}else{
-			data.courses = res.data.result;
-			dataCount++;
-			checkData();
+			if(res.data.status === 500){
+				renderAppBak();
+			}else{
+				data.Newcourses = res.data.result;
+				dataCount++;
+				checkData();
+			}
 		}
+	})
+	.catch(err => {
+		console.log(err);
+		renderAppBak();
+	})
+}
+
+function getPopCourses(){
+	axios.get(url.urlPopCourses).then(res => {
+		if(res.status === 200) {  
+			if(res.data.status === 500){
+				renderAppBak();
+			}else{
+				data.Popcourses = res.data.result;
+				dataCount++;
+				checkData();
+			}
 		}
 	})
 	.catch(err => {

@@ -59,35 +59,25 @@ export default {
 		}	 
 	},
 	mounted(){
-			this.getCourse();
-
+		this.getCourse();
+		if(this.dataFix){
 			for (var i = 0; i < this.dataFix.length; i++) {
-
-					if(this.dataFix[i].subtitle.length > 25){
-						var x = this.dataFix[i].subtitle.slice(0, 19);
-						this.dataFix[i].subtitle = x
-					}
+				if(this.dataFix[i].title.length > 30){
+					var x = this.dataFix[i].subtitle.slice(0, 22);
+					this.dataFix[i].title = x
 				}
+
+				if(this.dataFix[i].subtitle.length > 25){
+					var a = this.dataFix[i].subtitle.slice(0, 19);
+					this.dataFix[i].subtitle = a
+				}
+			}
+		}
 	},
 	methods: {
 		getCourse(){
-			var route = router.app.courses
-
-			this.dataCourse = route
-			this.sortData(this.dataCourse)
-		},
-		sortData(e){
-			e.map(data=>{
-				this.dataSort.push(data)
-			})
-			this.dataSort.sort(function(a,b){
-				return b.view_count - a.view_count
-			})
-			for (var i = 0; i < this.dataSort.length; i++) {
-				if(i < 10){
-					this.dataFix.push(this.dataSort[i])
-				}
-			}
+			var route = router.app.Popcourses
+			this.dataFix = route
 		}
 	}
 }

@@ -2,7 +2,7 @@
   <div class="search bg-light" v-if="data">
     <div class="container p-0">
       <div class="my-4" v-if="data.length > 0">
-        <h5 class="font-weight-bold">{{data.length}} Result For {{dataKeyword}}</h5>
+        <h5 class="px-3 font-weight-bold">{{data.length}} Result For {{dataKeyword}}</h5>
       </div>
       <Pagination :searchresult="data" v-if="data.length>0"/>
         <div class="row py-5" v-else>
@@ -19,7 +19,7 @@
             </div>
             <div class="row justify-content-center py-5" v-if="loading">
               <div class="py-5">
-                <h1 class="font-weight-bold py-5 my-5">Please Wait. . .</h1>
+                <div class="loader"></div>
               </div>
             </div>
           </div>
@@ -30,8 +30,9 @@
 
 <script>
     import App from '../../App.vue'
-    import router from '../../router'
     import Pagination from '../../views/PaginationSearch.vue'
+    import axios from 'axios'
+
 
   export default{
     name: 'search',
@@ -48,28 +49,33 @@
     },
     mounted() {
 
-      this.$root.$on('search', (keyword) => {
-        this.dataKeyword = keyword;
-        this.get()
-      })
+      if(this.$route.name == 'search'){
+        this.dataKeyword = null
+        this.dataKeyword = this.$route.query.keyword;
+        this.postSearch()
 
-      this.dataKeyword = this.$route.query.keyword;
-      this.get()
+      }
 
     },
     methods: {
-      get(){
+      postSearch(){
         this.loading = true;
+
         var arr = []
-        var courses = router.app.courses
-        courses.map(data => {
-          if(this.dataKeyword != ''){
-            if(this.dataKeyword.toLowerCase() == data.title.toLowerCase() || data.title.toLowerCase().indexOf(this.dataKeyword)!== -1 || this.dataKeyword.toUpperCase() == data.title.toUpperCase() || data.title.toUpperCase().indexOf(this.dataKeyword)!== -1){
-              arr.push(data)
+
+        var dataSend = {
+          search : this.dataKeyword
+        }
+         axios.post(App.data().ListUrl.urlCoursesPage, dataSend).then(res => {
+            if(res.status == 200){
+              res.data.result.map( data => {
+                arr.push(data)
+              })
             }
-          }
-          this.loading = false;
-        })
+          }).catch(e =>{
+            this.loading = false
+            
+          })
 
         this.data = arr;
       }
@@ -81,5 +87,24 @@
 <style scoped>
   a:hover {
     text-decoration: none;
+  }
+  .loader {
+    border: 12px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 12px solid #627eff;
+    /*border-bottom: 15px solid #007bff;*/
+    width: 100px;
+    height: 100px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+  }
+  /* Safari */
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 </style>

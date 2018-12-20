@@ -61,31 +61,25 @@ export default {
 		},
 		mounted() {
 			this.getData();
+			if(this.dataFix){
+				for (var i = 0; i < this.dataFix.length; i++) {
+					if(this.dataFix[i].title.length > 30){
+						var x = this.dataFix[i].subtitle.slice(0, 22);
+						this.dataFix[i].title = x
+					}
 
-			for (var i = 0; i < this.dataFix.length; i++) {
-
-				if(this.dataFix[i].subtitle.length > 25){
-					var x = this.dataFix[i].subtitle.slice(0, 19);
-					this.dataFix[i].subtitle = x
+					if(this.dataFix[i].subtitle.length > 25){
+						var a = this.dataFix[i].subtitle.slice(0, 19);
+						this.dataFix[i].subtitle = a
+					}
 				}
+				
 			}
 		},
 		methods: {
 			getData(){
-				var route = router.app.courses
-				this.courses = route
-
-				for (var i = 0; i < this.courses.length; i++) {
-					if(i < 10){
-						this.dataFix.push(this.courses[i])
-					}
-				}
-				this.sortCourses();
-			},
-			sortCourses(){
-				this.dataFix.sort(function(a,b){
-					return new Date(b.created_at._seconds) - new Date(a.created_at._seconds);
-				});
+				var route = router.app.Newcourses
+				this.dataFix = route
 			}
 		}
 }

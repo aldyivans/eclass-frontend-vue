@@ -20,6 +20,11 @@
 					</div>
 					<Pagination :searchresult="dataTopic" v-if="dataTopic.length > 0"/>
 				</div>
+
+
+			</div>
+			<div class="py-5 justify-content-center" v-if="showLoader">
+				<div class="loader"></div>
 			</div>
 		</div>
 	</div>
@@ -28,7 +33,9 @@
 <script>
 
 	import Pagination from '../../views/PaginationSearch.vue'
-	import router from '../../router'
+	import axios from 'axios'
+	import App from '../../App.vue'
+
 
 	export default{
 		components: {
@@ -39,101 +46,89 @@
 			return{
 				dataCategory: [],
 				dataID: null,
+				dataCategories: null,
 
 				dataSubName: null,
 				dataSub: [],
 
 				dataTopicName: null,
-				dataTopic: []
+				dataTopic: [],
+
+				showLoader: false
 
 			}
 		},
 		mounted(){
 
 			// data dari top topic
-			this.dataTopicName = this.$route.params.name
-			this.getTopic()
 			if(this.$route.name == 'selected-topic'){
-				this.$root.$on('topicSelected', (topic) =>{
-					this.dataTopicName = topic
-					this.dataTopic = [];
-					this.getTopic();
-				})
+				this.dataTopicName = this.$route.params.name
+				this.getTopic()
 			}
 
 			// data dari sub catgory
-			this.dataSubName = this.$route.params.name
-			this.getCategorySubcategory()
 			if(this.$route.name == 'selected-subcategory'){
-				this.$root.$on('subCategorySelected', (subcategory) => {
-					this.dataSubName = subcategory.name
-					this.dataSub = []
-					this.getCategorySubcategory()
-				})
+				this.dataSubName = this.$route.params.name
+				this.getCategorySubcategory()
 			}
 
 			// data dari category
-			this.dataID = this.$route.params.id;
-			this.getCategory();
-
-			this.$root.$on('categorySelected', (category) => {
-				this.dataID = category.aid;
-				this.dataCategory = [];
+			if(this.$route.name == 'selected'){
+				this.dataID = this.$route.params.name;
 				this.getCategory();
-			});
+			}
 
 		},
 		methods: {
 			getCategory(){
-				var courses = router.app.courses;
-				var result = [];
-
-				courses.map( data => {
-					data.categories.map(e => {
-						if(e.id_category == this.dataID) {
-							result.push(data)
-						}	
-					});
-				});
-
-				this.dataCategory = result;
+				this.showLoader = true;
+				var data = {
+					search : this.dataID
+				}
+				axios.post(App.data().ListUrl.urlCategorySearch, data).then(res =>{
+					if(res.status == 200) {
+						res.data.result.map(data => {
+							this.dataCategory.push(data)
+							this.showLoader = false;
+						})
+					}else{
+						this.showLoader = false
+					}
+				})
 			},
 			getCategorySubcategory(){
-				var courses = router.app.courses;
-				var result = [];
-
-				courses.map(data => {
-					data.categories.map(e => {
-						e.sub_category.map(a =>{
-							a.name_sub.map(b =>{
-								if(b == this.dataSubName){
-									result.push(data)
-								}
-							});
-						});
-					});
+				this.showLoader = true;
+				var data ={
+					search: this.dataSubName
+				}
+				axios.post(App.data().ListUrl.urlSubSearch, data).then(res => {
+					if(res.status == 200){
+						res.data.result.map(data => {
+							this.dataSub.push(data)
+							this.showLoader = false;
+						})
+					}else {
+						this.showLoader = false;
+					}
 				});
-				this.dataSub = result
 			},
 
 			getTopic(){
-				var courses = router.app.courses;
-				var result = [];
-
-				courses.map(data => {
-					data.categories.map(e => {
-						e.sub_category.map(a =>{
-							a.topic.map(b =>{
-								b.name_topic.map(c => {
-									if(c == this.dataTopicName){
-										result.push(data)
-									}
-								})
-							});
-						});
-					});
-				});
-				this.dataTopic = result;
+				this.showLoader = true;
+				var data = {
+					search : this.dataTopicName
+				}
+				
+				axios.post(App.data().ListUrl.urlTopicSearch, data).then( res => {
+					if(res.status == 200){
+						res.data.result.map( data => {
+							this.dataTopic.push(data)
+							this.showLoader = false;
+						})
+					}else {
+						this.showLoader = false;
+					}
+				})
 			}
 		}
 	}
@@ -141,22 +136,43 @@
 
 <style scoped>
 
-		#img {
-			max-width: 200px;
-		}
-		a:hover{
-				text-decoration: none;
-		}
-		#tes {
+	#img {
+		max-width: 200px;
+	}
+	a:hover{
+		text-decoration: none;
+	}
+	#tes {
 		position: relative;
-	overflow: hidden;
-	height: 130px;
+		overflow: hidden;
+		height: 130px;
 	}
 	#tes img {
 		height: 100%;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	.loader {
+		border: 12px solid #f3f3f3;
+		border-radius: 50%;
+		border-top: 12px solid #627eff;
+		/*border-bottom: 15px solid #007bff;*/
+		width: 100px;
+		height: 100px;
+		-webkit-animation: spin 2s linear infinite; /* Safari */
+		animation: spin 2s linear infinite;
+		position: relative;
+		left: 45%;
+	}
+	/* Safari */
+	@-webkit-keyframes spin {
+		0% { -webkit-transform: rotate(0deg); }
+		100% { -webkit-transform: rotate(360deg); }
+	}
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
 	}
 </style>

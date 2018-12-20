@@ -211,7 +211,7 @@
 									<!-- REPLIES -->
 									<div class="ml-5 mb-3" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
 										<div class="d-flex align-items-center">
-											<div class="ques">
+											<div class="quesAnswer">
 												<img v-bind:src="reply.avatar" alt="Generic placeholder image" id="quesimg">
 											</div>
 											<div class="col-10 px-3">
@@ -260,6 +260,15 @@
 			</div>
 		</div>
 		<!-- Sampai sini batesnya -->
+		<div class="container" v-if="loading">
+			<div class="row py-0 py-lg-5 my-lg-5 my-0">
+				<div class="col-12 py-5 my-lg-5 my-0">
+					<div class="d-flex justify-content-center py-5 my-lg-5 my-0">
+						<div class="loader"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -285,6 +294,7 @@
 				commentsId: null,
 				dataLocked: [],
 				buttonAnswer: false,
+				loading: false
 			}
 		},
 		mounted() {
@@ -322,6 +332,7 @@
 
 			},
 			getCourse(){
+				this.loading = true;
 
 				this.datacourse = null;
 
@@ -344,11 +355,17 @@
 										// Sorting comment, yang paling baru diatas
 										comments.sort((a, b) => a.created_at._seconds < b.created_at._seconds);
 										this.datacourse.comments = comments;
+										this.loading = false;
 									}
 								});
+							}else {
+								this.loading = false;
 							}
 						});
+					}else {
+						this.loading = false;
 					}
+					this.loading = false;
 				});
 			},
 			stopVideo(){
@@ -431,7 +448,6 @@
 
 			},
 			sendComment(){
-				var self = this;
 				var data = {
 					user_id: localStorage.getItem('ECLASS-id'),
 					text: this.newcomment,
@@ -451,7 +467,6 @@
 			},
 
 			sendAnswer(index){
-				var self = this;
 				var data ={
 					user_id: localStorage.getItem('ECLASS-id'),
 					text: this.answerComment,
@@ -562,6 +577,16 @@ a:hover {
 	position: relative;
 	overflow: hidden;
 }
+.quesAnswer {
+	width: 30px;
+	height: 30px;
+	background-color: #fff;
+	border-radius: 50%;
+	border: 1px solid #ccc;
+	display: inline-block;
+	position: relative;
+	overflow: hidden;
+}
 #quesimg {
 	width: 100%;
 	position: absolute;
@@ -656,6 +681,24 @@ button {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
-
+.loader {
+	border: 12px solid #f3f3f3;
+	border-radius: 50%;
+	border-top: 12px solid #627eff;
+	/*border-bottom: 15px solid #007bff;*/
+	width: 100px;
+	height: 100px;
+	-webkit-animation: spin 2s linear infinite; /* Safari */
+	animation: spin 2s linear infinite;
+	}
+	/* Safari */
+	@-webkit-keyframes spin {
+		0% { -webkit-transform: rotate(0deg); }
+		100% { -webkit-transform: rotate(360deg); }
+	}
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
 
 </style>
