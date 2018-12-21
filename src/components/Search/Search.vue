@@ -5,13 +5,11 @@
         <h5 class="px-3 font-weight-bold">{{data.length}} Result For {{dataKeyword}}</h5>
       </div>
       <Pagination :searchresult="data" v-if="data.length>0"/>
-        <div class="row py-5" v-else>
-          <div class="w-100 bg-light py-5">
-            <div class="" v-if="!loading">
-              <div class="jumbotron m-0 bg-light">
-                <h1 class="display-4 bg">Hello Student</h1>
-                <p class="lead">the word you entered does not match</p>
-                <hr class="my-4">
+        <div class="row py-5 justify-content-center m-0" v-else>
+            <div class="py-lg-5" v-if="!loading">
+              <div class="col-12 bg-light py-lg-5 my-lg-5">
+                <h1 class="display-4 bg text-center">Hello Student</h1>
+                <p class="lead text-center px-3 px-lg-0 border-bottom">the word you entered does not match</p>
                 <div class="text-right">
                   <router-link class="btn btn-primary rounded-0" to="/" role="button">Back</router-link>
                 </div>
@@ -22,7 +20,6 @@
                 <div class="loader"></div>
               </div>
             </div>
-          </div>
         </div>
     </div>
 	</div>
@@ -64,7 +61,7 @@
         var arr = []
 
         var dataSend = {
-          search : this.dataKeyword
+          search : this.dataKeyword.toLowerCase()
         }
          axios.post(App.data().ListUrl.urlCoursesPage, dataSend).then(res => {
             if(res.status == 200){

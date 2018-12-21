@@ -287,7 +287,7 @@
 				if(this.searching.length >= 3 && this.searching.length <=10){
 				this.outputSearch = []
 					var data = {
-						search: this.searching
+						search: this.searching.toLowerCase()
 					}
 
 					axios.post(this.ListUrl.urlCoursesPage, data).then(res => {
@@ -298,12 +298,15 @@
 					});
 				}
 				if(this.searching.length == 0){
-					this.$refs.exit.style.display = 'none'
+					this.$refs.exit.className = 'd-none'
 				}
 			},
 			exit(){
-				if(this.searching.length >= 3){
-					this.$refs.exit.className = 'd-none'
+				if(this.searching != ''){
+					if(this.searching.length >= 3){
+						this.$refs.exit.className = 'd-none'
+						this.searching = ''
+					}
 					this.searching = ''
 				}
 			},
@@ -318,7 +321,6 @@
 					this.$router.push({
 						params: {name: topic}
 					})
-					// this.$root.$emit('topicSelected', topic)
 				}
 			},
 			sendSubcategory(subcategory){
@@ -333,7 +335,6 @@
 					this.$router.push({
 						params: {name: subcategory}
 					})
-					// this.$root.$emit('subCategorySelected', subcategory)
 				}
 			},
 			sendCategory(category){
@@ -345,12 +346,9 @@
 						params: {name: category}
 					})
 				}else{
-					// ini berarti dari page selected, ngeklik kategori lagi
 					this.$router.push({
 						params: {name: category}
 					})
-					// this.$root.$emit('categorySelected', category)
-					// this.$root.$emit('top-topic', category.name)
 				}
 			},
 			enter(e){
@@ -372,7 +370,6 @@
 					}
 					this.disableding = false;
 				}
-				// this.$root.$emit('search', this.searching)
 			},
 			searchSugestion(e){
 				if(this.$route.path != '/search/'){
@@ -381,7 +378,6 @@
 					this.$router.push({ query : {keyword : e.title}
 					})
 				}
-				// this.$root.$emit('search-sugestion', e.title)
 			},
 
 			getAbout(){
