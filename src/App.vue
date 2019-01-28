@@ -184,16 +184,18 @@
 
 	import router from './router'
 	// var mainUrl = 'https://eclass-does.herokuapp.com/'
-	// var mainUrl = 'http://192.168.2.231:3000/'
-	var mainUrl = 'https://eclass.doesuniversity.com/'
+	var mainUrl = 'http://192.168.2.231:3000/'
+	// var mainUrl = 'https://eclass.doesuniversity.com/'
 	// var mainUrl = 'http://192.168.2.120:3000/'
+	// var mainUrl =  'http://192.168.137.32:3000/'
 
 	var ListUrl = {
 
 		/* HEROKU (Master Backend KW) */
 		// ==============================
-		urlComment: mainUrl + 'v1/comment',
+		urlCommentCourse: mainUrl + 'v1/commentcourse/',
 		urlCommentAll: mainUrl + 'v1/comments',
+		urlAddComment: mainUrl + 'v1/comment',
 		urlCommentByid: mainUrl + 'v1/komentar/',
 		urlReplyComment: mainUrl + 'v1/reply/',
 		urlAbout: mainUrl + 'v1/about',
@@ -338,6 +340,7 @@
 				}
 			},
 			sendCategory(category){
+				console.log('category dari App', category)
 
 				if(this.$route.name != 'selected'){
 					this.$router.push({
@@ -446,7 +449,7 @@
 
 <style>
 
-@import url('https://fonts.googleapis.com/css?family=Cantata+One');
+/*@import url('https://fonts.googleapis.com/css?family=Cantata+One');*/
 
 
 .courses-header {

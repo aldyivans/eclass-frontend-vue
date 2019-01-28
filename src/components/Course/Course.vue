@@ -83,149 +83,151 @@
 				</div>
 				</div>
 			</div>
-				<div class="col-12 col-md-8 py-5" v-if="join">
-					<div class="shadow bg-white">
-						<div class="text-center p-3 bg-dark text-white border-bottom">
-							<h6 class="font-weight-bold m-0">Question & Answer</h6>
-						</div>
-						<!-- Ask new question btn wrapper -->
-						<div class="p-4">
-							<button v-if="joined(datacourse)" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="collapse" data-target="#send" aria-controls="send" aria-expanded="false"><font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question</button>
-							<!-- Alert join first -->
-							<button v-else type="button" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="modal" data-target="#alertSection">
-								<font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question
-							</button>
+			<div class="col-12 col-md-8 py-5" v-if="join">
+				<div class="shadow bg-white">
+					<div class="text-center p-3 bg-dark text-white border-bottom">
+						<h6 class="font-weight-bold m-0">Question & Answer</h6>
+					</div>
+					<!-- Ask new question btn wrapper -->
+					<div class="p-4">
+						<button v-if="joined(datacourse)" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="collapse" data-target="#send" aria-controls="send" aria-expanded="false"><font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question</button>
+						<!-- Alert join first -->
+						<button v-else type="button" class="btn btn-primary rounded-0 border-0 font-weight-bold" data-toggle="modal" data-target="#alertSection">
+							<font-awesome-icon icon="plus" class="mr-2"></font-awesome-icon>Ask a new question
+						</button>
 
-							<!-- Modal -->
-							<div class="modal fade" id="alertSection" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered" role="document">
-									<div class="modal-content bg-white">
-										<div class="modal-header">
-											<h4 class="modal-title" id="exampleModalCenterTitle">Silahkan Join Courses untuk Melakukan Pertanyaan </h4>
-											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-												<span aria-hidden="true">&times;</span>
-											</button>
-										</div>
-										<div class="modal-body">
-											<div class="mt-2 text-right" v-if="!joined(datacourse)">
-												<button v-if="join" class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course ?</button>
-												<button v-else class="btn btn-warning rounded-0 font-weight-bold" type="button" data-toggle="modal" data-target="#buttonModal">Join Course</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="modal fade" id="alertSectionCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<!-- Modal -->
+						<div class="modal fade" id="alertSection" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 							<div class="modal-dialog modal-dialog-centered" role="document">
 								<div class="modal-content bg-white">
 									<div class="modal-header">
-										<h4 class="modal-title" id="exampleModalCenterTitle">Silahkan Join Course untuk melihat course </h4>
+										<h4 class="modal-title" id="exampleModalCenterTitle">Silahkan Join Courses untuk Melakukan Pertanyaan </h4>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 										</button>
 									</div>
 									<div class="modal-body">
-										<div class="mt-2 text-right">
-											<button class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course ?</button>	
+										<div class="mt-2 text-right" v-if="!joined(datacourse)">
+											<button v-if="join" class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course ?</button>
+											<button v-else class="btn btn-warning rounded-0 font-weight-bold" type="button" data-toggle="modal" data-target="#buttonModal">Join Course</button>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
+					</div>
 
-						<!-- Collapse New Question-->
-						<div class=" collapse m-0" id="send" v-if="user">
-							<div class="w-100 py-4 mb-2">
-								<div class="col-lg-8">
-									<div class="media px-0 px-lg-1 align-items-center">
-										<div class="ques">
-										<img v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
+					<div class="modal fade" id="alertSectionCourse" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered" role="document">
+							<div class="modal-content bg-white">
+								<div class="modal-header">
+									<h4 class="modal-title" id="exampleModalCenterTitle">Silahkan Join Course untuk melihat course </h4>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<div class="mt-2 text-right">
+										<button class="btn btn-warning rounded-0 font-weight-bold" type="button" v-on:click="joinCourse(datacourse.aid)" data-dismiss="modal" aria-label="Close">Join Course ?</button>	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Collapse New Question-->
+					<div class=" collapse m-0" id="send" v-if="user">
+						<div class="w-100 py-4 mb-2">
+							<div class="col-lg-8">
+								<div class="media px-0 px-lg-1 align-items-center">
+									<div class="ques">
+									<img v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
+									</div>
+									<div class="media-body px-3">
+									<div class="speech-bubble-send">
+										<div class="p-2">
+										<textarea type="text" name="send" rows="4" class="border-0 w-100 p-0 m-0" id="sendTextarea" v-model="newcomment">
+										</textarea>
 										</div>
-										<div class="media-body px-3">
-										<div class="speech-bubble-send">
+									</div>
+									</div>
+								</div>
+								<div class="text-right px-3 p-2">
+									<button class="btn btn-warning border-0" type="button"@click="sendComment">Send</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row m-0">
+						<div class="col-12 col-lg-12 mb-3">
+							<!-- Single Comment -faris -->
+							<div v-for="(comment, index) in dataCommentPagin" v-if="comment" :key="index">
+								<!-- MAIN COMMENT -->
+								<!-- {{comment}} -->
+								<div class="d-flex align-items-center mb-2">
+									<!-- User Avatar -->
+									<div class="ques d-inline-block">
+										<!-- <img v-if="comment.user" v-bind:src="comment.user.avatar" alt="Generic placeholder image" id="quesimg"> -->
+										<img>
+									</div>
+									<!-- Text -->
+									<div class="col-8 px-3 d-inline-block">
+										<div class="speech-bubble">
 											<div class="p-2">
-											<textarea type="text" name="send" rows="4" class="border-0 w-100 p-0 m-0" id="sendTextarea" v-model="newcomment">
-											</textarea>
+												<p class="m-0">{{comment.text}}</p>
 											</div>
 										</div>
+										<div class="date d-flex">
+											<p class="d-inline-block m-0 mr-1 mr-lg-3" v-if="comment.created_at">{{comment.created_at._seconds | date}}</p>
+											<div class="d-flex" v-if="joined(datacourse)">
+												<span class="text-primary" data-toggle="collapse" :data-target="'#answer' + index" aria-controls="answer" aria-expanded="false">Answer</span>
+												<div v-if="showAnswerDelete(comment)">
+													<font-awesome-icon icon="trash" class="ml-2" @click="deleteComment(index)"></font-awesome-icon>
+												</div>
+											</div>
 										</div>
-									</div>
-									<div class="text-right px-3 p-2">
-										<button class="btn btn-warning border-0" type="button" @click="sendComment">Send</button>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="row m-0" v-if="datacourse.comments.length > 0">
-							<div class="col-12 col-lg-12 mb-3">
-								<!-- Single Comment -faris -->
-								<div v-for="(comment, index) in datacourse.comments" v-if="comment" :key="index">
-									<!-- MAIN COMMENT -->
-									<!-- {{comment}} -->
-									<div class="d-flex align-items-center mb-2">
-										<!-- User Avatar -->
-										<div class="ques d-inline-block">
-											<img v-if="comment.user" v-bind:src="comment.user.avatar" alt="Generic placeholder image" id="quesimg">
+								<!-- Collapse Answer -->
+								<div class=" d-flex justify-content-center" v-if="user">
+									<div class="collapse col-12 col-lg-10"  v-bind:id="['answer'+index]" >
+										<div class="px-0 px-lg-1 d-flex align-items-center">
+											<div class="ques">
+												<img v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
+											</div>
+											<div class=" d-inline-block media-body px-3">
+												<div class="speech-bubble">
+													<div class="p-2">
+														<textarea type="text" name="answer" rows="4" class="border-0 p-0 m-0 w-100" v-model="answerComment"> 
+														</textarea>
+													</div>
+												</div>
+											</div>
 										</div>
-										<!-- Text -->
-										<div class="col-8 px-3 d-inline-block">
+										<div class="text-right px-3 p-2">
+											<button class="btn btn-warning border-0" type="button" @click="sendAnswer(index)">Reply</button>
+										</div>
+									</div>
+								</div>
+								<!-- REPLIES -->
+								<div class="ml-5 mb-3" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
+									<div class="d-flex align-items-center">
+										<div class="quesAnswer">
+											<img v-bind:src="comment.replies.avatar" alt="Generic placeholder image" id="quesimg">
+										</div>
+										<div class="col-10 px-3">
 											<div class="speech-bubble">
-												<div class="p-2">
-													<p class="m-0">{{comment.text}}</p>
+												<div class="p-1">
+													<p class="m-0">
+													<!-- YAng Asli reply.text -->
+													{{comment.replies.text}}</p>
 												</div>
 											</div>
 											<div class="date d-flex">
-												<p class="d-inline-block m-0 mr-1 mr-lg-3" v-if="comment.created_at">{{comment.created_at._seconds | date}}</p>
-												<div class="d-flex" v-if="joined(datacourse)">
-													<span class="text-primary" data-toggle="collapse" :data-target="'#answer' + index" aria-controls="answer" aria-expanded="false">Answer</span>
-													<div v-if="showAnswerDelete(comment)">
-														<font-awesome-icon icon="trash" class="ml-2" @click="deleteComment(index)"></font-awesome-icon>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<!-- Collapse Answer -->
-									<div class=" d-flex justify-content-center" v-if="user">
-										<div class="collapse col-12 col-lg-10"  v-bind:id="['answer'+index]" >
-											<div class="px-0 px-lg-1 d-flex align-items-center">
-												<div class="ques">
-													<img v-bind:src="user.avatar" alt="Generic placeholder image" id="quesimg">
-												</div>
-												<div class=" d-inline-block media-body px-3">
-													<div class="speech-bubble">
-														<div class="p-2">
-															<textarea type="text" name="answer" rows="4" class="border-0 p-0 m-0 w-100" v-model="answerComment"> 
-															</textarea>
-														</div>
-													</div>
-												</div>
-											</div>
-											<div class="text-right px-3 p-2">
-												<button class="btn btn-warning border-0" type="button" @click="sendAnswer(index)">Reply</button>
-											</div>
-										</div>
-									</div>
-									<!-- REPLIES -->
-									<div class="ml-5 mb-3" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
-										<div class="d-flex align-items-center">
-											<div class="quesAnswer">
-												<img v-bind:src="reply.avatar" alt="Generic placeholder image" id="quesimg">
-											</div>
-											<div class="col-10 px-3">
-												<div class="speech-bubble">
-													<div class="p-1">
-														<p class="m-0">{{reply.text}}</p>
-													</div>
-												</div>
-												<div class="date d-flex">
-													<p class="d-inline-block m-0" v-if="reply.created_at">{{reply.created_at._seconds | date}}</p>
-													<div v-if="joined(datacourse)">
-														<font-awesome-icon icon="trash" class="ml-2" @click="deleteReply(replyIndex)" v-if="showAnwerReplie(reply)"></font-awesome-icon>
-														
-													</div>
+												<p class="d-inline-block m-0" v-if="reply.created_at">{{reply.created_at._seconds | date}}</p>
+												<div v-if="joined(datacourse)">
+													<font-awesome-icon icon="trash" class="ml-2" @click="deleteReply(replyIndex)" v-if="showAnwerReplie(reply)"></font-awesome-icon>
+													
 												</div>
 											</div>
 										</div>
@@ -234,7 +236,18 @@
 							</div>
 						</div>
 					</div>
+					<div class="d-flex p-3 justify-content-end">
+						<div class="p-2">
+							<p class="m-0 text-muted" style="cursor: pointer;" v-on:click="Previous" v-if="page >=2">Previous</p>
+							<p class="d-none" v-if="page">Previous</p>
+						</div>
+						<div class="p-2">
+							<p class="m-0 text-muted" style="cursor: pointer;" v-on:click="next" v-if="!disabledButton">Next</p>
+							<p class="d-none" v-if="disabledButton" disabled>Next</p>
+						</div>
+					</div>
 				</div>
+			</div>
 			</div>
 		</div>
 		
@@ -294,14 +307,21 @@
 				commentsId: null,
 				dataLocked: [],
 				buttonAnswer: false,
-				loading: false
+				loading: false,
+				dataCommentPagin: [],
+				page: 1,
+				size: 5,
+				disabledButton: false,
+				collapseButtonShow: false
 			}
 		},
 		mounted() {
 			var EclassId = localStorage.getItem('ECLASS-id');
 
 			this.dataData = this.$route.params.id
+			console.log('this data', this.dataData)
 			this.getCourse();
+			this.getComment();
 			
 			if(EclassId){
 				this.getUser()
@@ -332,6 +352,7 @@
 
 			},
 			getCourse(){
+				console.log("MASUK GET COURSE")
 				this.loading = true;
 
 				this.datacourse = null;
@@ -339,34 +360,25 @@
 				axios.get( App.data().ListUrl.UrlCoursesByid + this.dataData).then(res=>{
 					if(res.status == 200){
 						this.datacourse = res.data.result;
-
-						var cloned = JSON.parse(JSON.stringify(res.data.result))
-						this.dataLocked.push(res.data.result)
-						var comments = [];
-						cloned.comments.map(comment => {
-							if(comment.user_id){
-
-								// Get user yang komen
-								axios.get( App.data().ListUrl.urlUser + comment.user_id).then(res=>{
-									if(res.status == 200){
-										comment.user = res.data.userData
-										comments.push(comment);
-
-										// Sorting comment, yang paling baru diatas
-										comments.sort((a, b) => a.created_at._seconds < b.created_at._seconds);
-										this.datacourse.comments = comments;
-										this.loading = false;
-									}
-								});
-							}else {
-								this.loading = false;
-							}
-						});
+						console.log("INI DATA RESULT COURSE", this.datacourse)
+							this.loading = false;
 					}else {
 						this.loading = false;
 					}
 					this.loading = false;
 				});
+			},
+			getComment(){
+				var pathQuery = '?' + 'page' + '=' + this.page + '&' + 'size' + '=' + this.size
+				console.log('QUERY',pathQuery)
+				
+				console.log('id course', this.dataData);
+
+				axios.get(App.data().ListUrl.urlCommentCourse + this.dataData + pathQuery).then(res =>{
+					this.dataCommentPagin = res.data.result
+						
+				})
+				console.log("RESULT COMMENT PAGIN", this.dataCommentPagin)
 			},
 			stopVideo(){
 				document.getElementById('iframeCourse').src = document.getElementById('iframeCourse').src;
@@ -454,12 +466,16 @@
 					course_id: this.datacourse.id
 				}
 
-				axios.post(App.data().ListUrl.urlComment, data).then(res => {
+				console.log('kirim komen', data);
+
+				axios.post(App.data().ListUrl.urlAddComment, data).then(res => {
 					if(res.status === 200){
-						alert('Your Comment is Success');
-						this.getCourse();
-						window.location.reload()
+						this.getComment();
+						alert('Your Comment is Success')
+						this.dataCommentPagin.$forceUpdate()
+						// window.location.reload()
 					}
+					this.newcomment = ''
 				})
 				.catch(err => {
 					alert('failed')
@@ -474,12 +490,15 @@
 					avatar: this.user.avatar
 				}
 
+				console.log('kirim replay', data)
+
 				var comment_id = this.datacourse.comments[index].id;
+				console.log("coment id", comment_id)
 
 				axios.post(App.data().ListUrl.urlReplyComment + comment_id, data).then(res=>{
 					if(res.status === 200){
+						this.getComment();
 						alert('Your Reply is Success')
-						this.getCourse();
 						window.location.reload()
 					}
 				})
@@ -504,7 +523,7 @@
 
 				axios.delete(App.data().ListUrl.urlDeleteComment + this.datacourse.id + '/' + commentid, params).then(res =>{
 					alert("Deleted is Success")
-					this.getCourse();
+					this.getComment();
 				})
 				.catch(err =>{
 					alert("Deleted not Success")
@@ -514,6 +533,9 @@
 			deleteReply(replyIndex){
 				var commentid = this.datacourse.comments[replyIndex].aid;
 				var replyid = this.datacourse.comments[replyIndex].replies[replyIndex].id
+
+				console.log('id comment', commentid);
+				console.log('id reply', replyid);
 				var token = localStorage.getItem('EClassToken');
 				
 				const params = {
@@ -528,11 +550,62 @@
 
 				axios.delete(App.data().ListUrl.urlDeletReply + commentid + '/' + replyid, params).then(res =>{
 					alert("Deleted is Success")
-					this.getCourse();
+					this.getComment();
 				})
 				.catch(err =>{
 					alert("Deleted not Success")
 				})
+			},
+			next() {
+
+				console.log('page sebelum next', this.page)
+				this.page++
+
+				var pathQuery = '?' + 'page' + '=' + this.page + '&' + 'size' + '=' + this.size
+
+				console.log('page setelah next', pathQuery)
+
+				axios.get(App.data().ListUrl.urlCommentCourse + this.dataData + pathQuery).then((res) => {
+					if(res.status === 200){
+						this.dataCommentPagin = []
+						this.dataCommentPagin = res.data.result
+						console.log("COMENT DAYA", this.dataCommentPagin)
+					}
+				})
+				.catch(err => {
+					console.log("data COMENT di catch ERRRROR", this.dataCommentPagin)
+					this.disabledButton = true;
+
+				})
+				.then(() => {
+					this.loading = false;
+				})
+			},
+			Previous(){
+				console.log('page sebelum di mkurangi', this.page)
+				if(this.page > 1){
+					this.page--
+					console.log('page sekarang', this.page)
+
+					var pathQuery = '?' + 'page' + '=' + this.page + '&' + 'size' + '=' + this.size
+
+					console.log('page setelah di kurangi', pathQuery)
+
+					axios.get(App.data().ListUrl.urlCommentCourse + this.dataData + pathQuery).then((res) => {
+						if(res.status === 200){
+							this.dataCommentPagin = res.data.result
+							this.disabledButton = false;
+						}
+					})
+					.catch(err => {
+						console.log("PREVIOUS ERRRROR")
+						this.disabledButton = true;
+					})
+					.then(() => {
+						this.loading = false;
+					})
+
+				}
 			}
 		},
 		filters: {

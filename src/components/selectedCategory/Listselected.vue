@@ -75,6 +75,7 @@
 			// data dari category
 			if(this.$route.name == 'selected'){
 				this.dataID = this.$route.params.name;
+				console.log('data id di category', this.dataID)
 				this.getCategory();
 			}
 
@@ -85,8 +86,11 @@
 				var data = {
 					search : this.dataID
 				}
+				console.log('data yang dikirim', data)
+
 				axios.post(App.data().ListUrl.urlCategorySearch, data).then(res =>{
 					if(res.status == 200) {
+						console.log(res)
 						res.data.result.map(data => {
 							this.dataCategory.push(data)
 							this.showLoader = false;
