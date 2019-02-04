@@ -230,37 +230,38 @@
 					'Accept': 'application/json',
 					'Access-Control-Allow-Origin': '*'
 						}
-						var dataUser = {
-								username: this.username.toLowerCase(),
-								fullname: this.fullname,
-								birthday: this.birthday,
-								gender: this.gender,
-								password: this.password,
-								email: this.email.toLowerCase(),
-								avatar: null,
-								role: null,
-								token: null,
-								token_expired:null,
-								google_id: null,
-								active: true,
-								verified: false,
-						}
-						axios.post(this.register, dataUser, headers)
-						.then((response) => {
-					if (response.status === 200) {
-					console.log('response:', response)
-					alert('Selamat! Pendaftaran berhasil!. Silahkan Check Email Untuk Verifikasi Account');
-					// Redirect Ke login Tinggal di Uncomment Code di bawah
-					this.$router.push('/login')
-					}else {
-					throw new Error("Error");
-						// response.status = 200;
+					var dataUser = {
+							username: this.username.toLowerCase(),
+							fullname: this.fullname,
+							birthday: this.birthday,
+							gender: this.gender,
+							password: this.password,
+							email: this.email.toLowerCase(),
+							avatar: null,
+							role: null,
+							token: null,
+							token_expired:null,
+							google_id: null,
+							active: true,
+							verified: false,
+					}
+					console.log('data yang dikirim', dataUser)
+					axios.post(this.register, dataUser, headers)
+					.then((response) => {
+						if (response.status === 200) {
+						console.log('response:', response)
+						alert('Selamat! Pendaftaran berhasil!. Silahkan Check Email Untuk Verifikasi Account');
+						// Redirect Ke login Tinggal di Uncomment Code di bawah
+						this.$router.push('/login')
+						}else {
+						throw new Error("Error");
+							// response.status = 200;
 					}
 					this.processing = false;
 				}).catch(e => {
 					alert('Mohon maaf, pendaftaran belum berhasil. Silahkan coba kembali.');
 					console.log('[ERROR]: ', e.response);
-					if(e.response.data.message == 'Username exist'){
+					if(e.response.data.message == 'Username already exist'){
 						userText = e.response.data.message
 
 						this.$refs.alert_username.innerHTML = userText;
@@ -268,7 +269,7 @@
 								this.processing = false;
 								return false;
 					} 
-					if( e.response.data.message == 'Email exist') {
+					if( e.response.data.message == 'Email already exist') {
 						emailText = e.response.data.message
 						this.$refs.alert_email.innerHTML = emailText;
 								this.$refs.input_email.className = "form-control rounded-1 shadow-none border-danger"
@@ -283,7 +284,6 @@
 				this.gerendered = true;
 			},
 			googleSignIn() {
-				console.clear();
 
 				let self = this;
 						const profile = this.googleUser.getBasicProfile();
@@ -312,7 +312,8 @@
 						'Accept': 'application/json',
 						'Access-Control-Allow-Origin': '*'
 						}
-					}
+				}
+
 
 						// POST GOOGLE USER DATA TO BACKEND
 				axios.post(this.registerGoogle, dataUser, params).then((response) => {
