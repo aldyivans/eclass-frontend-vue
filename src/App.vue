@@ -193,7 +193,8 @@
 
 		/* HEROKU (Master Backend KW) */
 		// ==============================
-		urlCommentCourse: mainUrl + 'v1/commentcourse/',
+		// urlCommentCourse: mainUrl + 'v1/commentcourse/',
+		urlCommentCourse: mainUrl + 'v1/commentcoursereal/',
 		urlCommentAll: mainUrl + 'v1/comments',
 		urlAddComment: mainUrl + 'v1/comment',
 		urlCommentByid: mainUrl + 'v1/komentar/',
