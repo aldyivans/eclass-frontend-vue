@@ -249,28 +249,29 @@ export default {
 
 			this.procesing = true;
 			const image = event.target.files[0];
+			console.log('SIZE', image.size);
 			console.log('ini gambar', image)
 
-			let data = new FormData();
-			data.append('file', image);
-			data.append('url', oldAvatar);
+		// 	let data = new FormData();
+		// 	data.append('file', image);
+		// 	data.append('url', oldAvatar);
 
-			console.log('yang dikirim: ', data);
+		// 	console.log('yang dikirim: ', data);
 
-			let request = new XMLHttpRequest();
-			request.open('POST', this.urlAvatar);
-			request.send(data);
-			request.onreadystatechange = function () {
-				if(request.readyState === 4 && request.status === 200) {
-					var res = JSON.parse(request.responseText);
-					console.log("INI RES",res)
-					console.log('IMAGE UPLOADED. url:', res.url);
-				self.profilePic = res.url;
-			}else{
-				console.log('ERROR POST GAMBAR')
-			}
-				self.procesing = false;
-		}
+		// 	let request = new XMLHttpRequest();
+		// 	request.open('POST', this.urlAvatar);
+		// 	request.send(data);
+		// 	request.onreadystatechange = function () {
+		// 		if(request.readyState === 4 && request.status === 200) {
+		// 			var res = JSON.parse(request.responseText);
+		// 			console.log("INI RES",res)
+		// 			console.log('IMAGE UPLOADED. url:', res.url);
+		// 		self.profilePic = res.url;
+		// 	}else{
+		// 		console.log('ERROR POST GAMBAR')
+		// 	}
+		// 		self.procesing = false;
+		// }
 		},
 		validate(key, val, input, alert){
 				var alphabets = /^[a-zA-Z-0-9]+$/;

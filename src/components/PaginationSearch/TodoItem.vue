@@ -4,7 +4,7 @@
 			<div class="media border my-3 d-inline-block d-md-flex bg-white">
 				<div class="col-12 p-0 col-md-10 d-block d-md-flex">
 					<div class="col-12 col-md-3 col-lg-3 p-0" id="tes">
-							<img v-bind:src="database.thumbnail">
+						<img v-bind:src="database.thumbnail">
 					</div>
 					<div class="media-body ml-md-3 p-3 px-md-0">
 						<h5 class="font-weight-bold">{{database.title}}</h5>
@@ -46,9 +46,6 @@
 			margin-top: 20px;
 		}
 
-		#img {
-			max-width: 200px;
-		}
 		a:hover{
 				text-decoration: none;
 		}

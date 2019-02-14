@@ -168,7 +168,7 @@
 									<!-- User Avatar -->
 									<div class="ques d-inline-block">
 										<!-- <img v-if="comment.user" v-bind:src="comment.user.avatar" alt="Generic placeholder image" id="quesimg"> -->
-										<img>
+										<img :src="user.avatar" v-if="comment.user_id == user.id">
 									</div>
 									<!-- Text -->
 									<div class="col-8 px-3 d-inline-block">
@@ -180,7 +180,7 @@
 										<div class="date d-flex">
 											<p class="d-inline-block m-0 mr-1 mr-lg-3" v-if="comment.created_at">{{comment.created_at._seconds | date}}</p>
 											<div class="d-flex" v-if="joined(datacourse)">
-												<span class="text-primary" data-toggle="collapse" :data-target="'#answer' + index" aria-controls="answer" aria-expanded="false">Answer</span>
+												<!-- <span class="text-primary" data-toggle="collapse" :data-target="'#answer' + index" aria-controls="answer" aria-expanded="false">Answer</span> -->
 												<div v-if="showAnswerDelete(comment)">
 													<font-awesome-icon icon="trash" class="ml-2" @click="deleteComment(index)"></font-awesome-icon>
 												</div>
@@ -189,7 +189,7 @@
 									</div>
 								</div>
 								<!-- Collapse Answer -->
-								<div class=" d-flex justify-content-center" v-if="user">
+								<!-- <div class=" d-flex justify-content-center" v-if="user">
 									<div class="collapse col-12 col-lg-10"  v-bind:id="['answer'+index]" >
 										<div class="px-0 px-lg-1 d-flex align-items-center">
 											<div class="ques">
@@ -208,9 +208,9 @@
 											<button class="btn btn-warning border-0" type="button" @click="sendAnswer(index)">Reply</button>
 										</div>
 									</div>
-								</div>
+								</div> -->
 								<!-- REPLIES -->
-								<div class="ml-5 mb-3" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
+							<!-- 	<div class="ml-5 mb-3" v-for="(reply, replyIndex) in comment.replies" :key="replyIndex">
 									<div class="d-flex align-items-center">
 										<div class="quesAnswer">
 											<img v-bind:src="comment.replies.avatar" alt="Generic placeholder image" id="quesimg">
@@ -218,9 +218,9 @@
 										<div class="col-10 px-3">
 											<div class="speech-bubble">
 												<div class="p-1">
-													<p class="m-0">
+													<p class="m-0"> -->
 													<!-- YAng Asli reply.text -->
-													{{comment.replies.text}}</p>
+							<!-- 						{{comment.replies.text}}</p>
 												</div>
 											</div>
 											<div class="date d-flex">
@@ -232,7 +232,7 @@
 											</div>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</div>
@@ -343,7 +343,7 @@
 						if(data.aid == this.datacourse.aid){
 							this.datacourse.sections.map(section => {
 								section.videos.map(video => {
-									video.locked = false
+									video.locked = false;
 								})
 							})
 						}
@@ -352,7 +352,6 @@
 
 			},
 			getCourse(){
-				console.log("MASUK GET COURSE")
 				this.loading = true;
 
 				this.datacourse = null;
@@ -360,7 +359,6 @@
 				axios.get( App.data().ListUrl.UrlCoursesByid + this.dataData).then(res=>{
 					if(res.status == 200){
 						this.datacourse = res.data.result;
-						console.log("INI DATA RESULT COURSE", this.datacourse)
 							this.loading = false;
 					}else {
 						this.loading = false;
@@ -370,15 +368,12 @@
 			},
 			getComment(){
 				var pathQuery = '?' + 'page' + '=' + this.page + '&' + 'size' + '=' + this.size
-				console.log('QUERY',pathQuery)
 				
 				console.log('id course', this.dataData);
 
 				axios.get(App.data().ListUrl.urlCommentCourse + this.dataData + pathQuery).then(res =>{
 					this.dataCommentPagin = res.data.result
-						
 				})
-				console.log("RESULT COMMENT PAGIN", this.dataCommentPagin)
 			},
 			stopVideo(){
 				document.getElementById('iframeCourse').src = document.getElementById('iframeCourse').src;
@@ -466,23 +461,23 @@
 					course_id: this.datacourse.id
 				}
 
-				console.log('kirim komen', data);
-
 				axios.post(App.data().ListUrl.urlAddComment, data).then(res => {
 					if(res.status === 200){
 						this.getComment();
 						alert('Your Comment is Success')
+
 						this.dataCommentPagin.$forceUpdate()
 						// window.location.reload()
 					}
 					this.newcomment = ''
 				})
 				.catch(err => {
-					alert('failed')
+					// alert('failed')
 				})
 			},
 
 			sendAnswer(index){
+				console.log("APA INI", index)
 				var data ={
 					user_id: localStorage.getItem('ECLASS-id'),
 					text: this.answerComment,
@@ -495,16 +490,16 @@
 				var comment_id = this.datacourse.comments[index].id;
 				console.log("coment id", comment_id)
 
-				axios.post(App.data().ListUrl.urlReplyComment + comment_id, data).then(res=>{
-					if(res.status === 200){
-						this.getComment();
-						alert('Your Reply is Success')
-						window.location.reload()
-					}
-				})
-				.catch(err =>{
-					alert("Not Success")
-				})
+				// axios.post(App.data().ListUrl.urlReplyComment + comment_id, data).then(res=>{
+				// 	if(res.status === 200){
+				// 		this.getComment();
+				// 		alert('Your Reply is Success')
+				// 		window.location.reload()
+				// 	}
+				// })
+				// .catch(err =>{
+				// 	alert("Not Success")
+				// })
 			},
 
 			deleteComment(index){
